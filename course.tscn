@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=24 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://follow_camera.gd" id="1_a5owf"]
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://car.gd" id="1_wu01y"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c2fivinjcexvu" path="res://tire-tracks.png" id="4_845v2"]
 [ext_resource type="Script" uid="uid://bgapb1wq4bkkw" path="res://tire_tracks.gd" id="4_trt74"]
 [ext_resource type="PackedScene" uid="uid://b6c7dlq3x2eiv" path="res://checker-cab.glb" id="6_rytwx"]
+[ext_resource type="PackedScene" uid="uid://tvwsc5jh8jgg" path="res://course_cool_s.tscn" id="7_exxok"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wu01y"]
 rough = true
@@ -15,12 +16,6 @@ size = Vector3(50, 0.1, 100)
 
 [sub_resource type="BoxMesh" id="BoxMesh_a5owf"]
 size = Vector3(50, 0.1, 100)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_a5owf"]
-size = Vector3(4, 4, 4)
-
-[sub_resource type="BoxMesh" id="BoxMesh_trt74"]
-size = Vector3(4, 4, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wu01y"]
 size = Vector3(2, 1, 4)
@@ -94,25 +89,16 @@ orientation = 1
 
 [node name="Course" type="Node3D"]
 
-[node name="Track" type="StaticBody3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_wu01y")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_trg40")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("BoxMesh_a5owf")
-
-[node name="Ramp" type="StaticBody3D" parent="Track"]
-transform = Transform3D(-0.995055, -0.0775201, 0.0620952, 0.0177145, 0.476646, 0.878917, -0.0977311, 0.875671, -0.472916, -0.115441, -0.891984, 27.6039)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Track/Ramp"]
-shape = SubResource("BoxShape3D_a5owf")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Track/Ramp"]
-mesh = SubResource("BoxMesh_trt74")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.422618, -0.640856, 0.640856, -6.18172e-08, 0.707107, 0.707107, -0.906308, -0.298836, 0.298836, 16.3567, 9.39549, 1.46398)
@@ -124,7 +110,7 @@ script = ExtResource("1_a5owf")
 follow_target = NodePath("../Car")
 
 [node name="Car" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -36.9523)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.88002, 16.1272, -6.53026)
 mass = 1000.0
 contact_monitor = true
 max_contacts_reported = 1
@@ -155,3 +141,6 @@ draw_pass_1 = SubResource("QuadMesh_wx7h1")
 script = ExtResource("4_trt74")
 
 [node name="checker-cab" parent="Car" instance=ExtResource("6_rytwx")]
+
+[node name="course-cool-s" parent="." instance=ExtResource("7_exxok")]
+transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, 0, 26)

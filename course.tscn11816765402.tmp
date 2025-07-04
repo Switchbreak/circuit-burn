@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ds6ycuat4hvvl"]
+
+[ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://car.gd" id="1_wu01y"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wu01y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trg40"]
+size = Vector3(50, 0.1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu01y"]
+albedo_color = Color(0.0987284, 0.0987284, 0.0987284, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a5owf"]
+material = SubResource("StandardMaterial3D_wu01y")
+size = Vector3(50, 0.1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wu01y"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_y17gl"]
+size = Vector3(2, 1, 4)
+
+[node name="Course" type="Node3D"]
+
+[node name="Track" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_wu01y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Track"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_trg40")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Track"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("BoxMesh_a5owf")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, -6.18172e-08, 0.707107, 0.707107, 6.18172e-08, 0.707107, -0.707107, 0, 10.5489, -6.30813)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.422618, -0.640856, 0.640856, -6.18172e-08, 0.707107, 0.707107, -0.906308, -0.298836, 0.298836, 16.3567, 9.39549, 1.46398)
+shadow_enabled = true
+
+[node name="Car" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mass = 1000.0
+script = ExtResource("1_wu01y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
+shape = SubResource("BoxShape3D_wu01y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car"]
+mesh = SubResource("BoxMesh_y17gl")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ahva07y5oji"]
+
+[ext_resource type="PackedScene" uid="uid://bpr7elhxo8gu7" path="res://streetlamp-double.glb" id="1_g6klq"]
+
+[node name="streetlamp-double" instance=ExtResource("1_g6klq")]
+
+[node name="Lamp_001" parent="." index="0"]
+transform = Transform3D(0.1, 0, 0, 0, 0.035314, 0, 0, 0, 0.187, 0, 5.2, -1.26896)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lamp_001" index="0"]
+transform = Transform3D(10, 3.41061e-13, -1.33825e-13, 3.78956e-13, -2.33751e-07, 28.3174, -3.41061e-13, -5.34759, -4.41426e-08, 0, -2.83174, 0)
+light_energy = 16.0
+shadow_enabled = true
+shadow_bias = 1.0
+spot_range = 25.0
+
+[node name="Lamp_002" parent="." index="1"]
+transform = Transform3D(0.1, 0, 0, 0, 0.035314, 0, 0, 0, -0.187, 0, 5.2, 1.26896)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lamp_002" index="0"]
+transform = Transform3D(10, 3.41061e-13, -1.33825e-13, 3.78956e-13, -2.33751e-07, 28.3174, -3.41061e-13, -5.34759, -4.41426e-08, 0, -2.83174, 0)
+light_energy = 16.0
+shadow_enabled = true
+shadow_bias = 1.0
+spot_range = 25.0
+
+[node name="Pole" parent="." index="2"]
+transform = Transform3D(0.075, 0, 0, 0, 2.1, 0, 0, 0, 0.075, 0, 2.1, 0)

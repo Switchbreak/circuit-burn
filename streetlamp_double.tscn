@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://3ahva07y5oji"]
 
-[ext_resource type="PackedScene" uid="uid://bpr7elhxo8gu7" path="res://streetlamp-double.glb" id="1_g6klq"]
+[ext_resource type="PackedScene" uid="uid://bpr7elhxo8gu7" path="res://models/streetlamp-double.glb" id="1_g6klq"]
 
 [node name="streetlamp-double" instance=ExtResource("1_g6klq")]
 

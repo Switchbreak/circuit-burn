@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://tvwsc5jh8jgg"]
 
-[ext_resource type="PackedScene" uid="uid://brnetxt1gkkf3" path="res://course-cool-s.glb" id="1_g4b0a"]
+[ext_resource type="PackedScene" uid="uid://brnetxt1gkkf3" path="res://models/course-cool-s.glb" id="1_g4b0a"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_g4b0a"]
 points = PackedVector3Array(-4, 0, -3, -4, 0.999902, -3, 4, 1.9998, -3, -4, 0, 3, -4, 0.999902, 3, 4, 3, -3, 4, 1.9998, 3, 4, 3, 3)

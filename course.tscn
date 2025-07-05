@@ -1,16 +1,19 @@
-[gd_scene load_steps=28 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=31 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://follow_camera.gd" id="1_a5owf"]
-[ext_resource type="PackedScene" uid="uid://bjapwk3pgy1bf" path="res://course-cool-s-landscape.glb" id="1_hpmij"]
+[ext_resource type="PackedScene" uid="uid://bjapwk3pgy1bf" path="res://models/course-cool-s-landscape.glb" id="1_hpmij"]
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://car.gd" id="1_wu01y"]
-[ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://smoke-particle.png" id="3_y17gl"]
-[ext_resource type="Texture2D" uid="uid://c2fivinjcexvu" path="res://tire-tracks.png" id="4_845v2"]
+[ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://textures/smoke-particle.png" id="3_y17gl"]
+[ext_resource type="Texture2D" uid="uid://c2fivinjcexvu" path="res://textures/tire-tracks.png" id="4_845v2"]
 [ext_resource type="Script" uid="uid://bgapb1wq4bkkw" path="res://tire_tracks.gd" id="4_trt74"]
-[ext_resource type="PackedScene" uid="uid://b6c7dlq3x2eiv" path="res://checker-cab.glb" id="6_rytwx"]
+[ext_resource type="PackedScene" uid="uid://b6c7dlq3x2eiv" path="res://models/checker-cab.glb" id="6_rytwx"]
 [ext_resource type="PackedScene" uid="uid://tvwsc5jh8jgg" path="res://course_cool_s.tscn" id="7_exxok"]
+[ext_resource type="PackedScene" uid="uid://cxe8uu57os1h5" path="res://checker_cab.tscn" id="8_ih744"]
 [ext_resource type="Texture2D" uid="uid://cbliddohsgnr0" path="res://clarens_night_02_4k.hdr" id="8_wx7h1"]
 [ext_resource type="PackedScene" uid="uid://3ahva07y5oji" path="res://streetlamp_double.tscn" id="9_smec2"]
 [ext_resource type="PackedScene" uid="uid://byoql1ct12mws" path="res://streetlamp_single.tscn" id="10_7lo4x"]
+[ext_resource type="PackedScene" uid="uid://c10h2cvc8kx1g" path="res://models/course-cool-s-supports-end.glb" id="11_s0lep"]
+[ext_resource type="PackedScene" uid="uid://b2vgju8qkmdwc" path="res://models/course-cool-s-supports-overpass.glb" id="12_ih744"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wu01y"]
 size = Vector3(2, 1, 4)
@@ -107,15 +110,15 @@ transform = Transform3D(-1, 0, -8.74227e-08, -6.18172e-08, 0.707107, 0.707107, 6
 script = ExtResource("1_a5owf")
 follow_target = NodePath("../Car")
 
-[node name="Car" type="RigidBody3D" parent="."]
+[node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("spawn_location")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -37.8155, 16.1272, -6.53026)
 mass = 1000.0
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_wu01y")
+spawn_location = NodePath("../SpawnMarker")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
-visible = false
 shape = SubResource("BoxShape3D_wu01y")
 
 [node name="FrontAxle" type="Marker3D" parent="Car"]
@@ -140,8 +143,46 @@ script = ExtResource("4_trt74")
 
 [node name="CheckerCab" parent="Car" instance=ExtResource("6_rytwx")]
 
+[node name="Car2" type="RigidBody3D" parent="." node_paths=PackedStringArray("spawn_location")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -44.8155, 16.1272, -6.53026)
+mass = 1000.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_wu01y")
+input_prefix = "p2"
+spawn_location = NodePath("../SpawnMarker2")
+camera_following = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Car2"]
+shape = SubResource("BoxShape3D_wu01y")
+
+[node name="FrontAxle" type="Marker3D" parent="Car2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="Exhaust" type="GPUParticles3D" parent="Car2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.557347, -0.291058, -1.95515)
+cast_shadow = 0
+amount = 16
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_trt74")
+draw_pass_1 = SubResource("QuadMesh_exxok")
+
+[node name="TireTracks" type="GPUParticles3D" parent="Car2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.48, 0)
+cast_shadow = 0
+amount = 16
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_y17gl")
+draw_pass_1 = SubResource("QuadMesh_wx7h1")
+script = ExtResource("4_trt74")
+
+[node name="CheckerCab" parent="Car2" instance=ExtResource("8_ih744")]
+
 [node name="SpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.88002, 16.1272, -6.53026)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -1.11998, 16.1272, -6.53026)
+
+[node name="SpawnMarker2" type="Marker3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 6.88002, 16.1272, -6.53026)
 
 [node name="Course" parent="." instance=ExtResource("7_exxok")]
 transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, 0, 26)
@@ -169,6 +210,16 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.1666
 
 [node name="streetlamp-single4" parent="Course" instance=ExtResource("10_7lo4x")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11.8333, 1, 8.4)
+
+[node name="course-cool-s-supports-end" parent="Course" instance=ExtResource("11_s0lep")]
+
+[node name="course-cool-s-supports-overpass" parent="Course" instance=ExtResource("12_ih744")]
+
+[node name="course-cool-s-supports-end2" parent="Course" instance=ExtResource("11_s0lep")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0, 6)
+
+[node name="course-cool-s-supports-overpass2" parent="Course" instance=ExtResource("12_ih744")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0, 6)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_smec2")

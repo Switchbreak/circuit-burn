@@ -1,7 +1,10 @@
 extends RigidBody3D
 
 @onready var front_axle := $FrontAxle as Marker3D
-@onready var spawn_location := owner.find_child("SpawnMarker") as Marker3D
+
+@export_enum("p1", "p2") var input_prefix := "p1"
+@export var spawn_location: Marker3D
+@export var camera_following: bool = true
 
 const ACCELERATION_AMOUNT := 1000000.0
 const STEERING_AMOUNT := 250000.0
@@ -18,20 +21,21 @@ func _physics_process(delta: float) -> void:
     _apply_input_forces(delta)
     _apply_slip_correction(delta)
 
-    if Input.is_action_just_released("reset_car"):
+    if Input.is_action_just_released(input_prefix + "_reset_car"):
         _spawn_car()
 
-    _camera_speed_effects()
+    if camera_following:
+        _camera_speed_effects()
 
 func _apply_input_forces(delta: float) -> void:
-    if Input.is_action_pressed("drive_accelerate"):
+    if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
         apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
-    elif Input.is_action_pressed("drive_brake"):
+    elif Input.is_action_pressed(input_prefix + "_drive_brake"):
         apply_central_force(-global_basis.z * ACCELERATION_AMOUNT * delta)
 
-    if Input.is_action_pressed("drive_steer_left"):
+    if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
         apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
-    elif Input.is_action_pressed("drive_steer_right"):
+    elif Input.is_action_pressed(input_prefix + "_drive_steer_right"):
         apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
 
 func _apply_slip_correction(delta: float) -> void:

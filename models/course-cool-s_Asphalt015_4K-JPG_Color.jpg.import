@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://nyijw0dsp45g"
+path.s3tc="res://.godot/imported/course-cool-s_Asphalt015_4K-JPG_Color.jpg-ba49b7981458d4e4977deee069ba5539.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "b6367339f5405674a2a95b473adab0ff"
+}
+
+[deps]
+
+source_file="res://models/course-cool-s_Asphalt015_4K-JPG_Color.jpg"
+dest_files=["res://.godot/imported/course-cool-s_Asphalt015_4K-JPG_Color.jpg-ba49b7981458d4e4977deee069ba5539.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

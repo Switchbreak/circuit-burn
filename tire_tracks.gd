@@ -1,6 +1,6 @@
 extends GPUParticles3D
 
-const EPSILON := 0.0001
+const EPSILON := 0.001
 const TIRE_TRACK_LENGTH := 4
 var rate_scale := (self.lifetime / self.amount) / TIRE_TRACK_LENGTH
 

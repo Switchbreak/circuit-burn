@@ -6,6 +6,11 @@ extends RigidBody3D
 const ACCELERATION_AMOUNT := 1000000.0
 const STEERING_AMOUNT := 250000.0
 
+const FOV_FACTOR := 5.0
+const MIN_FOV := 75.0
+const MAX_FOV := 90.0
+const FOV_LERP_SPEED := 0.2
+
 func _ready() -> void:
     _spawn_car()
 
@@ -15,6 +20,8 @@ func _physics_process(delta: float) -> void:
 
     if Input.is_action_just_released("reset_car"):
         _spawn_car()
+
+    _camera_speed_effects()
 
 func _apply_input_forces(delta: float) -> void:
     if Input.is_action_pressed("drive_accelerate"):
@@ -39,3 +46,11 @@ func _spawn_car() -> void:
     linear_velocity = Vector3.ZERO
     angular_velocity = Vector3.ZERO
     reset_physics_interpolation()
+
+func _camera_speed_effects() -> void:
+    var speed := linear_velocity.length()
+    var camera := get_viewport().get_camera_3d()
+    var target_fov := clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
+
+    camera.fov = lerpf(camera.fov, target_fov, FOV_LERP_SPEED)
+    camera.shake_amount = clampf(0.06 * speed / 30 + 0.005, 0.0, 0.08)

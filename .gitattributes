@@ -1,3 +1,4 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
 course-cool-s.glb filter=lfs diff=lfs merge=lfs -text
+course-cool-s-landscape.glb filter=lfs diff=lfs merge=lfs -text

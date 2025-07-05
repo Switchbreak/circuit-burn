@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=28 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://follow_camera.gd" id="1_a5owf"]
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://car.gd" id="1_wu01y"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bgapb1wq4bkkw" path="res://tire_tracks.gd" id="4_trt74"]
 [ext_resource type="PackedScene" uid="uid://b6c7dlq3x2eiv" path="res://checker-cab.glb" id="6_rytwx"]
 [ext_resource type="PackedScene" uid="uid://tvwsc5jh8jgg" path="res://course_cool_s.tscn" id="7_exxok"]
+[ext_resource type="Texture2D" uid="uid://cbliddohsgnr0" path="res://clarens_night_02_4k.hdr" id="8_wx7h1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wu01y"]
 rough = true
@@ -28,7 +29,7 @@ point_count = 2
 curve = SubResource("Curve_a5owf")
 
 [sub_resource type="Curve" id="Curve_trt74"]
-_data = [Vector2(0, 0.509332), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_845v2"]
@@ -53,9 +54,7 @@ alpha_curve = SubResource("CurveTexture_y17gl")
 transparency = 1
 disable_fog = true
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.442911, 0.442911, 0.442911, 1)
 albedo_texture = ExtResource("3_y17gl")
-disable_receive_shadows = true
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
@@ -87,6 +86,18 @@ material = SubResource("StandardMaterial3D_exxok")
 size = Vector2(2, 4)
 orientation = 1
 
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hpmij"]
+panorama = ExtResource("8_wx7h1")
+energy_multiplier = 0.5
+
+[sub_resource type="Sky" id="Sky_1gjyj"]
+sky_material = SubResource("PanoramaSkyMaterial_hpmij")
+
+[sub_resource type="Environment" id="Environment_smec2"]
+background_mode = 2
+sky = SubResource("Sky_1gjyj")
+ambient_light_source = 3
+
 [node name="Course" type="Node3D"]
 
 [node name="Floor" type="StaticBody3D" parent="."]
@@ -110,7 +121,7 @@ script = ExtResource("1_a5owf")
 follow_target = NodePath("../Car")
 
 [node name="Car" type="RigidBody3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.88002, 16.1272, -6.53026)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -37.8155, 16.1272, -6.53026)
 mass = 1000.0
 contact_monitor = true
 max_contacts_reported = 1
@@ -140,7 +151,13 @@ process_material = SubResource("ParticleProcessMaterial_y17gl")
 draw_pass_1 = SubResource("QuadMesh_wx7h1")
 script = ExtResource("4_trt74")
 
-[node name="checker-cab" parent="Car" instance=ExtResource("6_rytwx")]
+[node name="CheckerCab" parent="Car" instance=ExtResource("6_rytwx")]
 
-[node name="course-cool-s" parent="." instance=ExtResource("7_exxok")]
+[node name="SpawnMarker" type="Marker3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.88002, 16.1272, -6.53026)
+
+[node name="Course" parent="." instance=ExtResource("7_exxok")]
 transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, 0, 26)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_smec2")

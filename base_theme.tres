@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://6xy385trwem2"]
+
+[sub_resource type="SystemFont" id="SystemFont_auftj"]
+font_names = PackedStringArray("Arial")
+font_italic = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_auftj"]
+
+[resource]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.501961)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 2
+Label/constants/shadow_offset_y = 2
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 36
+Label/fonts/font = SubResource("SystemFont_auftj")
+Label/styles/normal = SubResource("StyleBoxEmpty_auftj")
+MarginContainer/constants/margin_bottom = 20
+MarginContainer/constants/margin_left = 20
+MarginContainer/constants/margin_right = 20
+MarginContainer/constants/margin_top = 20

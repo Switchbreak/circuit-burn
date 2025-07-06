@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+class_name Car
+
 @onready var front_axle := $FrontAxle as Marker3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
@@ -14,6 +16,9 @@ const FOV_FACTOR := 5.0
 const MIN_FOV := 75.0
 const MAX_FOV := 90.0
 const FOV_LERP_SPEED := 0.2
+
+var lap: int = 1
+var checkpoint: int = 0
 
 func _ready() -> void:
     var cab := $CheckerCab/Car as MeshInstance3D

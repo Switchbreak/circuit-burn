@@ -5,6 +5,7 @@ extends RigidBody3D
 @export_enum("p1", "p2") var input_prefix := "p1"
 @export var spawn_location: Marker3D
 @export var camera_following: bool = true
+@export var color: Color = Color.WHITE
 
 const ACCELERATION_AMOUNT := 1000000.0
 const STEERING_AMOUNT := 250000.0
@@ -15,6 +16,11 @@ const MAX_FOV := 90.0
 const FOV_LERP_SPEED := 0.2
 
 func _ready() -> void:
+    var cab := $CheckerCab/Car as MeshInstance3D
+    var material := cab.get_surface_override_material(1).duplicate() as StandardMaterial3D
+    material.albedo_color = color
+    cab.set_surface_override_material(1, material)
+
     _spawn_car()
 
 func _physics_process(delta: float) -> void:

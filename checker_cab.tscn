@@ -7,9 +7,9 @@
 resource_name = "Material"
 cull_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.403167, 0, 0.59, 1)
 albedo_texture = ExtResource("2_p2g03")
-roughness = 0.5
+metallic = 1.0
+roughness = 0.2
 
 [node name="checker-cab" instance=ExtResource("1_42h47")]
 

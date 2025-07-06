@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 movie_writer/movie_file="***REMOVED***"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
+
 [input]
 
 p1_drive_accelerate={

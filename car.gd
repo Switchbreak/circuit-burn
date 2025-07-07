@@ -55,6 +55,8 @@ func _apply_slip_correction(delta: float) -> void:
     apply_force(lateral_correction, front_axle.global_position - global_position)
 
 func _spawn_car() -> void:
+    checkpoint = 0
+
     position = spawn_location.position
     rotation = spawn_location.rotation
 

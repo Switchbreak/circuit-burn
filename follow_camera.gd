@@ -10,7 +10,8 @@ extends Camera3D
 const ROTATION_AMOUNT := PI / 4
 
 func _process(delta: float) -> void:
-    _follow_target(delta)
+    if follow_target != null:
+        _follow_target(delta)
 
     var shake_offset := Vector3(randf_range(-shake_amount, shake_amount), randf_range(-shake_amount, shake_amount), randf_range(-shake_amount, shake_amount))
     position += shake_offset

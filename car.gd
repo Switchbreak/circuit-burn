@@ -80,7 +80,7 @@ func _camera_speed_effects() -> void:
 
 func _bot_navigation(delta: float) -> void:
     if navigation_agent.is_navigation_finished():
-        _nav_checkpoint = (_nav_checkpoint + 1) % owner.checkpoints.size()
+        _nav_checkpoint = (_nav_checkpoint + 1) % get_parent().checkpoints.size()
         _navigate_to_checkpoint()
 
     var next_direction: Vector3 = navigation_agent.get_next_path_position() - global_position
@@ -88,7 +88,7 @@ func _bot_navigation(delta: float) -> void:
     var speed := linear_velocity.length()
 
     # accelerate
-    if speed < 2.0:
+    if speed < 3.0:
         apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
 
     if slip > 0:
@@ -97,5 +97,5 @@ func _bot_navigation(delta: float) -> void:
         apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
 
 func _navigate_to_checkpoint() -> void:
-    var checkpoint_area := owner.checkpoints[_nav_checkpoint] as Area3D
+    var checkpoint_area := get_parent().checkpoints[_nav_checkpoint] as Area3D
     navigation_agent.target_position = checkpoint_area.position

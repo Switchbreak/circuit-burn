@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=17 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://course.gd" id="1_1gjyj"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://follow_camera.gd" id="1_a5owf"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://byoql1ct12mws" path="res://streetlamp_single.tscn" id="10_7lo4x"]
 [ext_resource type="PackedScene" uid="uid://c10h2cvc8kx1g" path="res://models/course-cool-s-supports-end.glb" id="11_s0lep"]
 [ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://base_theme.tres" id="11_smec2"]
-[ext_resource type="PackedScene" uid="uid://ks2m4hilkm8w" path="res://car.tscn" id="12_7lo4x"]
 [ext_resource type="PackedScene" uid="uid://b2vgju8qkmdwc" path="res://models/course-cool-s-supports-overpass.glb" id="12_ih744"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hpmij"]
@@ -37,7 +36,7 @@ agent_radius = 4.0
 
 [node name="Course" type="Node3D" node_paths=PackedStringArray("spawn_markers", "checkpoints")]
 script = ExtResource("1_1gjyj")
-spawn_markers = [NodePath("SpawnMarker1")]
+spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
 checkpoints = [NodePath("Checkpoint1"), NodePath("Checkpoint2"), NodePath("Checkpoint3"), NodePath("Checkpoint4")]
 
 [node name="course-cool-s-landscape" parent="." instance=ExtResource("1_hpmij")]
@@ -144,13 +143,3 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0,
 
 [node name="course-cool-s-supports-overpass2" parent="NavigationRegion3D/Course" instance=ExtResource("12_ih744")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0, 6)
-
-[node name="Car" parent="." node_paths=PackedStringArray("spawn_location") instance=ExtResource("12_7lo4x")]
-spawn_location = NodePath("../SpawnMarker2")
-camera_following = false
-bot = true
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Car"]
-target_desired_distance = 2.0
-simplify_path = true
-debug_enabled = true

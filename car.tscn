@@ -105,3 +105,10 @@ draw_pass_1 = SubResource("QuadMesh_wx7h1")
 script = ExtResource("4_mjudg")
 
 [node name="CheckerCab" parent="." instance=ExtResource("5_td361")]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
+simplify_path = true
+simplify_epsilon = 2.0
+debug_enabled = true

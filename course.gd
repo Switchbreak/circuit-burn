@@ -20,6 +20,7 @@ func _spawn_car(spawn_marker: SpawnMarker, input_prefix: String, player_car: boo
     car.input_prefix = input_prefix
     car.spawn_location = spawn_marker
     car.camera_following = player_car
+    car.bot = !player_car
     car.color = spawn_marker.color
 
     if player_car:

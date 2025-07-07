@@ -3,10 +3,12 @@ extends RigidBody3D
 class_name Car
 
 @onready var front_axle := $FrontAxle as Marker3D
+@onready var navigation_agent := $NavigationAgent3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 @export var spawn_location: Marker3D
 @export var camera_following: bool = true
+@export var bot: bool = false
 @export var color: Color = Color.WHITE
 
 const ACCELERATION_AMOUNT := 1000000.0
@@ -19,6 +21,7 @@ const FOV_LERP_SPEED := 0.2
 
 var lap: int = 1
 var checkpoint: int = 0
+var _nav_checkpoint: int = -1
 
 func _ready() -> void:
     var cab := $CheckerCab/Car as MeshInstance3D
@@ -29,7 +32,10 @@ func _ready() -> void:
     _spawn_car()
 
 func _physics_process(delta: float) -> void:
-    _apply_input_forces(delta)
+    if bot:
+        _bot_navigation(delta)
+    else:
+        _apply_input_forces(delta)
     _apply_slip_correction(delta)
 
     if Input.is_action_just_released(input_prefix + "_reset_car"):
@@ -71,3 +77,25 @@ func _camera_speed_effects() -> void:
 
     camera.fov = lerpf(camera.fov, target_fov, FOV_LERP_SPEED)
     camera.shake_amount = clampf(0.06 * speed / 30 + 0.005, 0.0, 0.08)
+
+func _bot_navigation(delta: float) -> void:
+    if navigation_agent.is_navigation_finished():
+        _nav_checkpoint = (_nav_checkpoint + 1) % owner.checkpoints.size()
+        _navigate_to_checkpoint()
+
+    var next_direction: Vector3 = navigation_agent.get_next_path_position() - global_position
+    var slip := next_direction.dot(global_basis.x)
+    var speed := linear_velocity.length()
+
+    # accelerate
+    if speed < 2.0:
+        apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
+
+    if slip > 0:
+        apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+    elif slip < 0:
+        apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+
+func _navigate_to_checkpoint() -> void:
+    var checkpoint_area := owner.checkpoints[_nav_checkpoint] as Area3D
+    navigation_agent.target_position = checkpoint_area.position

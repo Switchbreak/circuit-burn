@@ -8,9 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://cbliddohsgnr0" path="res://clarens_night_02_4k.hdr" id="8_wx7h1"]
 [ext_resource type="PackedScene" uid="uid://3ahva07y5oji" path="res://streetlamp_double.tscn" id="9_smec2"]
 [ext_resource type="PackedScene" uid="uid://byoql1ct12mws" path="res://streetlamp_single.tscn" id="10_7lo4x"]
-[ext_resource type="PackedScene" uid="uid://c10h2cvc8kx1g" path="res://models/course-cool-s-supports-end.glb" id="11_s0lep"]
+[ext_resource type="PackedScene" uid="uid://drb2ipfdbmktp" path="res://course_cool_s_supports_end.tscn" id="10_smec2"]
+[ext_resource type="PackedScene" uid="uid://cfjqk3puwbcl4" path="res://course_cool_s_supports_overpass.tscn" id="11_7lo4x"]
 [ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://base_theme.tres" id="11_smec2"]
-[ext_resource type="PackedScene" uid="uid://b2vgju8qkmdwc" path="res://models/course-cool-s-supports-overpass.glb" id="12_ih744"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hpmij"]
 panorama = ExtResource("8_wx7h1")
@@ -134,12 +134,12 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.1666
 [node name="streetlamp-single4" parent="NavigationRegion3D/Course" instance=ExtResource("10_7lo4x")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11.8333, 1, 8.4)
 
-[node name="course-cool-s-supports-end" parent="NavigationRegion3D/Course" instance=ExtResource("11_s0lep")]
+[node name="course-cool-s-supports-end" parent="NavigationRegion3D/Course" instance=ExtResource("10_smec2")]
 
-[node name="course-cool-s-supports-overpass" parent="NavigationRegion3D/Course" instance=ExtResource("12_ih744")]
+[node name="course-cool-s-supports-overpass" parent="NavigationRegion3D/Course" instance=ExtResource("11_7lo4x")]
 
-[node name="course-cool-s-supports-end2" parent="NavigationRegion3D/Course" instance=ExtResource("11_s0lep")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0, 6)
+[node name="course-cool-s-supports-end2" parent="NavigationRegion3D/Course" instance=ExtResource("10_smec2")]
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 16, 0, 6)
 
-[node name="course-cool-s-supports-overpass2" parent="NavigationRegion3D/Course" instance=ExtResource("12_ih744")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 16, 0, 6)
+[node name="course-cool-s-supports-overpass2" parent="NavigationRegion3D/Course" instance=ExtResource("11_7lo4x")]
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 16, 0, 6)

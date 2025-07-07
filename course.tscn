@@ -84,10 +84,9 @@ theme = ExtResource("11_smec2")
 text = "Lap: 1"
 
 [node name="Checkpoint1" type="Area3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 9, 44)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, 47)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4, 0)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint2" type="Area3D" parent="."]
@@ -98,10 +97,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint3" type="Area3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 9, -51)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, -43)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4, 0)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint4" type="Area3D" parent="."]

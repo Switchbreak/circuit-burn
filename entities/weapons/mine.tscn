@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfa0fm7efvmh4"]
+[gd_scene load_steps=7 format=3 uid="uid://bfa0fm7efvmh4"]
 
 [ext_resource type="Script" uid="uid://dthfrvrh15qew" path="res://entities/weapons/mine.gd" id="1_7ty8s"]
+[ext_resource type="PackedScene" uid="uid://bhrcb0u2rc7j2" path="res://models/land_mine_hard_surface.glb" id="2_2uecv"]
 [ext_resource type="PackedScene" uid="uid://bs6oor54h51h4" path="res://entities/explosion.tscn" id="2_wdtcp"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_2uecv"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7ty8s"]
 height = 0.1
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_igwdp"]
@@ -11,12 +12,14 @@ height = 0.1
 [sub_resource type="SphereShape3D" id="SphereShape3D_tnwh7"]
 radius = 5.0
 
-[node name="mine" type="Node3D"]
+[node name="Mine" type="RigidBody3D"]
 script = ExtResource("1_7ty8s")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-gi_mode = 0
-mesh = SubResource("CylinderMesh_2uecv")
+[node name="Mesh" parent="." instance=ExtResource("2_2uecv")]
+transform = Transform3D(10.032, 0, 0, 0, 10.032, 0, 0, 0, 10.032, 0, -0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_7ty8s")
 
 [node name="Trigger" type="Area3D" parent="."]
 monitorable = false

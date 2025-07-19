@@ -1,6 +1,7 @@
 extends Node3D
 
-@onready var mesh := $MeshInstance3D
+@onready var mesh := $Mesh
+@onready var animation_player := $Mesh/AnimationPlayer
 @onready var explosion := $Explosion
 @onready var explosion_area := $ExplosionArea
 
@@ -9,8 +10,9 @@ extends Node3D
 var _is_ready := false
 
 func _ready() -> void:
-    await get_tree().create_timer(0.5).timeout
+    await get_tree().create_timer(1.2).timeout
     _is_ready = true
+    animation_player.play("LandMine|On")
 
 func detonate(_body: Node3D) -> void:
     if _is_ready:

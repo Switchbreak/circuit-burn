@@ -174,6 +174,8 @@ func fire_mortar() -> void:
     print_debug('Mortar shell fired')
 
 func fire_rocket() -> void:
+    apply_central_impulse(global_basis.z * -5000.0)
+
     var rocket: RigidBody3D = _rocket.instantiate()
     rocket.linear_velocity = linear_velocity
 
@@ -185,10 +187,13 @@ func fire_rocket() -> void:
     print_debug('Rocket fired')
 
 func fire_mine() -> void:
-    var mine := _mine.instantiate()
+    var mine: RigidBody3D = _mine.instantiate()
 
     get_parent().add_child(mine)
     mine.global_position = mine_location.global_position
     mine.global_rotation = mine_location.global_rotation
+
+    mine.apply_central_impulse(mine.global_basis.y * -5.0)
+    mine.angular_velocity = mine.global_basis.x * -3.0
 
     print_debug('Mine laid')

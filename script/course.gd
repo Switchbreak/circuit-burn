@@ -1,6 +1,6 @@
 extends Node3D
 
-var car_scene := preload("res://car.tscn")
+var car_scene := preload("res://entities/car.tscn")
 
 @onready var lap_counter := $HUD/LapCounter
 

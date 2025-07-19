@@ -155,4 +155,4 @@ transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 16, 0,
 [node name="course-cool-s-landscape" parent="." instance=ExtResource("11_s0lep")]
 
 [node name="mine" parent="." instance=ExtResource("12_7lo4x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 15, 9.9157)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 9, 47.9157)

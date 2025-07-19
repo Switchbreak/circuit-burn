@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfa0fm7efvmh4"]
+
+[ext_resource type="Script" uid="uid://dthfrvrh15qew" path="res://entities/weapons/mine.gd" id="1_7ty8s"]
+[ext_resource type="PackedScene" uid="uid://bs6oor54h51h4" path="res://entities/explosion.tscn" id="2_wdtcp"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2uecv"]
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_igwdp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tnwh7"]
+radius = 5.0
+
+[node name="mine" type="Node3D"]
+script = ExtResource("1_7ty8s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_2uecv")
+
+[node name="Trigger" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger"]
+shape = SubResource("SphereShape3D_igwdp")
+
+[node name="Explosion" parent="." instance=ExtResource("2_wdtcp")]
+
+[node name="ExplosionArea" type="Area3D" parent="."]
+monitorable = false
+gravity = -30.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea"]
+shape = SubResource("SphereShape3D_tnwh7")
+
+[connection signal="body_entered" from="Trigger" to="." method="detonate"]

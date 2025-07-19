@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://pgy1r1b6i58y"]
 
 [ext_resource type="PackedScene" uid="uid://bjapwk3pgy1bf" path="res://models/course-cool-s-landscape.glb" id="1_na00n"]
-[ext_resource type="Script" uid="uid://c8jxwjq8ntcbg" path="res://course_cool_s_landscape.gd" id="2_86yce"]
+[ext_resource type="Script" uid="uid://c8jxwjq8ntcbg" path="res://script/course_cool_s_landscape.gd" id="2_86yce"]
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_86yce"]
 map_width = 256

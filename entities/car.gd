@@ -2,8 +2,17 @@ extends RigidBody3D
 
 class_name Car
 
+enum WEAPON {
+    NONE,
+    ROCKET,
+    MORTAR,
+    MINE,
+}
+
 @onready var front_axle := $FrontAxle as Marker3D
 @onready var navigation_agent := $NavigationAgent3D
+@onready var mortar := $Mortar
+@onready var rocket_equip := $Rocket
 @onready var mortar_launcher := $MortarLauncher as Marker3D
 @onready var mine_location := $MineLocation as Marker3D
 @onready var rocket_launcher := $RocketLauncher as Marker3D
@@ -30,7 +39,9 @@ const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
 
 var lap: int = 1
+var equipped: int = WEAPON.NONE
 var checkpoint: int = 0
+var ammunition: int = 0
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
 
@@ -42,10 +53,6 @@ func _ready() -> void:
     set_color(color)
     _spawn_car()
 
-    if bot:
-        $Mortar.visible = false
-        $Rocket.visible = false
-
 func _physics_process(delta: float) -> void:
     if bot:
         _bot_navigation(delta)
@@ -55,10 +62,18 @@ func _physics_process(delta: float) -> void:
 
     if Input.is_action_just_released(input_prefix + "_reset_car"):
         _spawn_car()
-    if Input.is_action_just_pressed(input_prefix + "_fire"):
-        #fire_mortar()
-        #fire_mine()
-        fire_rocket()
+    if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
+        match equipped:
+            Car.WEAPON.MORTAR:
+                fire_mortar()
+            Car.WEAPON.ROCKET:
+                fire_rocket()
+            Car.WEAPON.MINE:
+                fire_mine()
+
+        ammunition -= 1
+        if ammunition <= 0:
+            equip_weapon(WEAPON.NONE)
 
     if camera_following:
         _camera_speed_effects()
@@ -130,6 +145,22 @@ func _navigate_to_checkpoint() -> void:
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
     _safe_velocity = safe_velocity
+
+func equip_weapon(weapon_type: WEAPON) -> void:
+    equipped = weapon_type
+
+    mortar.visible = false
+    rocket_equip.visible = false
+    match equipped:
+        Car.WEAPON.MORTAR:
+            mortar.visible = true
+            ammunition = 3
+        Car.WEAPON.ROCKET:
+            rocket_equip.visible = true
+            ammunition = 4
+        Car.WEAPON.MINE:
+            ammunition = 2
+            pass # TODO: Equip/deploy mines
 
 func fire_mortar() -> void:
     var mortar_shell: RigidBody3D = _mortar_shell.instantiate()

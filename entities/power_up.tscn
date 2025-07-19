@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://ds4mpl16w3748"]
+
+[ext_resource type="Script" uid="uid://dh3r8h165nsfl" path="res://entities/power_up.gd" id="1_bk1wf"]
+[ext_resource type="Texture2D" uid="uid://c0mfgp3d5ipr4" path="res://rocket.svg" id="2_bk1wf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bk1wf"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.501961)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+clearcoat_roughness = 1.0
+anisotropy = -1.0
+subsurf_scatter_strength = 1.0
+refraction_scale = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_57qup"]
+material = SubResource("StandardMaterial3D_bk1wf")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_57qup"]
+radius = 1.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bk1wf"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+angular_velocity_min = 4.99998
+angular_velocity_max = 9.99998
+radial_velocity_min = 0.999978
+radial_velocity_max = 4.99998
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57qup"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.501961)
+metallic = 1.0
+metallic_specular = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5xpv"]
+material = SubResource("StandardMaterial3D_57qup")
+size = Vector3(0.2, 0.01, 0.2)
+
+[node name="PowerUp" type="Node3D"]
+script = ExtResource("1_bk1wf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("SphereMesh_57qup")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1.26491, 0, 0, 0, 1.26491, 0, 0, 0, 1.26491, 0, 0, 0)
+cast_shadow = 0
+modulate = Color(1, 0, 0, 1)
+billboard = 1
+double_sided = false
+alpha_cut = 1
+texture = ExtResource("2_bk1wf")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0, 0, 1)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_57qup")
+
+[node name="Break" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_bk1wf")
+draw_pass_1 = SubResource("BoxMesh_r5xpv")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_collected"]

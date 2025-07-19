@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 50 50"
+   version="1.1"
+   sodipodi:docname="landmine2.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs411" />
+  <sodipodi:namedview
+     id="namedview409"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="20.54"
+     inkscape:cx="24.975657"
+     inkscape:cy="24.975657"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="2149"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <title
+     id="title394" />
+  <path
+     d="M25,24c-1.44,0-3-.47-3-1.5S23.56,21,25,21s3,.47,3,1.5S26.45,24,25,24Zm0-2a2.8,2.8,0,0,0-2,.53A3.36,3.36,0,0,0,25,23a3.1,3.1,0,0,0,2-.5A3.1,3.1,0,0,0,25,22Zm2,.53h0Z"
+     id="path396"
+     style="fill:#ffffff" />
+  <path
+     d="M25,26c-4.56,0-8-1.5-8-3.5S20.44,19,25,19s8,1.5,8,3.5S29.56,26,25,26Zm0-6c-4.12,0-7,1.32-7,2.5S20.88,25,25,25s7-1.32,7-2.5S29.13,20,25,20Z"
+     id="path398"
+     style="fill:#ffffff" />
+  <path
+     d="M25,29c-9,0-16-2.64-16-6s7-6,16-6,16,2.64,16,6S34,29,25,29Zm0-11c-9,0-15,2.59-15,5s6,5,15,5,15-2.59,15-5S34,18,25,18Z"
+     id="path400"
+     style="fill:#ffffff" />
+  <path
+     d="M9.5,23.5A.5.5,0,0,1,9,23v-.5a.5.5,0,0,1,.5-.5h.07a.51.51,0,0,1,.4.19.54.54,0,0,1,.09.43A1.48,1.48,0,0,0,10,23,.5.5,0,0,1,9.5,23.5Z"
+     id="path402"
+     style="fill:#ffffff" />
+  <path
+     d="M40.5,23.5A.5.5,0,0,1,40,23a1.48,1.48,0,0,0-.06-.38.54.54,0,0,1,.09-.43.51.51,0,0,1,.4-.19h.07a.5.5,0,0,1,.5.5V23A.5.5,0,0,1,40.5,23.5Z"
+     id="path404"
+     style="fill:#ffffff" />
+  <path
+     d="M25,34c-3.85,0-12.38-1.32-13.33-1.93C9.93,31.37,9,30.5,9,29.5V23a.5.5,0,0,1,1,0c0,2.41,6,5,15,5s15-2.59,15-5a.5.5,0,0,1,1,0v6.5c0,1.05-1,2-3,2.73C37.16,32.7,28.83,34,25,34ZM10,25.13V29.5c0,.52.78,1.14,2.13,1.68C12.91,31.65,21,33,25,33a65,65,0,0,0,12.54-1.68C39.11,30.73,40,30.06,40,29.5V25.13C37.75,27.41,32,29,25,29S12.25,27.41,10,25.13Z"
+     id="path406"
+     style="fill:#ffffff" />
+</svg>

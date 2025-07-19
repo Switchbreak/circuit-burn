@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=18 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_1gjyj"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="1_a5owf"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cfjqk3puwbcl4" path="res://entities/models/course_cool_s_supports_overpass.tscn" id="11_7lo4x"]
 [ext_resource type="PackedScene" uid="uid://pgy1r1b6i58y" path="res://entities/models/course_cool_s_landscape.tscn" id="11_s0lep"]
 [ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://materials/base_theme.tres" id="11_smec2"]
+[ext_resource type="PackedScene" uid="uid://ds4mpl16w3748" path="res://entities/power_up.tscn" id="12_7lo4x"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hpmij"]
 panorama = ExtResource("8_wx7h1")
@@ -147,3 +148,14 @@ transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 16, 0,
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 16, 0, 6)
 
 [node name="course-cool-s-landscape" parent="." instance=ExtResource("11_s0lep")]
+
+[node name="PowerUp-Mines" parent="." instance=ExtResource("12_7lo4x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.59205, 4.5, 4.38787)
+type = 3
+
+[node name="PowerUp-Rockets" parent="." instance=ExtResource("12_7lo4x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.59205, 10.5, 44.3879)
+type = 1
+
+[node name="PowerUp-Mortar" parent="." instance=ExtResource("12_7lo4x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.59205, 10.5, -47.6121)

@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbliddohsgnr0"
-path.bptc="res://.godot/imported/clarens_night_02_4k.hdr-5cf5a432aac9b83df832e46498ae0618.bptc.ctex"
+uid="uid://oya64t8n6jki"
+path.s3tc="res://.godot/imported/ww2-mortar_2.png-e9ab76ab743065f9b84cc59bb52a0eb0.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "04d59fc28258c90ec0661d5b799af7e3"
+}
 
 [deps]
 
-source_file="res://clarens_night_02_4k.hdr"
-dest_files=["res://.godot/imported/clarens_night_02_4k.hdr-5cf5a432aac9b83df832e46498ae0618.bptc.ctex"]
+source_file="res://models/ww2-mortar_2.png"
+dest_files=["res://.godot/imported/ww2-mortar_2.png-e9ab76ab743065f9b84cc59bb52a0eb0.s3tc.ctex"]
 
 [params]
 
@@ -20,12 +23,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://models/ww2-mortar_2.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

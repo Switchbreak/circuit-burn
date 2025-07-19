@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://75hn8yh1ou50"]
+
+[ext_resource type="Script" uid="uid://d2pbamt8vbuc4" path="res://entities/weapons/mortar_shell.gd" id="1_gp4d7"]
+[ext_resource type="PackedScene" uid="uid://bs6oor54h51h4" path="res://entities/explosion.tscn" id="2_hnhdx"]
+[ext_resource type="PackedScene" uid="uid://dcfiobx5eyghp" path="res://models/mortar_rounds.glb" id="3_xbfsv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e6fbw"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e6fbw"]
+radius = 5.0
+
+[node name="MortarShell" type="RigidBody3D"]
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_gp4d7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91068e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_e6fbw")
+
+[node name="ExplosionArea" type="Area3D" parent="."]
+process_mode = 4
+monitoring = false
+monitorable = false
+gravity_space_override = 1
+gravity_point = true
+gravity_point_center = Vector3(0, -5, 0)
+gravity_direction = Vector3(0, -5, 0)
+gravity = -30.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea"]
+shape = SubResource("SphereShape3D_e6fbw")
+
+[node name="Explosion" parent="." instance=ExtResource("2_hnhdx")]
+
+[node name="Mesh" parent="." instance=ExtResource("3_xbfsv")]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0.57678)
+
+[connection signal="body_entered" from="." to="." method="detonate"]

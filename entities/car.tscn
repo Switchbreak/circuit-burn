@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://ks2m4hilkm8w"]
+[gd_scene load_steps=20 format=3 uid="uid://ks2m4hilkm8w"]
 
-[ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://car.gd" id="1_td361"]
+[ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://entities/car.gd" id="1_td361"]
 [ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://textures/smoke-particle.png" id="2_72krn"]
 [ext_resource type="Texture2D" uid="uid://c2fivinjcexvu" path="res://textures/tire-tracks.png" id="3_v0hk8"]
-[ext_resource type="Script" uid="uid://bgapb1wq4bkkw" path="res://tire_tracks.gd" id="4_mjudg"]
-[ext_resource type="PackedScene" uid="uid://cxe8uu57os1h5" path="res://checker_cab.tscn" id="5_td361"]
+[ext_resource type="Script" uid="uid://bgapb1wq4bkkw" path="res://script/tire_tracks.gd" id="4_mjudg"]
+[ext_resource type="PackedScene" uid="uid://cxe8uu57os1h5" path="res://entities/models/checker_cab.tscn" id="5_td361"]
+[ext_resource type="PackedScene" uid="uid://6adsd742jkcj" path="res://models/ww2-mortar.glb" id="6_72krn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wu01y"]
 size = Vector3(2, 1, 4)
@@ -75,7 +76,6 @@ size = Vector2(2, 4)
 orientation = 1
 
 [node name="Car" type="RigidBody3D"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 mass = 1000.0
 contact_monitor = true
 max_contacts_reported = 1
@@ -111,4 +111,13 @@ path_desired_distance = 2.0
 target_desired_distance = 2.0
 simplify_path = true
 simplify_epsilon = 2.0
-debug_enabled = true
+avoidance_enabled = true
+radius = 2.0
+
+[node name="MortarLauncher" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.6, 0)
+
+[node name="Mortar" parent="." instance=ExtResource("6_72krn")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0.0374111, 0.9993, -1.63529e-09, 0.9993, -0.0374111, -4.36808e-08, -0.0300321, 0.778544, 0)
+
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]

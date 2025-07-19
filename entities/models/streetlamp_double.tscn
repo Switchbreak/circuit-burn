@@ -33,5 +33,4 @@ transform = Transform3D(0.075, 0, 0, 0, 2.1, 0, 0, 0, 0.075, 0, 2.1, 0)
 [node name="StaticBody3D" type="StaticBody3D" parent="Pole" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pole/StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CylinderShape3D_g6klq")

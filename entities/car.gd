@@ -3,8 +3,10 @@ extends RigidBody3D
 class_name Car
 
 @onready var front_axle := $FrontAxle as Marker3D
-@onready var mortar_launcher := $MortarLauncher as Marker3D
 @onready var navigation_agent := $NavigationAgent3D
+@onready var mortar_launcher := $MortarLauncher as Marker3D
+@onready var mine_location := $MineLocation as Marker3D
+@onready var rocket_launcher := $RocketLauncher as Marker3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 @export var spawn_location: Marker3D
@@ -25,12 +27,16 @@ const CAMERA_SHAKE_SCALE := 0.06 / 30
 const CAMERA_SHAKE_OFFSET := 0.005
 const BOT_DRIVER_SPEED := 3.0
 const MORTAR_VELOCITY := 15.0
+const ROCKET_VELOCITY := 30.0
 
 var lap: int = 1
 var checkpoint: int = 0
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
+
 var _mortar_shell := preload("res://entities/weapons/mortar_shell.tscn")
+var _rocket := preload("res://entities/weapons/rocket.tscn")
+var _mine := preload("res://entities/weapons/mine.tscn")
 
 func _ready() -> void:
     set_color(color)
@@ -38,6 +44,7 @@ func _ready() -> void:
 
     if bot:
         $Mortar.visible = false
+        $Rocket.visible = false
 
 func _physics_process(delta: float) -> void:
     if bot:
@@ -49,7 +56,9 @@ func _physics_process(delta: float) -> void:
     if Input.is_action_just_released(input_prefix + "_reset_car"):
         _spawn_car()
     if Input.is_action_just_pressed(input_prefix + "_fire"):
-        fire_mortar()
+        #fire_mortar()
+        #fire_mine()
+        fire_rocket()
 
     if camera_following:
         _camera_speed_effects()
@@ -91,9 +100,10 @@ func _camera_speed_effects() -> void:
     var speed := linear_velocity.length()
     var camera := get_viewport().get_camera_3d()
     var target_fov := clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
+    var target_shake_amount := clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
 
     camera.fov = lerpf(camera.fov, target_fov, FOV_LERP_SPEED)
-    camera.shake_amount = clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
+    camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
 
 func _bot_navigation(delta: float) -> void:
     if navigation_agent.is_navigation_finished():
@@ -131,3 +141,23 @@ func fire_mortar() -> void:
     mortar_shell.apply_central_impulse(mortar_shell.global_basis.z * MORTAR_VELOCITY)
 
     print_debug('Mortar shell fired')
+
+func fire_rocket() -> void:
+    var rocket: RigidBody3D = _rocket.instantiate()
+    rocket.linear_velocity = linear_velocity
+
+    get_parent().add_child(rocket)
+    rocket.global_position = rocket_launcher.global_position
+    rocket.global_rotation = rocket_launcher.global_rotation
+    rocket.apply_central_impulse(rocket.global_basis.z * ROCKET_VELOCITY)
+
+    print_debug('Rocket fired')
+
+func fire_mine() -> void:
+    var mine := _mine.instantiate()
+
+    get_parent().add_child(mine)
+    mine.global_position = mine_location.global_position
+    mine.global_rotation = mine_location.global_rotation
+
+    print_debug('Mine laid')

@@ -157,4 +157,8 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_36sm1")
 draw_pass_1 = SubResource("QuadMesh_0bpt1")
 
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
+light_color = Color(0.88, 0.498667, 0, 1)
+
 [connection signal="finished" from="Smoke" to="." method="_on_finished"]

@@ -6,9 +6,16 @@ extends Node3D
 
 @export_range(1000.0, 10000.0, 500.0, "or_less", "or_greater") var explosion_strength := 5000.0
 
+var _is_ready := false
+
+func _ready() -> void:
+    await get_tree().create_timer(0.5).timeout
+    _is_ready = true
+
 func detonate(_body: Node3D) -> void:
-    print_debug('Detonating mine')
-    explode.call_deferred()
+    if _is_ready:
+        print_debug('Detonating mine')
+        explode.call_deferred()
 
 func explode() -> void:
     mesh.visible = false

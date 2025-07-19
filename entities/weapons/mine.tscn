@@ -15,6 +15,7 @@ radius = 5.0
 script = ExtResource("1_7ty8s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+gi_mode = 0
 mesh = SubResource("CylinderMesh_2uecv")
 
 [node name="Trigger" type="Area3D" parent="."]

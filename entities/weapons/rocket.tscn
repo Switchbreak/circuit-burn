@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://bbagmydnb72lq"]
+
+[ext_resource type="Script" uid="uid://diggsmx7tvx63" path="res://entities/weapons/rocket.gd" id="1_uuxyr"]
+[ext_resource type="PackedScene" uid="uid://bs6oor54h51h4" path="res://entities/explosion.tscn" id="2_uuxyr"]
+[ext_resource type="PackedScene" uid="uid://dcfiobx5eyghp" path="res://models/mortar_rounds.glb" id="3_ua3im"]
+[ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://textures/smoke-particle.png" id="4_uuxyr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e6fbw"]
+height = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e6fbw"]
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_ua3im"]
+_data = [Vector2(0, 1), 0.0, -0.0946365, 0, 0, Vector2(0.50152, 1), 0.0, 0.0, 0, 0, Vector2(0.990882, 0.0399104), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_y17gl"]
+curve = SubResource("Curve_ua3im")
+
+[sub_resource type="Curve" id="Curve_6wrxj"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_845v2"]
+curve = SubResource("Curve_6wrxj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5hhoe"]
+lifetime_randomness = 0.5
+angle_min = 1.07288e-05
+angle_max = 360.0
+direction = Vector3(0, 0, -1)
+spread = 5.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+angular_velocity_min = -300.0
+angular_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_845v2")
+color = Color(0, 0, 0, 1)
+alpha_curve = SubResource("CurveTexture_y17gl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uuxyr"]
+transparency = 1
+shading_mode = 2
+disable_fog = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_uuxyr")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_kx474"]
+material = SubResource("StandardMaterial3D_uuxyr")
+
+[node name="Rocket" type="RigidBody3D"]
+gravity_scale = 0.0
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_uuxyr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91068e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_e6fbw")
+
+[node name="ExplosionArea" type="Area3D" parent="."]
+monitorable = false
+gravity_point = true
+gravity_point_center = Vector3(0, -5, 0)
+gravity_direction = Vector3(0, -5, 0)
+gravity = -30.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionArea"]
+shape = SubResource("SphereShape3D_e6fbw")
+
+[node name="Explosion" parent="." instance=ExtResource("2_uuxyr")]
+
+[node name="Mesh" parent="." instance=ExtResource("3_ua3im")]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0.57678)
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00339077, -0.000394285, -0.65515)
+cast_shadow = 0
+amount = 64
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_5hhoe")
+draw_pass_1 = SubResource("QuadMesh_kx474")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7)
+light_color = Color(1, 0.533333, 0, 1)
+light_bake_mode = 0
+omni_range = 2.0
+
+[connection signal="body_entered" from="." to="." method="detonate"]

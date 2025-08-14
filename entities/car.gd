@@ -9,6 +9,8 @@ enum WEAPON {
     MINE,
 }
 
+@onready var wheel_fl := $"WheelFL"
+@onready var wheel_fr := $"WheelFR"
 @onready var wheel_rl := $"WheelRL"
 @onready var wheel_rr := $"WheelRR"
 @onready var front_axle := $FrontAxle as Marker3D
@@ -26,7 +28,7 @@ enum WEAPON {
 @export var bot: bool = false
 @export var color: Color = Color.WHITE
 
-@export_range(0.0, 5000.0) var acceleration := 2000.0
+@export_range(0.0, 5000.0) var acceleration := 10000.0
 @export_range(0.0, 5.0) var braking_factor := 2.0
 @export_range(0.0, PI / 2.0, 0.01) var steering_amount := 0.4
 @export_range(1.0, 5.0) var steering_speed := 3.0
@@ -67,35 +69,36 @@ func _physics_process(delta: float) -> void:
     if bot:
         _bot_navigation(delta)
     else:
-        #_apply_input_forces(delta)
         _vehicle_body_input(delta)
-    #_apply_slip_correction(delta)
-
-    if Input.is_action_just_released(input_prefix + "_reset_car"):
-        _spawn_car()
-    if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
-        match equipped:
-            Car.WEAPON.MORTAR:
-                fire_mortar()
-            Car.WEAPON.ROCKET:
-                fire_rocket()
-            Car.WEAPON.MINE:
-                fire_mine()
-
-        ammunition -= 1
-        if ammunition <= 0:
-            equip_weapon(WEAPON.NONE)
+        _weapon_input()
+        _special_input()
 
     if camera_following:
         _camera_speed_effects()
 
+    resting_friction_workaround(delta)
+
+func is_stopped_or_reversing() -> bool:
+    return linear_velocity.dot(basis.z) <= 5.0
+
+func is_at_rest() -> bool:
+    return absf(linear_velocity.dot(basis.z)) <= 0.5 \
+        and wheel_fl.is_in_contact() \
+        and wheel_fr.is_in_contact() \
+        and wheel_rl.is_in_contact() \
+        and wheel_rr.is_in_contact()
+
 func _vehicle_body_input(delta: float) -> void:
+    brake = 0.0
+    engine_force = 0.0
+
     if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
         engine_force = acceleration
     elif Input.is_action_pressed(input_prefix + "_drive_brake"):
-        engine_force = -acceleration * braking_factor
-    else:
-        engine_force = 0.0
+        if is_stopped_or_reversing():
+            engine_force = -acceleration
+        else:
+            brake = 50.0
 
     var steering_target := 0.0
     if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
@@ -111,21 +114,29 @@ func _vehicle_body_input(delta: float) -> void:
         #wheel_rl.wheel_friction_slip = rear_friction
         #wheel_rr.wheel_friction_slip = rear_friction
 
-func _apply_input_forces(delta: float) -> void:
-    if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
-        apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
-    elif Input.is_action_pressed(input_prefix + "_drive_brake"):
-        apply_central_force(-global_basis.z * ACCELERATION_AMOUNT * delta)
+func _weapon_input() -> void:
+    if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
+        match equipped:
+            Car.WEAPON.MORTAR:
+                fire_mortar()
+            Car.WEAPON.ROCKET:
+                fire_rocket()
+            Car.WEAPON.MINE:
+                fire_mine()
 
-    if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
-        apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
-    elif Input.is_action_pressed(input_prefix + "_drive_steer_right"):
-        apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+        ammunition -= 1
+        if ammunition <= 0:
+            equip_weapon(WEAPON.NONE)
 
-func _apply_slip_correction(delta: float) -> void:
-    var slip := linear_velocity.dot(global_basis.x)
-    var lateral_correction := global_basis.x * -slip / delta
-    apply_force(lateral_correction, front_axle.global_position - global_position)
+func _special_input() -> void:
+    if Input.is_action_just_released(input_prefix + "_reset_car"):
+        _spawn_car()
+
+func resting_friction_workaround(delta: float) -> void:
+    if engine_force == 0.0 and is_at_rest():
+        linear_damp = move_toward(linear_damp, 25.0, delta * 10.0)
+    else:
+        linear_damp = 0.0
 
 func set_color(new_color: Color) -> void:
     var cab := $CheckerCab/Car as MeshInstance3D
@@ -165,7 +176,6 @@ func _bot_navigation(delta: float) -> void:
 
     # accelerate
     if speed < BOT_DRIVER_SPEED:
-        #apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
         engine_force = acceleration
     else:
         engine_force = 0
@@ -173,10 +183,8 @@ func _bot_navigation(delta: float) -> void:
     var steering_target := 0.0
     if slip > 0:
         steering_target = steering_amount
-        #apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
     elif slip < 0:
         steering_target = -steering_amount
-        #apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
     steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:
@@ -200,7 +208,6 @@ func equip_weapon(weapon_type: WEAPON) -> void:
             ammunition = 4
         Car.WEAPON.MINE:
             ammunition = 2
-            pass # TODO: Equip/deploy mines
 
 func fire_mortar() -> void:
     var mortar_shell: RigidBody3D = _mortar_shell.instantiate()

@@ -52,7 +52,7 @@ const ROCKET_VELOCITY := 30.0
 
 var lap: int = 1
 var equipped: int = WEAPON.NONE
-var checkpoint: int = 0
+var checkpoint: int = 0: set = _set_checkpoint
 var ammunition: int = 0
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
@@ -155,6 +155,12 @@ func _spawn_car() -> void:
     angular_velocity = Vector3.ZERO
     reset_physics_interpolation()
 
+func _set_checkpoint(set_checkpoint: int) -> void:
+    checkpoint = set_checkpoint
+    if _nav_checkpoint != set_checkpoint:
+        _nav_checkpoint = set_checkpoint
+        _navigate_to_checkpoint()
+
 func _camera_speed_effects() -> void:
     var speed := linear_velocity.length()
     var camera := get_viewport().get_camera_3d()
@@ -188,7 +194,11 @@ func _bot_navigation(delta: float) -> void:
     steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:
-    var checkpoint_area := get_parent().checkpoints[_nav_checkpoint] as Area3D
+    var checkpoints := get_parent().checkpoints as Array[Area3D]
+
+    _nav_checkpoint = _nav_checkpoint % checkpoints.size()
+    var checkpoint_area := checkpoints[_nav_checkpoint]
+
     navigation_agent.target_position = checkpoint_area.position
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:

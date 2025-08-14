@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends VehicleBody3D
 
 class_name Car
 
@@ -9,6 +9,8 @@ enum WEAPON {
     MINE,
 }
 
+@onready var wheel_rl := $"WheelRL"
+@onready var wheel_rr := $"WheelRR"
 @onready var front_axle := $FrontAxle as Marker3D
 @onready var navigation_agent := $NavigationAgent3D
 @onready var mortar := $Mortar
@@ -18,10 +20,18 @@ enum WEAPON {
 @onready var rocket_launcher := $RocketLauncher as Marker3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
+
 @export var spawn_location: Marker3D
 @export var camera_following: bool = true
 @export var bot: bool = false
 @export var color: Color = Color.WHITE
+
+@export_range(0.0, 5000.0) var acceleration := 2000.0
+@export_range(0.0, 5.0) var braking_factor := 2.0
+@export_range(0.0, PI / 2.0, 0.01) var steering_amount := 0.4
+@export_range(1.0, 5.0) var steering_speed := 1.5
+@export_range(0.0, 1.0) var rear_friction := 0.7
+@export_range(0.0, 1.0) var rear_friction_handbrake := 0.2
 
 const ACCELERATION_AMOUNT := 1000000.0
 const STEERING_AMOUNT := 250000.0
@@ -57,8 +67,9 @@ func _physics_process(delta: float) -> void:
     if bot:
         _bot_navigation(delta)
     else:
-        _apply_input_forces(delta)
-    _apply_slip_correction(delta)
+        #_apply_input_forces(delta)
+        _vehicle_body_input(delta)
+    #_apply_slip_correction(delta)
 
     if Input.is_action_just_released(input_prefix + "_reset_car"):
         _spawn_car()
@@ -77,6 +88,28 @@ func _physics_process(delta: float) -> void:
 
     if camera_following:
         _camera_speed_effects()
+
+func _vehicle_body_input(delta: float) -> void:
+    if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
+        engine_force = acceleration
+    elif Input.is_action_pressed(input_prefix + "_drive_brake"):
+        engine_force = -acceleration * braking_factor
+    else:
+        engine_force = 0.0
+
+    var steering_target := 0.0
+    if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
+        steering_target = steering_amount
+    elif Input.is_action_pressed(input_prefix + "_drive_steer_right"):
+        steering_target = -steering_amount
+    steering = move_toward(steering, steering_target, delta * steering_speed)
+
+    #if Input.is_action_pressed(input_prefix + "_fire"):
+        #wheel_rl.wheel_friction_slip = rear_friction_handbrake
+        #wheel_rr.wheel_friction_slip = rear_friction_handbrake
+    #else:
+        #wheel_rl.wheel_friction_slip = rear_friction
+        #wheel_rr.wheel_friction_slip = rear_friction
 
 func _apply_input_forces(delta: float) -> void:
     if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
@@ -132,12 +165,19 @@ func _bot_navigation(delta: float) -> void:
 
     # accelerate
     if speed < BOT_DRIVER_SPEED:
-        apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
+        #apply_central_force(global_basis.z * ACCELERATION_AMOUNT * delta)
+        engine_force = acceleration
+    else:
+        engine_force = 0
 
+    var steering_target := 0.0
     if slip > 0:
-        apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+        steering_target = steering_amount
+        #apply_force(global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
     elif slip < 0:
-        apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+        steering_target = -steering_amount
+        #apply_force(-global_basis.x * STEERING_AMOUNT * delta, front_axle.global_position - global_position)
+    steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:
     var checkpoint_area := get_parent().checkpoints[_nav_checkpoint] as Area3D

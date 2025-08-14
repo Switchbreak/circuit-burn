@@ -29,7 +29,7 @@ enum WEAPON {
 @export_range(0.0, 5000.0) var acceleration := 2000.0
 @export_range(0.0, 5.0) var braking_factor := 2.0
 @export_range(0.0, PI / 2.0, 0.01) var steering_amount := 0.4
-@export_range(1.0, 5.0) var steering_speed := 1.5
+@export_range(1.0, 5.0) var steering_speed := 3.0
 @export_range(0.0, 1.0) var rear_friction := 0.7
 @export_range(0.0, 1.0) var rear_friction_handbrake := 0.2
 

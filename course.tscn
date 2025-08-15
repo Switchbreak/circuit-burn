@@ -214,22 +214,22 @@ shape = SubResource("BoxShape3D_pvw23")
 
 [node name="Checkpoint8" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -7)
-metadata/top_speed = 15.0
+metadata/top_speed = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint9" type="Area3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 4.23703, 15, -0.204213)
-metadata/top_speed = 15.0
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 4.23703, 15, -0.204213)
+metadata/top_speed = 10.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint9"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 2.38419e-07)
 shape = SubResource("BoxShape3D_ih744")
 
 [node name="Checkpoint10" type="Area3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 13.237, 15, 10.7958)
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 13.237, 15, 10.7958)
 metadata/top_speed = 15.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint10"]

@@ -65,6 +65,9 @@ func _ready() -> void:
     set_color(color)
     _spawn_car()
 
+    if not bot:
+        debug_arrow.visible = false
+
 func _physics_process(delta: float) -> void:
     if bot:
         _bot_navigation(delta)
@@ -171,28 +174,16 @@ func _camera_speed_effects() -> void:
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
 
 func _bot_navigation(delta: float) -> void:
-    if navigation_agent.is_navigation_finished():
-        _nav_checkpoint = (_nav_checkpoint + 1) % get_parent().checkpoints.size()
-        _navigate_to_checkpoint()
-
     navigation_agent.velocity = linear_velocity
-    #var next_direction: Vector3 = navigation_agent.get_next_path_position() - global_position # _safe_velocity
-    #var slip := next_direction.dot(global_basis.x)
-    var slip := target_orientation.dot(global_basis.x)
-    var speed := linear_velocity.length()
-    debug_arrow.look_at(debug_arrow.global_position + target_orientation * 10.0, Vector3.UP, true)
+    debug_arrow.look_at(debug_arrow.global_position + target_orientation, Vector3.UP, true)
 
-    # accelerate
+    var speed := linear_velocity.length()
     if speed < bot_speed:
         engine_force = acceleration
     else:
         engine_force = 0
 
-    var steering_target := 0.0
-    if slip > 0:
-        steering_target = steering_amount
-    elif slip < 0:
-        steering_target = -steering_amount
+    var steering_target := global_basis.z.signed_angle_to(target_orientation, Vector3.UP)
     steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:

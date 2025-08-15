@@ -15,6 +15,10 @@ run/main_scene="uid://ds6ycuat4hvvl"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://cekpot6486w26"
 
+[debug]
+
+shapes/collision/shape_color=Color(0, 0.595, 0.7, 1)
+
 [editor]
 
 movie_writer/movie_file="***REMOVED***"

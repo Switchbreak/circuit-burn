@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=25 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_1gjyj"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="1_a5owf"]
@@ -26,7 +26,28 @@ sky = SubResource("Sky_1gjyj")
 ambient_light_source = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_smec2"]
-size = Vector3(19, 9, 1)
+size = Vector3(15, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7lo4x"]
+size = Vector3(14, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s0lep"]
+size = Vector3(12, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x1s4s"]
+size = Vector3(14, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1jovw"]
+size = Vector3(13, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ay0rd"]
+size = Vector3(13, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pvw23"]
+size = Vector3(15, 9, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ih744"]
+size = Vector3(14, 9, 1)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_7lo4x"]
 vertices = PackedVector3Array(9.75, 9.5, -36.75, 11.5, 9.5, -35.75, 16.5, 9.5, -42, 1.25, 9.5, -41.75, 7, 9.5, -35.75, 8.75, 9.5, -36.75, 9.75, 9.5, -51.25, 8.75, 9.5, -52, 12.5, 9.5, -34.5, 21.25, 9.5, -35.5, 6, 9.5, -34.5, -3.75, 9.5, -35, 13, 3.5, -9.75, 12.25, 3.5, -8.5, 20.5, 3.5, -7.5, 13.25, 9.25, -33.25, 23, 9.25, -33.5, 13.25, 6.75, -23.5, 23, 3.5, -10.5, -2.25, 15.5, -7, 6.25, 15.5, -7.75, 5, 15.25, -10.75, 5.25, 9.5, -33.25, -5, 15.25, -10.5, -5, 9.5, -33.5, 6.25, 3.5, 11.75, -2.25, 3.5, 11, 12.25, 15.5, 12.5, 20.5, 15.5, 11.5, 5.25, 3.5, 13.5, -4, 9.5, 38.5, 5.5, 9.5, 38, 5, 9.25, 37.25, -5, 9.25, 37.5, -5, 3.5, 14.5, 5.23437, 3.5, 14.9844, 13, 15.5, 13.75, 13, 9.5, 37.25, 12, 9.5, 39, 20.75, 9.5, 40.25, 23, 9.5, 37.5, 23, 15.25, 14.5, 0.749997, 9.5, 45, 6.75, 9.5, 39.75, 8.5, 9.5, 40.75, 11.5, 9.5, 39.75, 9.5, 9.5, 40.75, 8.25, 9.5, 55.25, 9.25, 9.5, 56)
@@ -37,8 +58,8 @@ agent_radius = 4.0
 
 [node name="Course" type="Node3D" node_paths=PackedStringArray("spawn_markers", "checkpoints")]
 script = ExtResource("1_1gjyj")
-spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2"), NodePath("SpawnMarker3"), NodePath("SpawnMarker4")]
-checkpoints = [NodePath("Checkpoint1"), NodePath("Checkpoint2"), NodePath("Checkpoint3"), NodePath("Checkpoint4")]
+spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
+checkpoints = [NodePath("Checkpoint9"), NodePath("Checkpoint10"), NodePath("Checkpoint11"), NodePath("Checkpoint1"), NodePath("Checkpoint2"), NodePath("Checkpoint3"), NodePath("Checkpoint4"), NodePath("Checkpoint5"), NodePath("Checkpoint14"), NodePath("Checkpoint13"), NodePath("Checkpoint12"), NodePath("Checkpoint6"), NodePath("Checkpoint15"), NodePath("Checkpoint16"), NodePath("Checkpoint7"), NodePath("Checkpoint17"), NodePath("Checkpoint18"), NodePath("Checkpoint8")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_smec2")
@@ -82,30 +103,146 @@ script = ExtResource("5_smec2")
 color = Color(0.6, 0, 0.878431, 1)
 
 [node name="Checkpoint1" type="Area3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, 47)
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 18.6099, 13, 41.5185)
+metadata/top_speed = 10.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, 0)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 13.4878, 13, 46.7356)
+metadata/top_speed = 8.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
-shape = SubResource("BoxShape3D_smec2")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.49998, 0, -1.99999)
+shape = SubResource("BoxShape3D_7lo4x")
 
 [node name="Checkpoint3" type="Area3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, -43)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, 47)
+metadata/top_speed = 8.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 shape = SubResource("BoxShape3D_smec2")
 
 [node name="Checkpoint4" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -7)
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0.487786, 13, 44.7356)
+metadata/top_speed = 8.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49998, 0, -1.99998)
+shape = SubResource("BoxShape3D_s0lep")
+
+[node name="Checkpoint5" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.609905, 13, 37.5185)
+metadata/top_speed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78814e-07, 0, -2)
+shape = SubResource("BoxShape3D_smec2")
+
+[node name="Checkpoint14" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, 4, 3, 14)
+metadata/top_speed = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint14"]
+transform = Transform3D(0.999999, 0, 4.26326e-14, 0, 1, 0, -4.26326e-14, 0, 0.999999, 3, 4, 0)
+shape = SubResource("BoxShape3D_x1s4s")
+
+[node name="Checkpoint13" type="Area3D" parent="."]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 5, 3, 11)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
+shape = SubResource("BoxShape3D_1jovw")
+
+[node name="Checkpoint12" type="Area3D" parent="."]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 15, 3, -2)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
+shape = SubResource("BoxShape3D_1jovw")
+
+[node name="Checkpoint6" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 19, 3, -9)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
+shape = SubResource("BoxShape3D_smec2")
+
+[node name="Checkpoint15" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 17.5658, 13.038, -35)
+metadata/top_speed = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint15"]
+shape = SubResource("BoxShape3D_smec2")
+
+[node name="Checkpoint16" type="Area3D" parent="."]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 14.5658, 13.038, -41)
+metadata/top_speed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.999996, 0, -1.90735e-06)
+shape = SubResource("BoxShape3D_ay0rd")
+
+[node name="Checkpoint7" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 13, -43)
+metadata/top_speed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint7"]
+shape = SubResource("BoxShape3D_smec2")
+
+[node name="Checkpoint17" type="Area3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 3.5658, 13.038, -41)
+metadata/top_speed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.999996, 0, -1.90735e-06)
+shape = SubResource("BoxShape3D_ay0rd")
+
+[node name="Checkpoint18" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.565796, 13.038, -35)
+metadata/top_speed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint18"]
+transform = Transform3D(0.999998, 0, 0, 0, 1, 0, 0, 0, 0.999998, -3.75509e-06, 0, 0)
+shape = SubResource("BoxShape3D_pvw23")
+
+[node name="Checkpoint8" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -7)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
 shape = SubResource("BoxShape3D_smec2")
+
+[node name="Checkpoint9" type="Area3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 4.23703, 15, -0.204213)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 2.38419e-07)
+shape = SubResource("BoxShape3D_ih744")
+
+[node name="Checkpoint10" type="Area3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 13.237, 15, 10.7958)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 2.38419e-07)
+shape = SubResource("BoxShape3D_ih744")
+
+[node name="Checkpoint11" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.237, 15, 13.7958)
+metadata/top_speed = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 2.38419e-07)
+shape = SubResource("BoxShape3D_ih744")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_7lo4x")

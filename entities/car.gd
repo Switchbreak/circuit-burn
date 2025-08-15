@@ -20,6 +20,7 @@ enum WEAPON {
 @onready var mortar_launcher := $MortarLauncher as Marker3D
 @onready var mine_location := $MineLocation as Marker3D
 @onready var rocket_launcher := $RocketLauncher as Marker3D
+@onready var debug_arrow := $DebugArrow as Node3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -35,9 +36,6 @@ enum WEAPON {
 @export_range(0.0, 1.0) var rear_friction := 0.7
 @export_range(0.0, 1.0) var rear_friction_handbrake := 0.2
 
-const ACCELERATION_AMOUNT := 1000000.0
-const STEERING_AMOUNT := 250000.0
-
 const FOV_FACTOR := 5.0
 const MIN_FOV := 75.0
 const MAX_FOV := 90.0
@@ -46,7 +44,7 @@ const CAMERA_SHAKE_MIN := 0.0
 const CAMERA_SHAKE_MAX := 0.08
 const CAMERA_SHAKE_SCALE := 0.06 / 30
 const CAMERA_SHAKE_OFFSET := 0.005
-const BOT_DRIVER_SPEED := 3.0
+const BOT_DRIVER_SPEED := 8.0
 const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
 
@@ -54,6 +52,8 @@ var lap: int = 1
 var equipped: int = WEAPON.NONE
 var checkpoint: int = 0: set = _set_checkpoint
 var ammunition: int = 0
+var bot_speed: float = BOT_DRIVER_SPEED
+var target_orientation: Vector3 = Vector3.ZERO
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
 
@@ -176,12 +176,14 @@ func _bot_navigation(delta: float) -> void:
         _navigate_to_checkpoint()
 
     navigation_agent.velocity = linear_velocity
-    var next_direction: Vector3 = navigation_agent.get_next_path_position() - global_position # _safe_velocity
-    var slip := next_direction.dot(global_basis.x)
+    #var next_direction: Vector3 = navigation_agent.get_next_path_position() - global_position # _safe_velocity
+    #var slip := next_direction.dot(global_basis.x)
+    var slip := target_orientation.dot(global_basis.x)
     var speed := linear_velocity.length()
+    debug_arrow.look_at(debug_arrow.global_position + target_orientation * 10.0, Vector3.UP, true)
 
     # accelerate
-    if speed < BOT_DRIVER_SPEED:
+    if speed < bot_speed:
         engine_force = acceleration
     else:
         engine_force = 0
@@ -199,6 +201,8 @@ func _navigate_to_checkpoint() -> void:
     _nav_checkpoint = _nav_checkpoint % checkpoints.size()
     var checkpoint_area := checkpoints[_nav_checkpoint]
 
+    bot_speed = checkpoint_area.get_meta("top_speed", BOT_DRIVER_SPEED)
+    target_orientation = checkpoint_area.global_basis.z
     navigation_agent.target_position = checkpoint_area.position
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:

@@ -178,14 +178,14 @@ func _bot_navigation(delta: float) -> void:
     debug_arrow.look_at(debug_arrow.global_position + target_orientation, Vector3.UP, true)
 
     var speed := linear_velocity.length()
-    var target_speed := bot_speed + 2.0 * (randf() - 0.5)
+    var target_speed := bot_speed + 5.0 * (randf() - 0.5)
     if speed < target_speed:
         engine_force = acceleration
     else:
         engine_force = 0
 
     var steering_target := global_basis.z.signed_angle_to(target_orientation, Vector3.UP)
-    steering_target += 0.1 * (randf() - 0.5)
+    steering_target += 0.5 * (randf() - 0.5)
     steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:

@@ -58,7 +58,7 @@ agent_radius = 4.0
 
 [node name="Course" type="Node3D" node_paths=PackedStringArray("spawn_markers", "checkpoints")]
 script = ExtResource("1_1gjyj")
-spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2")]
+spawn_markers = [NodePath("SpawnMarker1"), NodePath("SpawnMarker2"), NodePath("SpawnMarker3"), NodePath("SpawnMarker4")]
 checkpoints = [NodePath("Checkpoint9"), NodePath("Checkpoint10"), NodePath("Checkpoint11"), NodePath("Checkpoint1"), NodePath("Checkpoint2"), NodePath("Checkpoint3"), NodePath("Checkpoint4"), NodePath("Checkpoint5"), NodePath("Checkpoint14"), NodePath("Checkpoint13"), NodePath("Checkpoint12"), NodePath("Checkpoint6"), NodePath("Checkpoint15"), NodePath("Checkpoint16"), NodePath("Checkpoint7"), NodePath("Checkpoint17"), NodePath("Checkpoint18"), NodePath("Checkpoint8")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -98,7 +98,7 @@ script = ExtResource("5_smec2")
 color = Color(0.6, 0, 0.878431, 1)
 
 [node name="SpawnMarker4" type="Marker3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1.88002, 16.1272, -6.53026)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1.38002, 16.1272, -6.53026)
 script = ExtResource("5_smec2")
 color = Color(0.6, 0, 0.878431, 1)
 

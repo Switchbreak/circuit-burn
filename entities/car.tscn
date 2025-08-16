@@ -256,4 +256,15 @@ lifetime = 0.3
 process_material = SubResource("ParticleProcessMaterial_6pmtn")
 draw_pass_1 = SubResource("QuadMesh_xctgt")
 
+[node name="MeleeCollider" type="Area3D" parent="."]
+process_mode = 4
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeleeCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.1)
+shape = SubResource("BoxShape3D_c4j5x")
+debug_color = Color(0, 0.6, 0.7, 0.42)
+
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]
+[connection signal="body_entered" from="MeleeCollider" to="." method="_on_melee_collider_body_entered"]

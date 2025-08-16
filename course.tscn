@@ -1,7 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://ds6ycuat4hvvl"]
+[gd_scene load_steps=28 format=3 uid="uid://ds6ycuat4hvvl"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_1gjyj"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="1_a5owf"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="4_s0lep"]
+[ext_resource type="Shader" uid="uid://fo82otceqnyl" path="res://motion_blur/moblur_shader.gdshader" id="5_ih744"]
 [ext_resource type="Script" uid="uid://bhtxquvvtcs6e" path="res://script/spawn_marker.gd" id="5_smec2"]
 [ext_resource type="PackedScene" uid="uid://tvwsc5jh8jgg" path="res://entities/models/course_cool_s.tscn" id="7_exxok"]
 [ext_resource type="Texture2D" uid="uid://cbliddohsgnr0" path="res://textures/clarens_night_02_4k.hdr" id="8_wx7h1"]
@@ -24,6 +26,15 @@ sky_material = SubResource("PanoramaSkyMaterial_hpmij")
 background_mode = 2
 sky = SubResource("Sky_1gjyj")
 ambient_light_source = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x1s4s"]
+render_priority = -1
+shader = ExtResource("5_ih744")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 15
+shader_parameter/intensity = 0.28
+shader_parameter/startRadius = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_smec2"]
 size = Vector3(15, 9, 1)
@@ -67,6 +78,10 @@ environment = SubResource("Environment_smec2")
 [node name="FollowCamera" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74227e-08, -6.18172e-08, 0.707107, 0.707107, 6.18172e-08, 0.707107, -0.707107, 0, 10.5489, -6.30813)
 script = ExtResource("1_a5owf")
+
+[node name="MotionBlur" parent="FollowCamera" instance=ExtResource("4_s0lep")]
+unique_name_in_owner = true
+surface_material_override/0 = SubResource("ShaderMaterial_x1s4s")
 
 [node name="HUD" type="MarginContainer" parent="."]
 anchors_preset = 15

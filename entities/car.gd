@@ -27,6 +27,8 @@ enum WEAPON {
 @onready var brakelight_r := $BrakelightR
 @onready var trail_l := $TrailL
 @onready var trail_r := $TrailR
+@onready var motion_blur := ($"/root/Course/FollowCamera/MotionBlur" as MeshInstance3D).get_surface_override_material(0) as ShaderMaterial
+@onready var melee_collider := $MeleeCollider
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -55,7 +57,8 @@ const BOT_DRIVER_SPEED := 8.0
 const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
 const ROCKET_RECOIL := 2000.0
-const PUNCH_VELOCITY := 20000.0
+const PUNCH_VELOCITY := 10000.0
+const KICK_VELOCITY := 30000.0
 const PUNCH_FOV := 120.0
 const PUNCH_DURATION := 0.5
 
@@ -134,6 +137,13 @@ func _vehicle_body_input(delta: float) -> void:
         #wheel_rr.wheel_friction_slip = rear_friction
 
 func _weapon_input() -> void:
+    if Input.is_key_pressed(KEY_E):
+        equipped = WEAPON.PUNCH
+        ammunition = 100
+    elif Input.is_key_pressed(KEY_Q):
+        equipped = WEAPON.KICK
+        ammunition = 100
+
     if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
         match equipped:
             WEAPON.MORTAR:
@@ -144,6 +154,8 @@ func _weapon_input() -> void:
                 fire_mine()
             WEAPON.PUNCH:
                 fire_punch()
+            WEAPON.KICK:
+                fire_kick()
 
         ammunition -= 1
         if ammunition <= 0:
@@ -191,11 +203,13 @@ func _camera_speed_effects() -> void:
         target_fov = PUNCH_FOV
         target_shake_amount = CAMERA_SHAKE_MAX
         camera.follow_distance = 1.0
+        motion_blur.set_shader_parameter("intensity", 1.0)
     else:
         var speed := linear_velocity.length()
         target_fov = clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
         target_shake_amount = clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
         camera.follow_distance = 10.0
+        motion_blur.set_shader_parameter("intensity", 0.28)
 
     camera.fov = lerpf(camera.fov, target_fov, FOV_LERP_SPEED)
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
@@ -205,7 +219,7 @@ func _bot_navigation(delta: float) -> void:
     debug_arrow.look_at(debug_arrow.global_position + target_orientation, Vector3.UP, true)
 
     var speed := linear_velocity.length()
-    var target_speed := bot_speed + 5.0 * (randf() - 0.5)
+    var target_speed := bot_speed + 3.0 * (randf() - 0.5)
     if speed < target_speed:
         engine_force = acceleration
     else:
@@ -284,14 +298,41 @@ func fire_punch() -> void:
 
     invulnerable = true
     set_collision_mask_value(2, false)
+    melee_collider.process_mode = Node.PROCESS_MODE_INHERIT
     trail_l.emitting = true
     trail_r.emitting = true
 
-    await get_tree().create_timer(1.0).timeout
+    await get_tree().create_timer(0.5).timeout
 
     invulnerable = false
+    melee_collider.process_mode = Node.PROCESS_MODE_DISABLED
     set_collision_mask_value(2, true)
     trail_l.emitting = false
     trail_r.emitting = false
 
     print_debug('Punch fired')
+
+func fire_kick() -> void:
+    apply_central_impulse(global_basis.x * KICK_VELOCITY)
+
+    invulnerable = true
+    set_collision_mask_value(2, false)
+    melee_collider.process_mode = Node.PROCESS_MODE_INHERIT
+    trail_l.emitting = true
+    trail_r.emitting = true
+
+    await get_tree().create_timer(0.2).timeout
+
+    invulnerable = false
+    melee_collider.process_mode = Node.PROCESS_MODE_DISABLED
+    set_collision_mask_value(2, true)
+    trail_l.emitting = false
+    trail_r.emitting = false
+
+    print_debug('Kick fired')
+
+func _on_melee_collider_body_entered(body: Node3D) -> void:
+    var camera = get_viewport().get_camera_3d()
+    camera.shake_amount = 1.0
+
+    body.apply_impulse(Vector3.UP * 5000.0, global_position - body.global_position)

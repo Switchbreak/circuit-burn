@@ -25,6 +25,8 @@ enum WEAPON {
 @onready var debug_arrow := $DebugArrow as Node3D
 @onready var brakelight_l := $BrakelightL
 @onready var brakelight_r := $BrakelightR
+@onready var trail_l := $TrailL
+@onready var trail_r := $TrailR
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -54,6 +56,8 @@ const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
 const ROCKET_RECOIL := 2000.0
 const PUNCH_VELOCITY := 20000.0
+const PUNCH_FOV := 120.0
+const PUNCH_DURATION := 0.5
 
 var lap: int = 1
 var equipped: int = WEAPON.NONE
@@ -102,14 +106,14 @@ func is_at_rest() -> bool:
 func _vehicle_body_input(delta: float) -> void:
     brake = 0.0
     engine_force = 0.0
-    brakelight_l.visible = false
-    brakelight_r.visible = false
+    brakelight_l.modulate = Color(1.0, 1.0, 1.0)
+    brakelight_r.modulate = Color(1.0, 1.0, 1.0)
 
     if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
         engine_force = acceleration
     elif Input.is_action_pressed(input_prefix + "_drive_brake"):
-        brakelight_l.visible = true
-        brakelight_r.visible = true
+        brakelight_l.modulate = Color(1.0, 0.0, 0.0)
+        brakelight_r.modulate = Color(1.0, 0.0, 0.0)
         if is_stopped_or_reversing():
             engine_force = -acceleration
         else:
@@ -184,7 +188,7 @@ func _camera_speed_effects() -> void:
     var target_shake_amount: float
 
     if invulnerable:
-        target_fov = 120.0
+        target_fov = PUNCH_FOV
         target_shake_amount = CAMERA_SHAKE_MAX
         camera.follow_distance = 1.0
     else:
@@ -280,10 +284,14 @@ func fire_punch() -> void:
 
     invulnerable = true
     set_collision_mask_value(2, false)
+    trail_l.emitting = true
+    trail_r.emitting = true
 
     await get_tree().create_timer(1.2).timeout
 
     invulnerable = false
     set_collision_mask_value(2, true)
+    trail_l.emitting = false
+    trail_r.emitting = false
 
     print_debug('Punch fired')

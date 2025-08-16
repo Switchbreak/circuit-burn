@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ks2m4hilkm8w"]
+[gd_scene load_steps=28 format=3 uid="uid://ks2m4hilkm8w"]
 
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://entities/car.gd" id="1_td361"]
 [ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://textures/smoke-particle.png" id="2_72krn"]
@@ -81,6 +81,32 @@ size = Vector3(1.6, 1.2, 4.2)
 top_radius = 0.0
 bottom_radius = 0.1
 height = 1.0
+
+[sub_resource type="Curve" id="Curve_6pmtn"]
+_data = [Vector2(0, 1), 0.0, 4.12049e-07, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xctgt"]
+texture_mode = 1
+curve = SubResource("Curve_6pmtn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6pmtn"]
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+gravity = Vector3(0, 0, 0)
+alpha_curve = SubResource("CurveTexture_xctgt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6pmtn"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_xctgt"]
+material = SubResource("StandardMaterial3D_6pmtn")
+size = Vector2(0.2, 1)
+orientation = 1
 
 [node name="Car" type="VehicleBody3D"]
 collision_layer = 2
@@ -204,14 +230,30 @@ skeleton = NodePath("../..")
 
 [node name="BrakelightL" type="Sprite3D" parent="."]
 transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0.6, 0.1, -2.1)
-visible = false
-modulate = Color(1, 0.00999999, 0.00999999, 1)
+billboard = 1
+double_sided = false
 texture = ExtResource("8_6pmtn")
 
 [node name="BrakelightR" type="Sprite3D" parent="."]
 transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, -0.6, 0.1, -2.1)
-visible = false
-modulate = Color(1, 0.00999999, 0.00999999, 1)
+billboard = 1
+double_sided = false
 texture = ExtResource("8_6pmtn")
+
+[node name="TrailL" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.1, -2.1)
+cast_shadow = 0
+emitting = false
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_6pmtn")
+draw_pass_1 = SubResource("QuadMesh_xctgt")
+
+[node name="TrailR" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.1, -2.1)
+cast_shadow = 0
+emitting = false
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_6pmtn")
+draw_pass_1 = SubResource("QuadMesh_xctgt")
 
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]

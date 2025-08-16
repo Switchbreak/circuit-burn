@@ -7,6 +7,8 @@ enum WEAPON {
     ROCKET,
     MORTAR,
     MINE,
+    PUNCH,
+    KICK
 }
 
 @onready var wheel_fl := $"WheelFL"
@@ -21,6 +23,8 @@ enum WEAPON {
 @onready var mine_location := $MineLocation as Marker3D
 @onready var rocket_launcher := $RocketLauncher as Marker3D
 @onready var debug_arrow := $DebugArrow as Node3D
+@onready var brakelight_l := $BrakelightL
+@onready var brakelight_r := $BrakelightR
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -45,8 +49,11 @@ const CAMERA_SHAKE_MAX := 0.08
 const CAMERA_SHAKE_SCALE := 0.06 / 30
 const CAMERA_SHAKE_OFFSET := 0.005
 const BOT_DRIVER_SPEED := 8.0
+
 const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
+const ROCKET_RECOIL := 2000.0
+const PUNCH_VELOCITY := 20000.0
 
 var lap: int = 1
 var equipped: int = WEAPON.NONE
@@ -54,6 +61,7 @@ var checkpoint: int = 0: set = _set_checkpoint
 var ammunition: int = 0
 var bot_speed: float = BOT_DRIVER_SPEED
 var target_orientation: Vector3 = Vector3.ZERO
+var invulnerable: bool = false
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
 
@@ -94,10 +102,14 @@ func is_at_rest() -> bool:
 func _vehicle_body_input(delta: float) -> void:
     brake = 0.0
     engine_force = 0.0
+    brakelight_l.visible = false
+    brakelight_r.visible = false
 
     if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
         engine_force = acceleration
     elif Input.is_action_pressed(input_prefix + "_drive_brake"):
+        brakelight_l.visible = true
+        brakelight_r.visible = true
         if is_stopped_or_reversing():
             engine_force = -acceleration
         else:
@@ -120,12 +132,14 @@ func _vehicle_body_input(delta: float) -> void:
 func _weapon_input() -> void:
     if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
         match equipped:
-            Car.WEAPON.MORTAR:
+            WEAPON.MORTAR:
                 fire_mortar()
-            Car.WEAPON.ROCKET:
+            WEAPON.ROCKET:
                 fire_rocket()
-            Car.WEAPON.MINE:
+            WEAPON.MINE:
                 fire_mine()
+            WEAPON.PUNCH:
+                fire_punch()
 
         ammunition -= 1
         if ammunition <= 0:
@@ -165,10 +179,19 @@ func _set_checkpoint(set_checkpoint: int) -> void:
         _navigate_to_checkpoint()
 
 func _camera_speed_effects() -> void:
-    var speed := linear_velocity.length()
     var camera := get_viewport().get_camera_3d()
-    var target_fov := clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
-    var target_shake_amount := clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
+    var target_fov := camera.fov
+    var target_shake_amount: float
+
+    if invulnerable:
+        target_fov = 120.0
+        target_shake_amount = CAMERA_SHAKE_MAX
+        camera.follow_distance = 1.0
+    else:
+        var speed := linear_velocity.length()
+        target_fov = clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
+        target_shake_amount = clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
+        camera.follow_distance = 10.0
 
     camera.fov = lerpf(camera.fov, target_fov, FOV_LERP_SPEED)
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
@@ -228,7 +251,7 @@ func fire_mortar() -> void:
     print_debug('Mortar shell fired')
 
 func fire_rocket() -> void:
-    apply_central_impulse(global_basis.z * -5000.0)
+    apply_central_impulse(-global_basis.z * ROCKET_RECOIL)
 
     var rocket: RigidBody3D = _rocket.instantiate()
     rocket.linear_velocity = linear_velocity
@@ -247,7 +270,20 @@ func fire_mine() -> void:
     mine.global_position = mine_location.global_position
     mine.global_rotation = mine_location.global_rotation
 
-    mine.apply_central_impulse(mine.global_basis.y * -5.0)
-    mine.angular_velocity = mine.global_basis.x * -3.0
+    mine.apply_central_impulse(-mine.global_basis.y * 5.0)
+    mine.angular_velocity = -mine.global_basis.x * 3.0
 
     print_debug('Mine laid')
+
+func fire_punch() -> void:
+    apply_central_impulse(global_basis.z * PUNCH_VELOCITY)
+
+    invulnerable = true
+    set_collision_mask_value(2, false)
+
+    await get_tree().create_timer(1.2).timeout
+
+    invulnerable = false
+    set_collision_mask_value(2, true)
+
+    print_debug('Punch fired')

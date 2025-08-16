@@ -26,7 +26,10 @@ func explode() -> void:
 
     var affected_bodies: Array[Node3D] = explosion_area.get_overlapping_bodies()
     for body: RigidBody3D in affected_bodies:
-        body.apply_impulse(Vector3.UP * explosion_strength, global_position - body.global_position)
+        if body is Car and body.invulnerable:
+            continue
+        else:
+            body.apply_impulse(Vector3.UP * explosion_strength, global_position - body.global_position)
 
     process_mode = Node.PROCESS_MODE_DISABLED
     await get_tree().create_timer(0.5).timeout

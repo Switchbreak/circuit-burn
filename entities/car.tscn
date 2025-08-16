@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://ks2m4hilkm8w"]
+[gd_scene load_steps=23 format=3 uid="uid://ks2m4hilkm8w"]
 
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://entities/car.gd" id="1_td361"]
 [ext_resource type="Texture2D" uid="uid://csinvl5w2sof4" path="res://textures/smoke-particle.png" id="2_72krn"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cxe8uu57os1h5" path="res://entities/models/checker_cab.tscn" id="5_td361"]
 [ext_resource type="PackedScene" uid="uid://6adsd742jkcj" path="res://models/ww2-mortar.glb" id="6_72krn"]
 [ext_resource type="PackedScene" uid="uid://mnb11kii153s" path="res://models/rocket_launcher.glb" id="7_c4j5x"]
+[ext_resource type="Texture2D" uid="uid://3w51s3y1rp76" path="res://textures/Flare00.PNG" id="8_6pmtn"]
 
 [sub_resource type="Curve" id="Curve_a5owf"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -82,6 +83,8 @@ bottom_radius = 0.1
 height = 1.0
 
 [node name="Car" type="VehicleBody3D"]
+collision_layer = 2
+collision_mask = 3
 mass = 1500.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.5, 0)
@@ -198,5 +201,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
 mesh = SubResource("CylinderMesh_c4j5x")
 skeleton = NodePath("../..")
+
+[node name="BrakelightL" type="Sprite3D" parent="."]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0.6, 0.1, -2.1)
+visible = false
+modulate = Color(1, 0.00999999, 0.00999999, 1)
+texture = ExtResource("8_6pmtn")
+
+[node name="BrakelightR" type="Sprite3D" parent="."]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, -0.6, 0.1, -2.1)
+visible = false
+modulate = Color(1, 0.00999999, 0.00999999, 1)
+texture = ExtResource("8_6pmtn")
 
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]

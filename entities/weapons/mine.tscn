@@ -13,6 +13,7 @@ height = 0.1
 radius = 5.0
 
 [node name="Mine" type="RigidBody3D"]
+collision_mask = 3
 script = ExtResource("1_7ty8s")
 
 [node name="Mesh" parent="." instance=ExtResource("2_2uecv")]
@@ -22,6 +23,7 @@ transform = Transform3D(10.032, 0, 0, 0, 10.032, 0, 0, 0, 10.032, 0, -0.1, 0)
 shape = SubResource("CylinderShape3D_7ty8s")
 
 [node name="Trigger" type="Area3D" parent="."]
+collision_mask = 3
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger"]
@@ -30,6 +32,7 @@ shape = SubResource("SphereShape3D_igwdp")
 [node name="Explosion" parent="." instance=ExtResource("2_wdtcp")]
 
 [node name="ExplosionArea" type="Area3D" parent="."]
+collision_mask = 3
 monitorable = false
 gravity = -30.0
 

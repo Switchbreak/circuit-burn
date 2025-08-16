@@ -287,7 +287,7 @@ func fire_punch() -> void:
     trail_l.emitting = true
     trail_r.emitting = true
 
-    await get_tree().create_timer(1.2).timeout
+    await get_tree().create_timer(1.0).timeout
 
     invulnerable = false
     set_collision_mask_value(2, true)

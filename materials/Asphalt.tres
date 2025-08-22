@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://doiw7w10bla4f"]
 
-[ext_resource type="Texture2D" uid="uid://cfrad7utph5hv" path="res://models/course-cool-s_asphalt_02_diff_4k.jpg" id="1_0vkhm"]
-[ext_resource type="Texture2D" uid="uid://4ycvrm1o55ux" path="res://models/course-cool-s_asphalt_02_rough_4k.png" id="2_bt7ef"]
-[ext_resource type="Texture2D" uid="uid://dunr2hge36m2l" path="res://models/course-cool-s_asphalt_02_nor_gl_4k.png" id="3_3yjoy"]
+[ext_resource type="Texture2D" uid="uid://ne73n6dpcx22" path="res://models/course-cool-s_asphalt_02_diff_4k.jpg" id="1_0vkhm"]
+[ext_resource type="Texture2D" uid="uid://b5eay0roxnm42" path="res://models/course-cool-s_asphalt_02_rough_4k.png" id="2_bt7ef"]
+[ext_resource type="Texture2D" uid="uid://ctq8g2y1fywua" path="res://models/course-cool-s_asphalt_02_nor_gl_4k.png" id="3_3yjoy"]
 
 [resource]
 resource_name = "Asphalt"

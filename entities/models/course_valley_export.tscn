@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dum3rxwpu54xs"]
+
+[ext_resource type="PackedScene" uid="uid://bq7crj33hitpb" path="res://models/course-valley-export.glb" id="1_4552c"]
+
+[node name="course-valley-export" instance=ExtResource("1_4552c")]

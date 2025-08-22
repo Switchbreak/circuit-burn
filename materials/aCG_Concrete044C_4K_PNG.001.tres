@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://crh6f6q5un2wo"]
+
+[ext_resource type="Texture2D" uid="uid://cwyn8ixtfiqdv" path="res://models/course-valley-export_Concrete044C_4K-PNG_Color.png" id="1_0fukh"]
+[ext_resource type="Texture2D" uid="uid://c2yumxuuy4lxb" path="res://models/course-valley-export_Concrete044C_4K-PNG_Metalness.png-Concrete044C_4K-PNG_Roughness.png" id="2_xixii"]
+[ext_resource type="Texture2D" uid="uid://ctj6pyst06luy" path="res://models/course-valley-export_Concrete044C_4K-PNG_NormalGL.png" id="3_6geev"]
+
+[resource]
+resource_name = "aCG_Concrete044C_4K_PNG.001"
+cull_mode = 2
+albedo_texture = ExtResource("1_0fukh")
+metallic = 1.0
+metallic_texture = ExtResource("2_xixii")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_xixii")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_6geev")

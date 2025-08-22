@@ -1,0 +1,112 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://bq7crj33hitpb"
+path="res://.godot/imported/course-valley-export.glb-b0da5bba47a91cd2cb1fc1af1137121d.scn"
+
+[deps]
+
+source_file="res://models/course-valley-export.glb"
+dest_files=["res://.godot/imported/course-valley-export.glb-b0da5bba47a91cd2cb1fc1af1137121d.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"materials": {
+"Asphalt": {
+"use_external/enabled": true,
+"use_external/path": "uid://doiw7w10bla4f"
+},
+"Concrete": {
+"use_external/enabled": true,
+"use_external/path": "uid://b0nnkov8pnidc"
+},
+"Concrete.003": {
+"use_external/enabled": true,
+"use_external/path": "uid://cy2kfg0vcxg2p"
+},
+"Water": {
+"use_external/enabled": true,
+"use_external/path": "uid://vakl5tcot04v"
+},
+"aCG_Concrete044C_4K_PNG": {
+"use_external/enabled": true,
+"use_external/path": "uid://crh6f6q5un2wo"
+},
+"aCG_Metal046B_1K_PNG": {
+"use_external/enabled": true,
+"use_external/path": "uid://c2jduuvlgeves"
+},
+"aCG_PaintedMetal010_4K_PNG": {
+"use_external/enabled": true,
+"use_external/path": "uid://cppbw8qfh1g0n"
+},
+"aCG_Rock045_4K_PNG": {
+"use_external/enabled": true,
+"use_external/path": "uid://cuytod7dn4icf"
+},
+"aCG_Rock045_4K_PNG.001": {
+"use_external/enabled": true,
+"use_external/path": "uid://cuytod7dn4icf"
+},
+"metal_plate": {
+"use_external/enabled": true,
+"use_external/path": "uid://bon0krf7pmgyu"
+}
+},
+"nodes": {
+"PATH:Bridge": {
+"generate/physics": true
+},
+"PATH:Landscape": {
+"generate/physics": true
+},
+"PATH:Left_Side": {
+"generate/physics": true
+},
+"PATH:Right_Side": {
+"generate/physics": true
+},
+"PATH:Road": {
+"generate/physics": true
+},
+"PATH:RoadSegment_001": {
+"generate/physics": true,
+"physics/shape_type": 1
+},
+"PATH:RoadSegment_003": {
+"generate/physics": true,
+"physics/shape_type": 1
+},
+"PATH:Road_001": {
+"generate/physics": true
+},
+"PATH:Rock": {
+"generate/physics": true,
+"physics/shape_type": 1
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

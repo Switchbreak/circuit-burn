@@ -1,18 +1,19 @@
-[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://bvhr4j5831at"]
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://cuytod7dn4icf"]
 
-[ext_resource type="Texture2D" uid="uid://b7ynowor5mx88" path="res://models/course-valley-road_Rock045_4K-PNG_Color.png" id="1_jar25"]
-[ext_resource type="Texture2D" uid="uid://dx7pft4k3s63t" path="res://models/course-valley-road_Rock045_4K-PNG_Roughness.png" id="2_w5bum"]
-[ext_resource type="Texture2D" uid="uid://bwbhfa2jkivqw" path="res://models/course-valley-road_Rock045_4K-PNG_NormalGL.png" id="3_avgil"]
+[ext_resource type="Texture2D" uid="uid://1xnwu130m1cw" path="res://models/course-valley-export_Rock045_4K-PNG_Color.png" id="1_o3ful"]
+[ext_resource type="Texture2D" uid="uid://ccw7fgu711bur" path="res://models/course-valley-export_Rock045_4K-PNG_Roughness.png" id="2_g0dii"]
+[ext_resource type="Texture2D" uid="uid://75f01pb53o3o" path="res://models/course-valley-export_Rock045_4K-PNG_NormalGL.png" id="3_waar8"]
 
 [resource]
 resource_name = "aCG_Rock045_4K_PNG"
 cull_mode = 2
-albedo_texture = ExtResource("1_jar25")
-metallic_texture = ExtResource("2_w5bum")
+albedo_texture = ExtResource("1_o3ful")
+metallic_texture = ExtResource("2_g0dii")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("2_w5bum")
+roughness_texture = ExtResource("2_g0dii")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("3_avgil")
+normal_texture = ExtResource("3_waar8")
 uv1_scale = Vector3(0.01, 0.01, 0.01)
+uv1_offset = Vector3(0, 0.99, 0)
 uv1_triplanar = true

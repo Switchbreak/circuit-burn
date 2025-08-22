@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dt5oojsvwk8fo"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_3by73"]
-[ext_resource type="PackedScene" uid="uid://c73wh6aejxu3l" path="res://entities/models/course_valley_road.tscn" id="1_26cw8"]
+[ext_resource type="PackedScene" uid="uid://bq7crj33hitpb" path="res://models/course-valley-export.glb" id="2_1skup"]
 [ext_resource type="Texture2D" uid="uid://bulnnjn5pudue" path="res://textures/lakeside_4k.hdr" id="2_4826u"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="4_1skup"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="5_1skup"]
@@ -28,7 +28,8 @@ script = ExtResource("1_3by73")
 spawn_markers = [NodePath("SpawnMarker")]
 checkpoints = [NodePath("Checkpoint1")]
 
-[node name="course-valley-road" parent="." instance=ExtResource("1_26cw8")]
+[node name="course-valley-export" parent="." instance=ExtResource("2_1skup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 25, -41)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rd6ip")
@@ -36,16 +37,12 @@ environment = SubResource("Environment_rd6ip")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.965926, 0.12941, -0.224144, 0, 0.866025, 0.5, 0.258819, -0.482963, 0.836516, -1, 107, 0)
 shadow_enabled = true
+directional_shadow_mode = 0
 
 [node name="FollowCamera" type="Camera3D" parent="."]
 script = ExtResource("4_1skup")
 
 [node name="MotionBlur" parent="FollowCamera" instance=ExtResource("5_1skup")]
-
-[node name="SpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.2161, 25.1996, -38.9286)
-script = ExtResource("5_xq3l6")
-metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="HUD" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -61,6 +58,11 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("6_vkdnm")
 text = "Lap: 1"
+
+[node name="SpawnMarker" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -199.965, 82.1511, -156.489)
+script = ExtResource("5_xq3l6")
+metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="Checkpoint1" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 25, -41)

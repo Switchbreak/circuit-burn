@@ -68,7 +68,7 @@ _subresources={
 },
 "aCG_Rock045_4K_PNG.001": {
 "use_external/enabled": true,
-"use_external/path": "uid://cuytod7dn4icf"
+"use_external/path": "res://materials/aCG_Rock045_4K_PNG.001.tres"
 },
 "metal_plate": {
 "use_external/enabled": true,

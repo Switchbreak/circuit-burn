@@ -6,7 +6,6 @@
 
 [resource]
 resource_name = "aCG_Rock045_4K_PNG"
-cull_mode = 2
 albedo_texture = ExtResource("1_o3ful")
 metallic_texture = ExtResource("2_g0dii")
 metallic_texture_channel = 2
@@ -15,5 +14,4 @@ roughness_texture_channel = 1
 normal_enabled = true
 normal_texture = ExtResource("3_waar8")
 uv1_scale = Vector3(0.05, 0.05, 0.05)
-uv1_offset = Vector3(0, 0.99, 0)
 uv1_triplanar = true

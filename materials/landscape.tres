@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://ddjmfj5eq12ey"]
+
+[ext_resource type="Shader" uid="uid://po8qyqnxtate" path="res://materials/landscape-shader.tres" id="1_6uhmq"]
+[ext_resource type="Texture2D" uid="uid://brlcc1icyjwdf" path="res://textures/Ground068_4K-PNG_Color.png" id="2_78rya"]
+[ext_resource type="Texture2D" uid="uid://1xnwu130m1cw" path="res://models/course-valley-export_Rock045_4K-PNG_Color.png" id="2_fjnde"]
+[ext_resource type="Texture2D" uid="uid://bpjj2ojs8gg2c" path="res://textures/Ground068_4K-PNG_NormalGL.png" id="3_3x06n"]
+[ext_resource type="Texture2D" uid="uid://ccw7fgu711bur" path="res://models/course-valley-export_Rock045_4K-PNG_Roughness.png" id="3_86mu4"]
+[ext_resource type="Texture2D" uid="uid://c0pxsg5u28687" path="res://textures/Ground068_4K-PNG_Roughness.png" id="4_84kfo"]
+[ext_resource type="Texture2D" uid="uid://75f01pb53o3o" path="res://models/course-valley-export_Rock045_4K-PNG_NormalGL.png" id="4_etx1o"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_6uhmq")
+shader_parameter/Rock_Color = ExtResource("2_fjnde")
+shader_parameter/Grass_Color = ExtResource("2_78rya")
+shader_parameter/Rock_Roughness = ExtResource("3_86mu4")
+shader_parameter/Grass_Roughness = ExtResource("4_84kfo")
+shader_parameter/Rock_Normal_Map = ExtResource("4_etx1o")
+shader_parameter/Grass_Normal_Map = ExtResource("3_3x06n")
+shader_parameter/triplanar_scale = Vector3(0.05, 0.05, 0.05)
+shader_parameter/triplanar_offset = Vector3(0, 0, 0)
+shader_parameter/triplanar_sharpness = 0.5

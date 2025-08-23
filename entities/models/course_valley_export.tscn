@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dum3rxwpu54xs"]
+[gd_scene load_steps=3 format=3 uid="uid://dum3rxwpu54xs"]
 
 [ext_resource type="PackedScene" uid="uid://bq7crj33hitpb" path="res://models/course-valley-export.glb" id="1_4552c"]
+[ext_resource type="Material" uid="uid://ddjmfj5eq12ey" path="res://materials/landscape.tres" id="2_k1xfy"]
 
 [node name="course-valley-export" instance=ExtResource("1_4552c")]
+
+[node name="Landscape" parent="." index="1"]
+surface_material_override/0 = ExtResource("2_k1xfy")

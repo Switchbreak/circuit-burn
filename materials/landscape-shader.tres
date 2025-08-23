@@ -1,0 +1,193 @@
+[gd_resource type="VisualShader" load_steps=16 format=3 uid="uid://po8qyqnxtate"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_26or6"]
+parameter_name = "mix_weight"
+hint = 1
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_77uby"]
+expanded_output_ports = [0]
+input_name = "normal"
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_ihwot"]
+parameter_name = "Rock_Color"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_7df3p"]
+parameter_name = "Rock_Normal_Map"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_ofxyq"]
+parameter_name = "Rock_Roughness"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_sjtdl"]
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_sjtdl"]
+parameter_name = "Grass_Color"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_otsej"]
+parameter_name = "Grass_Roughness"
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_b80io"]
+parameter_name = "Grass_Normal_Map"
+texture_type = 2
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_77uby"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, 0.5]
+op_type = 6
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_7xode"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, 0.5]
+op_type = 6
+
+[sub_resource type="Curve" id="Curve_ihwot"]
+_data = [Vector2(0.0263158, 0), 0.0, 0.0, 0, 0, Vector2(0.502392, 0.510913), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.4, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_7df3p"]
+curve = SubResource("Curve_ihwot")
+
+[sub_resource type="VisualShaderNodeCurveTexture" id="VisualShaderNodeCurveTexture_ofxyq"]
+texture = SubResource("CurveTexture_7df3p")
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_igb1w"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, 0.5]
+op_type = 6
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D Rock_Color : source_color;
+uniform sampler2D Grass_Color : source_color;
+uniform sampler2D curve_frg_24 : repeat_disable;
+uniform sampler2D Rock_Roughness;
+uniform sampler2D Grass_Roughness;
+uniform sampler2D Rock_Normal_Map : hint_normal;
+uniform sampler2D Grass_Normal_Map : hint_normal;
+
+
+// TextureParameterTriplanar
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
+
+void vertex() {
+// TextureParameterTriplanar
+	{
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+	}
+}
+
+void fragment() {
+// TextureParameterTriplanar:14
+	vec4 n_out14p0 = triplanar_texture(Rock_Color, triplanar_power_normal, triplanar_pos);
+
+
+// TextureParameterTriplanar:19
+	vec4 n_out19p0 = triplanar_texture(Grass_Color, triplanar_power_normal, triplanar_pos);
+
+
+// Input:13
+	vec3 n_out13p0 = NORMAL;
+	float n_out13p2 = n_out13p0.g;
+
+
+// CurveTexture:24
+	float n_out24p0 = texture(curve_frg_24, vec2(n_out13p2)).r;
+
+
+// Mix:22
+	vec4 n_out22p0 = mix(n_out14p0, n_out19p0, n_out24p0);
+
+
+// TextureParameterTriplanar:16
+	vec4 n_out16p0 = triplanar_texture(Rock_Roughness, triplanar_power_normal, triplanar_pos);
+
+
+// VectorDecompose:17
+	float n_out17p0 = vec3(n_out16p0.xyz).x;
+	float n_out17p1 = vec3(n_out16p0.xyz).y;
+	float n_out17p2 = vec3(n_out16p0.xyz).z;
+
+
+// TextureParameterTriplanar:20
+	vec4 n_out20p0 = triplanar_texture(Grass_Roughness, triplanar_power_normal, triplanar_pos);
+
+
+// Mix:23
+	vec4 n_out23p0 = mix(vec4(n_out17p1), n_out20p0, n_out24p0);
+
+
+// TextureParameterTriplanar:15
+	vec4 n_out15p0 = triplanar_texture(Rock_Normal_Map, triplanar_power_normal, triplanar_pos);
+
+
+// TextureParameterTriplanar:21
+	vec4 n_out21p0 = triplanar_texture(Grass_Normal_Map, triplanar_power_normal, triplanar_pos);
+
+
+// Mix:6
+	vec4 n_out6p0 = mix(n_out15p0, n_out21p0, n_out24p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out22p0.xyz);
+	ROUGHNESS = n_out23p0.x;
+	NORMAL_MAP = vec3(n_out6p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-541.672, 28.6899)
+preview_params/triplanar_offset = "Vector3(0, 0, 0)"
+preview_params/Rock_Color = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Color.png\")"
+preview_params/Rock_Roughness = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Roughness.png\")"
+preview_params/Rock_Normal_Map = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_NormalGL.png\")"
+preview_params/Grass_Color = "Resource(\"res://textures/Ground068_4K-PNG_Color.png\")"
+preview_params/Grass_Roughness = "Resource(\"res://textures/Ground068_4K-PNG_Roughness.png\")"
+preview_params/Grass_Normal_Map = "Resource(\"res://textures/Ground068_4K-PNG_NormalGL.png\")"
+nodes/fragment/0/position = Vector2(1980, 1140)
+nodes/fragment/6/node = SubResource("VisualShaderNodeMix_igb1w")
+nodes/fragment/6/position = Vector2(1460, 1900)
+nodes/fragment/10/node = SubResource("VisualShaderNodeFloatParameter_26or6")
+nodes/fragment/10/position = Vector2(-520, 1480)
+nodes/fragment/13/node = SubResource("VisualShaderNodeInput_77uby")
+nodes/fragment/13/position = Vector2(-900, 2120)
+nodes/fragment/14/node = SubResource("VisualShaderNodeTextureParameterTriplanar_ihwot")
+nodes/fragment/14/position = Vector2(280, 300)
+nodes/fragment/15/node = SubResource("VisualShaderNodeTextureParameterTriplanar_7df3p")
+nodes/fragment/15/position = Vector2(280, 1380)
+nodes/fragment/16/node = SubResource("VisualShaderNodeTextureParameterTriplanar_ofxyq")
+nodes/fragment/16/position = Vector2(280, 840)
+nodes/fragment/17/node = SubResource("VisualShaderNodeVectorDecompose_sjtdl")
+nodes/fragment/17/position = Vector2(1020, 1200)
+nodes/fragment/19/node = SubResource("VisualShaderNodeTextureParameterTriplanar_sjtdl")
+nodes/fragment/19/position = Vector2(280, 1920)
+nodes/fragment/20/node = SubResource("VisualShaderNodeTextureParameterTriplanar_otsej")
+nodes/fragment/20/position = Vector2(280, 2460)
+nodes/fragment/21/node = SubResource("VisualShaderNodeTextureParameterTriplanar_b80io")
+nodes/fragment/21/position = Vector2(280, 3000)
+nodes/fragment/22/node = SubResource("VisualShaderNodeMix_77uby")
+nodes/fragment/22/position = Vector2(1440, 740)
+nodes/fragment/23/node = SubResource("VisualShaderNodeMix_7xode")
+nodes/fragment/23/position = Vector2(1440, 1260)
+nodes/fragment/24/node = SubResource("VisualShaderNodeCurveTexture_ofxyq")
+nodes/fragment/24/position = Vector2(-300, 2400)
+nodes/fragment/connections = PackedInt32Array(16, 0, 17, 0, 6, 0, 0, 9, 14, 0, 22, 0, 22, 0, 0, 0, 19, 0, 22, 1, 17, 1, 23, 0, 23, 0, 0, 3, 20, 0, 23, 1, 21, 0, 6, 1, 15, 0, 6, 0, 13, 2, 24, 0, 24, 0, 6, 2, 24, 0, 23, 2, 24, 0, 22, 2)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dt5oojsvwk8fo"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_3by73"]
-[ext_resource type="PackedScene" uid="uid://bq7crj33hitpb" path="res://models/course-valley-export.glb" id="2_1skup"]
+[ext_resource type="PackedScene" uid="uid://dum3rxwpu54xs" path="res://entities/models/course_valley_export.tscn" id="2_1skup"]
 [ext_resource type="Texture2D" uid="uid://bulnnjn5pudue" path="res://textures/lakeside_4k.hdr" id="2_4826u"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="4_1skup"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="5_1skup"]
@@ -28,8 +28,7 @@ script = ExtResource("1_3by73")
 spawn_markers = [NodePath("SpawnMarker")]
 checkpoints = [NodePath("Checkpoint1")]
 
-[node name="course-valley-export" parent="." instance=ExtResource("2_1skup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 25, -41)
+[node name="Valley" parent="." instance=ExtResource("2_1skup")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rd6ip")
@@ -60,7 +59,7 @@ theme = ExtResource("6_vkdnm")
 text = "Lap: 1"
 
 [node name="SpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -199.965, 82.1511, -156.489)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -135.849, 58.1511, -156.489)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 

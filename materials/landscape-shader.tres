@@ -155,7 +155,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-541.672, 28.6899)
 preview_params/triplanar_offset = "Vector3(0, 0, 0)"
 preview_params/Rock_Color = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Color.png\")"
 preview_params/Rock_Roughness = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Roughness.png\")"

@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://c1qbmsiqclnvl"]
+
+[ext_resource type="Shader" uid="uid://bk5dec2ec7jei" path="res://pool.gdshader" id="1_6gkfn"]
+[ext_resource type="Texture2D" uid="uid://c7pafqp7utlxl" path="res://materials/caustic.tres" id="2_d1723"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iknir"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_l1dot"]
+seamless = true
+noise = SubResource("FastNoiseLite_iknir")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_6gkfn")
+shader_parameter/caustic_texture = ExtResource("2_d1723")
+shader_parameter/distortion = SubResource("NoiseTexture2D_l1dot")
+shader_parameter/color = Color(0, 0.0156669, 0.94, 0.509804)
+shader_parameter/speed = 0.5
+shader_parameter/zoom = 2.0
+shader_parameter/tile = 1.0
+shader_parameter/caustic_strength = 0.7
+shader_parameter/distortion_strength = 0.05
+shader_parameter/distortion_speed = 0.1

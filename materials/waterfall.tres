@@ -1,0 +1,42 @@
+[gd_resource type="ShaderMaterial" load_steps=9 format=3 uid="uid://ddhjgpvbjwj1x"]
+
+[ext_resource type="Shader" uid="uid://csxcmrdkkbcg2" path="res://waterfall.gdshader" id="1_pmnow"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_whd7s"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_whd7s"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_whd7s")
+
+[sub_resource type="Gradient" id="Gradient_3687l"]
+offsets = PackedFloat32Array(0, 0.241158, 0.527331, 0.797428, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_iknir"]
+gradient = SubResource("Gradient_3687l")
+
+[sub_resource type="Gradient" id="Gradient_whd7s"]
+offsets = PackedFloat32Array(0.205788, 0.382637, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.285714, 0.285714, 0.285714, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3687l"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iknir"]
+seamless = true
+color_ramp = SubResource("Gradient_whd7s")
+noise = SubResource("FastNoiseLite_3687l")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_pmnow")
+shader_parameter/water = SubResource("NoiseTexture2D_iknir")
+shader_parameter/normal = SubResource("NoiseTexture2D_whd7s")
+shader_parameter/profile = SubResource("GradientTexture1D_iknir")
+shader_parameter/stretch = 3.0
+shader_parameter/speed = 0.2
+shader_parameter/displace_amount = 0.15
+shader_parameter/shadow_threshold = 0.5
+shader_parameter/ripple_strength = Vector2(0.1, 0)
+shader_parameter/ripple_frequency = Vector2(4, 5)
+shader_parameter/ripple_speed = Vector2(5, 20)

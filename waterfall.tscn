@@ -1,0 +1,93 @@
+[gd_scene load_steps=15 format=3 uid="uid://d1mebxs5c5aj5"]
+
+[ext_resource type="Material" uid="uid://ddhjgpvbjwj1x" path="res://materials/waterfall.tres" id="1_iknir"]
+[ext_resource type="Material" uid="uid://c1qbmsiqclnvl" path="res://materials/waterfall-pool.tres" id="2_l1dot"]
+[ext_resource type="Material" uid="uid://c5fuhhvnxo8u3" path="res://materials/smoke.tres" id="4_1is6e"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nn14d"]
+material = ExtResource("1_iknir")
+size = Vector2(2, 10)
+subdivide_width = 5
+subdivide_depth = 25
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_whd7s"]
+material = ExtResource("2_l1dot")
+size = Vector2(10, 10)
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="Gradient" id="Gradient_h1r72"]
+offsets = PackedFloat32Array(0, 0.498258, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_87l8q"]
+gradient = SubResource("Gradient_h1r72")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_60vdu"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angular_velocity_min = -67.68
+angular_velocity_max = 53.88
+gravity = Vector3(0, 5, 0)
+scale_max = 5.0
+color_ramp = SubResource("GradientTexture1D_87l8q")
+
+[sub_resource type="QuadMesh" id="QuadMesh_deirb"]
+material = ExtResource("4_1is6e")
+
+[sub_resource type="Curve" id="Curve_l1dot"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.4, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1is6e"]
+curve = SubResource("Curve_l1dot")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u4k4w"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 0, 0.5)
+angular_velocity_min = -67.68
+angular_velocity_max = 53.88
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_1is6e")
+color_ramp = SubResource("GradientTexture1D_87l8q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22yxe"]
+transparency = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_h1r72"]
+material = SubResource("StandardMaterial3D_22yxe")
+radius = 0.2
+height = 0.4
+radial_segments = 8
+
+[node name="Waterfall" type="Node3D"]
+
+[node name="Waterfall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+mesh = SubResource("PlaneMesh_nn14d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.812613, -0.364775, 0.454533, 0, 0.779906, 0.625896, -0.582804, -0.508611, 0.633762, 9.11678, 8.92719, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_whd7s")
+
+[node name="RisingSteam" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_60vdu")
+draw_pass_1 = SubResource("QuadMesh_deirb")
+
+[node name="Foam" type="GPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_u4k4w")
+draw_pass_1 = SubResource("SphereMesh_h1r72")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.954493, 0.15228, -0.256425, 0, 0.859813, 0.510608, 0.298233, -0.487372, 0.820686, -3.56334, 5.60732, 8.27954)
+visible = false

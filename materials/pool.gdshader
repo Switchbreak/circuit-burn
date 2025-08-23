@@ -4,6 +4,7 @@ uniform sampler2D caustic_texture : hint_default_white;
 uniform sampler2D distortion : hint_default_white;
 
 uniform vec4 color : source_color;
+uniform vec2 center = vec2(0.5);
 uniform float speed : hint_range(0.0, 1.0, 0.1) = 0.5;
 uniform float zoom : hint_range(0.0, 5.0, 0.1) = 2.0;
 uniform float tile : hint_range(0.0, 5.0, 0.1) = 1.0;
@@ -16,7 +17,7 @@ vec2 distort_uv(vec2 uv) {
 }
 
 vec2 polar_coords(vec2 uv) {
-    vec2 diff = uv - vec2(0.5);
+    vec2 diff = uv - center;
     float r = length(diff);
     float theta = atan(diff.y, diff.x) / TAU;
     

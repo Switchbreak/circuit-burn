@@ -4,5 +4,5 @@
 resource_name = "Water"
 transparency = 4
 cull_mode = 2
-albedo_color = Color(0.5096, 0.4095, 0.91, 0.333333)
+albedo_color = Color(0, 0.254902, 0.819608, 0.494118)
 roughness = 0.0

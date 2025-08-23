@@ -1,9 +1,60 @@
-[gd_scene load_steps=3 format=3 uid="uid://dum3rxwpu54xs"]
+[gd_scene load_steps=14 format=3 uid="uid://dum3rxwpu54xs"]
 
 [ext_resource type="PackedScene" uid="uid://bq7crj33hitpb" path="res://models/course-valley-export.glb" id="1_4552c"]
 [ext_resource type="Material" uid="uid://ddjmfj5eq12ey" path="res://materials/landscape.tres" id="2_k1xfy"]
+[ext_resource type="Material" uid="uid://c1qbmsiqclnvl" path="res://materials/waterfall-pool.tres" id="3_3vw01"]
+[ext_resource type="Material" uid="uid://ddhjgpvbjwj1x" path="res://materials/waterfall.tres" id="3_uutgq"]
+[ext_resource type="Shader" uid="uid://csxcmrdkkbcg2" path="res://materials/waterfall.gdshader" id="5_gmt8r"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_whd7s"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_whd7s"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_whd7s")
+
+[sub_resource type="Gradient" id="Gradient_3687l"]
+offsets = PackedFloat32Array(0, 0.241158, 0.527331, 0.797428, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_iknir"]
+gradient = SubResource("Gradient_3687l")
+
+[sub_resource type="Gradient" id="Gradient_whd7s"]
+offsets = PackedFloat32Array(0, 0.203947, 0.733553, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.258824, 0.505882, 1, 0, 0.376471, 0.745098, 1, 0, 0.415686, 0.819608, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3687l"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iknir"]
+seamless = true
+color_ramp = SubResource("Gradient_whd7s")
+noise = SubResource("FastNoiseLite_3687l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x7t2j"]
+render_priority = 0
+shader = ExtResource("5_gmt8r")
+shader_parameter/water = SubResource("NoiseTexture2D_iknir")
+shader_parameter/normal = SubResource("NoiseTexture2D_whd7s")
+shader_parameter/profile = SubResource("GradientTexture1D_iknir")
+shader_parameter/stretch = 3.0
+shader_parameter/speed = 0.1
+shader_parameter/displace_amount = 0.15
+shader_parameter/shadow_threshold = 0.5
+shader_parameter/ripple_strength = Vector2(0.1, 0)
+shader_parameter/ripple_frequency = Vector2(4, 5)
+shader_parameter/ripple_speed = Vector2(5, 20)
 
 [node name="course-valley-export" instance=ExtResource("1_4552c")]
 
 [node name="Landscape" parent="." index="1"]
 surface_material_override/0 = ExtResource("2_k1xfy")
+
+[node name="Pool" parent="." index="3"]
+surface_material_override/0 = ExtResource("3_3vw01")
+
+[node name="Big_Waterfall" parent="." index="9"]
+surface_material_override/0 = ExtResource("3_uutgq")
+
+[node name="Pool_Waterfall" parent="." index="10"]
+surface_material_override/0 = SubResource("ShaderMaterial_x7t2j")

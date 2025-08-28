@@ -26,9 +26,9 @@ func _redraw(gizmo: EditorNode3DGizmo) -> void:
 
         var position := racing_line.curve.get_point_position(i)
         var next_position := (racing_line.curve.get_point_position(next_index) - position).normalized()
-        var orthonormal: Vector3 = next_position.cross(checkpoint.normal) * (checkpoint.width / 2.0)
+        var orthonormal: Vector3 = next_position.cross(checkpoint.normal)
 
-        lines.append(position - orthonormal)
-        lines.append(position + orthonormal)
+        lines.append(position - orthonormal * (checkpoint.width / 2.0 - checkpoint.offset))
+        lines.append(position + orthonormal * (checkpoint.width / 2.0 + checkpoint.offset))
 
     gizmo.add_lines(lines, get_material("main", gizmo), false)

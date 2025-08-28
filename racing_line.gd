@@ -16,6 +16,8 @@ func _add_checkpoint(normal: Vector3) -> void:
         "width": 2.0,
         "offset": 0.0,
         "normal": normal,
+        "required": false,
+        "top_speed": 20.0,
     })
 
 func remove_point(index: int) -> void:

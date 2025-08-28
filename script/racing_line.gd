@@ -5,6 +5,9 @@ class_name RacingLine
 
 @export var checkpoints: Array[Dictionary]
 
+func _ready() -> void:
+    curve_changed.connect(_on_curve_changed)
+
 func add_point(position: Vector3, normal: Vector3) -> void:
     _add_checkpoint(normal)
     curve.add_point(position)
@@ -13,7 +16,7 @@ func add_point(position: Vector3, normal: Vector3) -> void:
 
 func _add_checkpoint(normal: Vector3) -> void:
     checkpoints.append({
-        "width": 2.0,
+        "width": 24.0,
         "offset": 0.0,
         "normal": normal,
         "required": false,

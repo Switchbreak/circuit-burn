@@ -8,7 +8,7 @@ func _has_gizmo(for_node_3d: Node3D) -> bool:
     return for_node_3d is RacingLine
 
 func _init() -> void:
-    create_material("main", Color.YELLOW)
+    create_material("main", Color.YELLOW, false, true)
 
 func _redraw(gizmo: EditorNode3DGizmo) -> void:
     gizmo.clear()

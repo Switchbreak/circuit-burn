@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cilcv8ptrrccs"]
 
-[ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://racing_line.gd" id="1_7w8aj"]
+[ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://script/racing_line.gd" id="1_7w8aj"]
 
 [sub_resource type="Curve3D" id="Curve3D_faamv"]
 

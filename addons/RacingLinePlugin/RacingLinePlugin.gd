@@ -20,7 +20,7 @@ func _handles(object: Object) -> bool:
     return object is RacingLine
 
 func _forward_3d_gui_input(viewport_camera: Camera3D, event: InputEvent) -> int:
-    if not (event is InputEventMouse and event.button_mask & MOUSE_BUTTON_MASK_LEFT):
+    if not (event is InputEventMouse and event.button_mask & MOUSE_BUTTON_MASK_LEFT and event.is_pressed()):
         return EditorPlugin.AFTER_GUI_INPUT_PASS
 
     if not event.alt_pressed:
@@ -35,12 +35,7 @@ func _forward_3d_gui_input(viewport_camera: Camera3D, event: InputEvent) -> int:
 
     if not result.is_empty():
         var position = result.position + result.normal * 0.01
-
-        if event.is_pressed():
-            _add_control_point(position, result.normal)
-        else:
-            # Modify width and offset here
-            _move_control_point(position)
+        _add_control_point(position, result.normal)
 
     return EditorPlugin.AFTER_GUI_INPUT_STOP
 

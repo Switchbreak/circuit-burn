@@ -13,26 +13,32 @@ input_name = "normal"
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_ihwot"]
 parameter_name = "Rock_Color"
 texture_type = 1
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_7df3p"]
 parameter_name = "Rock_Normal_Map"
 texture_type = 2
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_ofxyq"]
 parameter_name = "Rock_Roughness"
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_sjtdl"]
 
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_sjtdl"]
 parameter_name = "Grass_Color"
 texture_type = 1
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_otsej"]
 parameter_name = "Grass_Roughness"
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_b80io"]
 parameter_name = "Grass_Normal_Map"
 texture_type = 2
+texture_filter = 6
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_77uby"]
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, 0.5]
@@ -60,13 +66,13 @@ op_type = 6
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
-uniform sampler2D Rock_Color : source_color;
-uniform sampler2D Grass_Color : source_color;
+uniform sampler2D Rock_Color : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D Grass_Color : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D curve_frg_24 : repeat_disable;
-uniform sampler2D Rock_Roughness;
-uniform sampler2D Grass_Roughness;
-uniform sampler2D Rock_Normal_Map : hint_normal;
-uniform sampler2D Grass_Normal_Map : hint_normal;
+uniform sampler2D Rock_Roughness : filter_linear_mipmap_anisotropic;
+uniform sampler2D Grass_Roughness : filter_linear_mipmap_anisotropic;
+uniform sampler2D Rock_Normal_Map : hint_normal, filter_linear_mipmap_anisotropic;
+uniform sampler2D Grass_Normal_Map : hint_normal, filter_linear_mipmap_anisotropic;
 
 
 // TextureParameterTriplanar
@@ -155,13 +161,6 @@ void fragment() {
 
 }
 "
-preview_params/triplanar_offset = "Vector3(0, 0, 0)"
-preview_params/Rock_Color = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Color.png\")"
-preview_params/Rock_Roughness = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_Roughness.png\")"
-preview_params/Rock_Normal_Map = "Resource(\"res://models/course-valley-export_Rock045_4K-PNG_NormalGL.png\")"
-preview_params/Grass_Color = "Resource(\"res://textures/Ground068_4K-PNG_Color.png\")"
-preview_params/Grass_Roughness = "Resource(\"res://textures/Ground068_4K-PNG_Roughness.png\")"
-preview_params/Grass_Normal_Map = "Resource(\"res://textures/Ground068_4K-PNG_NormalGL.png\")"
 nodes/fragment/0/position = Vector2(1980, 1140)
 nodes/fragment/6/node = SubResource("VisualShaderNodeMix_igb1w")
 nodes/fragment/6/position = Vector2(1460, 1900)

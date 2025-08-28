@@ -15,3 +15,4 @@ roughness_texture = ExtResource("2_e2vrn")
 roughness_texture_channel = 1
 normal_enabled = true
 normal_texture = ExtResource("3_aomg7")
+texture_filter = 5

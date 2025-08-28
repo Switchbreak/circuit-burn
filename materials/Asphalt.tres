@@ -14,3 +14,4 @@ roughness_texture_channel = 1
 normal_enabled = true
 normal_scale = 2.0
 normal_texture = ExtResource("3_3yjoy")
+texture_filter = 5

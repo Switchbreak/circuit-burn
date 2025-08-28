@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://cilcv8ptrrccs"]
+
+[ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://racing_line.gd" id="1_7w8aj"]
+
+[sub_resource type="Curve3D" id="Curve3D_faamv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_faamv"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_faamv"]
+albedo_color = Color(0.0701524, 0.0701524, 0.0701524, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_faamv"]
+material = SubResource("StandardMaterial3D_faamv")
+size = Vector3(10, 0.1, 10)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_faamv")
+script = ExtResource("1_7w8aj")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_faamv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_faamv")
+skeleton = NodePath("../CollisionShape3D")
+
+[connection signal="curve_changed" from="Path3D" to="Path3D" method="_on_curve_changed"]

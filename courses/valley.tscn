@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dt5oojsvwk8fo"]
+[gd_scene load_steps=23 format=3 uid="uid://dt5oojsvwk8fo"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_3by73"]
 [ext_resource type="PackedScene" uid="uid://dum3rxwpu54xs" path="res://entities/models/course_valley_export.tscn" id="2_1skup"]
@@ -71,6 +71,13 @@ radius = 0.2
 height = 0.4
 radial_segments = 8
 
+[sub_resource type="Curve3D" id="Curve3D_xq3l6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 65.6286, 61.7009, 214.178, 0, 0, 0, 0, 0, 0, 69.4285, 58.0324, 191.644, 0, 0, 0, 0, 0, 0, 78.5762, 56.4305, 175.78, 0, 0, 0, 0, 0, 0, 84.8029, 54.8201, 155.248, 0, 0, 0, 0, 0, 0, 88.1539, 55.3575, 138.397, 0, 0, 0, 0, 0, 0, 89.2797, 53.4839, 119.3, 0, 0, 0, 0, 0, 0, 96.5801, 53.3125, 96.2068, 0, 0, 0, 0, 0, 0, 102.844, 53.2525, 75.2053, 0, 0, 0, 0, 0, 0, 108.763, 53.3141, 66.7233, 0, 0, 0, 0, 0, 0, 114.54, 53.3045, 55.7381, 0, 0, 0, 0, 0, 0, 121.899, 53.413, 47.2862, 0, 0, 0, 0, 0, 0, 126.88, 53.5422, 32.3016, 0, 0, 0, 0, 0, 0, 127.424, 53.6247, 14.5677, 0, 0, 0, 0, 0, 0, 126.681, 53.6481, -0.876881, 0, 0, 0, 0, 0, 0, 126.852, 53.6655, -11.277, 0, 0, 0, 0, 0, 0, 128.628, 53.7186, -18.7088, 0, 0, 0, 0, 0, 0, 128.691, 53.7016, -24.3661, 0, 0, 0, 0, 0, 0, 138.708, 53.5844, -63.2822, 0, 0, 0, 0, 0, 0, 151.3, 53.574, -87.8761, 0, 0, 0, 0, 0, 0, 163.708, 53.6363, -107.739, 0, 0, 0, 0, 0, 0, 168.037, 53.1136, -141.774, 0, 0, 0, 0, 0, 0, 157.428, 54.2694, -185.13, 0, 0, 0, 0, 0, 0, 138.568, 53.1179, -205.451, 0, 0, 0, 0, 0, 0, 118.681, 51.4851, -213.949, 0, 0, 0, 0, 0, 0, 90.3542, 52.6246, -206.153, 0, 0, 0, 0, 0, 0, 41.6491, 62.8193, -189.896, 0, 0, 0, 0, 0, 0, 28.4545, 67.4085, -190.472),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 27
+
 [node name="Course" type="Node3D" node_paths=PackedStringArray("spawn_markers", "checkpoints")]
 script = ExtResource("1_3by73")
 spawn_markers = [NodePath("SpawnMarker")]
@@ -133,3 +140,6 @@ cast_shadow = 0
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_0cq76")
 draw_pass_1 = SubResource("SphereMesh_15h0e")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_xq3l6")

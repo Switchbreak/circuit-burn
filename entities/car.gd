@@ -220,9 +220,9 @@ func _camera_speed_effects() -> void:
 func _bot_navigation(delta: float) -> void:
     var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
     var target_point := racing_line.curve.sample_baked(target_offset + 10.0)
-    debug_arrow.look_at(target_point, Vector3.UP, true)
+    debug_arrow.look_at(target_point, global_basis.y, true)
 
-    var steering_target := global_basis.z.signed_angle_to(target_point - global_position, Vector3.UP)
+    var steering_target := global_basis.z.signed_angle_to(target_point - global_position, global_basis.y)
     steering = move_toward(steering, clampf(steering_target, -QUARTER_PI, QUARTER_PI), delta * steering_speed)
 
     var speed_ratio := 1.0 - absf(steering_target / HALF_PI)

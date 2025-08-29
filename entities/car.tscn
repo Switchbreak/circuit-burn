@@ -129,14 +129,6 @@ script = ExtResource("4_mjudg")
 
 [node name="CheckerCab" parent="." instance=ExtResource("5_td361")]
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_desired_distance = 2.0
-target_desired_distance = 2.0
-simplify_path = true
-simplify_epsilon = 2.0
-avoidance_enabled = true
-radius = 2.0
-
 [node name="Mortar" parent="." instance=ExtResource("6_72krn")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0.0374111, 0.9993, -1.63529e-09, 0.9993, -0.0374111, -4.36808e-08, -0.0300321, 0.778544, 0)
 visible = false
@@ -259,5 +251,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.1)
 shape = SubResource("BoxShape3D_c4j5x")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
-[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_velocity_computed"]
 [connection signal="body_entered" from="MeleeCollider" to="." method="_on_melee_collider_body_entered"]

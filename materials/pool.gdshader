@@ -20,7 +20,7 @@ vec2 polar_coords(vec2 uv) {
     vec2 diff = uv - center;
     float r = length(diff);
     float theta = atan(diff.y, diff.x) / TAU;
-    
+
     return vec2(r * zoom, theta * tile);
 }
 
@@ -28,10 +28,10 @@ void fragment() {
     vec4 distort = texture(distortion, UV + TIME * distortion_speed);
     vec2 polar = polar_coords(distort_uv(UV));
     vec4 tex = texture(caustic_texture, vec2(polar.x - TIME * speed, polar.y));
-    
+
     float fade = (1.0 - smoothstep(0.5, 1.0, polar.x)) / 2.0 * caustic_strength;
     float blur = smoothstep(0.0, 0.4, polar.x);
-    
+
     ALBEDO = mix(vec3(1.0), mix(color.rgb, tex.rgb, fade), blur);
     ALPHA = color.a;
     ROUGHNESS = 1.35;

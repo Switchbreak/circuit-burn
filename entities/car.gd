@@ -11,12 +11,14 @@ enum WEAPON {
     KICK
 }
 
+const HALF_PI := PI / 2.0
+const QUARTER_PI := PI / 4.0
+
 @onready var wheel_fl := $"WheelFL"
 @onready var wheel_fr := $"WheelFR"
 @onready var wheel_rl := $"WheelRL"
 @onready var wheel_rr := $"WheelRR"
 @onready var front_axle := $FrontAxle as Marker3D
-@onready var navigation_agent := $NavigationAgent3D
 @onready var mortar := $Mortar
 @onready var rocket_equip := $Rocket
 @onready var mortar_launcher := $MortarLauncher as Marker3D
@@ -27,8 +29,9 @@ enum WEAPON {
 @onready var brakelight_r := $BrakelightR
 @onready var trail_l := $TrailL
 @onready var trail_r := $TrailR
-@onready var motion_blur := ($"/root/Course/FollowCamera/MotionBlur" as MeshInstance3D).get_surface_override_material(0) as ShaderMaterial
+@onready var motion_blur := ($"../%FollowCamera/MotionBlur" as MeshInstance3D).get_surface_override_material(0) as ShaderMaterial
 @onready var melee_collider := $MeleeCollider
+@onready var racing_line := $"../%RacingLine" as RacingLine
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -39,7 +42,7 @@ enum WEAPON {
 
 @export_range(0.0, 5000.0) var acceleration := 10000.0
 @export_range(0.0, 5.0) var braking_factor := 2.0
-@export_range(0.0, PI / 2.0, 0.01) var steering_amount := 0.4
+@export_range(0.0, HALF_PI, 0.01) var steering_amount := 0.4
 @export_range(1.0, 5.0) var steering_speed := 3.0
 @export_range(0.0, 1.0) var rear_friction := 0.7
 @export_range(0.0, 1.0) var rear_friction_handbrake := 0.2
@@ -215,19 +218,25 @@ func _camera_speed_effects() -> void:
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
 
 func _bot_navigation(delta: float) -> void:
-    navigation_agent.velocity = linear_velocity
-    debug_arrow.look_at(debug_arrow.global_position + target_orientation, Vector3.UP, true)
+    var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
+    var target_point := racing_line.curve.sample_baked(target_offset + 10.0)
+    debug_arrow.look_at(target_point, Vector3.UP, true)
 
+    var steering_target := global_basis.z.signed_angle_to(target_point - global_position, Vector3.UP)
+    steering = move_toward(steering, clampf(steering_target, -QUARTER_PI, QUARTER_PI), delta * steering_speed)
+
+    var speed_ratio := 1.0 - absf(steering_target / HALF_PI)
     var speed := linear_velocity.length()
-    var target_speed := bot_speed + 3.0 * (randf() - 0.5)
+    var target_speed := maxf(bot_speed * speed_ratio, 3.0)
+
+    # Hack to go faster before the jump
+    if target_offset > 1300 and target_offset < 1600:
+        target_speed = 45.0
+
     if speed < target_speed:
         engine_force = acceleration
     else:
         engine_force = 0
-
-    var steering_target := global_basis.z.signed_angle_to(target_orientation, Vector3.UP)
-    steering_target += 0.5 * (randf() - 0.5)
-    steering = move_toward(steering, steering_target, delta * steering_speed)
 
 func _navigate_to_checkpoint() -> void:
     var checkpoints := get_parent().checkpoints as Array[Area3D]
@@ -237,7 +246,6 @@ func _navigate_to_checkpoint() -> void:
 
     bot_speed = checkpoint_area.get_meta("top_speed", BOT_DRIVER_SPEED)
     target_orientation = checkpoint_area.global_basis.z
-    navigation_agent.target_position = checkpoint_area.position
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
     _safe_velocity = safe_velocity

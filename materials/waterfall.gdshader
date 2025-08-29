@@ -37,6 +37,6 @@ void vertex() {
 
 void light() {
     float diffuse = abs(dot(NORMAL, LIGHT));
-    
+
     DIFFUSE_LIGHT += diffuse * ALBEDO * LIGHT_COLOR;
 }

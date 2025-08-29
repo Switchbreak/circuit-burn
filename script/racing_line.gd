@@ -8,9 +8,9 @@ class_name RacingLine
 func _ready() -> void:
     curve_changed.connect(_on_curve_changed)
 
-func add_point(position: Vector3, normal: Vector3) -> void:
+func add_point(pos: Vector3, normal: Vector3) -> void:
     _add_checkpoint(normal)
-    curve.add_point(position)
+    curve.add_point(pos)
 
     notify_property_list_changed()
 

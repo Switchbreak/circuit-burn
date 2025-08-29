@@ -25,7 +25,7 @@ tonemap_mode = 2
 tonemap_exposure = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1skup"]
-size = Vector3(15, 9, 1)
+size = Vector3(24.048, 9, 1)
 
 [sub_resource type="Gradient" id="Gradient_vkdnm"]
 offsets = PackedFloat32Array(0, 0.498258, 1)
@@ -85,7 +85,7 @@ point_count = 84
 [node name="Course" type="Node3D" node_paths=PackedStringArray("spawn_markers", "checkpoints")]
 script = ExtResource("1_3by73")
 spawn_markers = [NodePath("SpawnMarker"), NodePath("SpawnMarker2"), NodePath("SpawnMarker3"), NodePath("SpawnMarker4")]
-checkpoints = [NodePath("Checkpoint1")]
+checkpoints = [NodePath("Checkpoint2"), NodePath("Checkpoint1")]
 
 [node name="Valley" parent="." instance=ExtResource("2_1skup")]
 
@@ -100,6 +100,7 @@ directional_shadow_max_distance = 300.0
 
 [node name="FollowCamera" type="Camera3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -139.18, 65.3033, -130.276)
 doppler_tracking = 2
 script = ExtResource("4_1skup")
 
@@ -141,12 +142,21 @@ script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="Checkpoint1" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 25, -41)
+transform = Transform3D(0.960318, 0.278907, 0, -0.278907, 0.960318, 0, 0, 0, 1, -142.214, 56.7373, -109.128)
 collision_mask = 3
 metadata/top_speed = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
+transform = Transform3D(1, 5.96046e-08, 0, -5.96046e-08, 1, 0, 0, 0, 1, 1.89703, 3.99999, 0)
+shape = SubResource("BoxShape3D_1skup")
+
+[node name="Checkpoint2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.777, 53.5519, -3.9927)
+collision_mask = 3
+metadata/top_speed = 30.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint2"]
+transform = Transform3D(1, 5.96046e-08, 0, -5.96046e-08, 1, 0, 0, 0, 1, 1.89703, 3.99999, 0)
 shape = SubResource("BoxShape3D_1skup")
 
 [node name="RisingSteam" type="GPUParticles3D" parent="."]
@@ -165,6 +175,7 @@ draw_pass_1 = SubResource("SphereMesh_15h0e")
 
 [node name="RacingLine" type="Path3D" parent="."]
 unique_name_in_owner = true
+visible = false
 curve = SubResource("Curve3D_xq3l6")
 script = ExtResource("9_vkdnm")
 checkpoints = Array[Dictionary]([{

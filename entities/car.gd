@@ -207,7 +207,7 @@ func _set_bot_line(randomize_offset: bool = false) -> void:
     else:
         var target_point := racing_line.curve.get_closest_point(global_position - racing_line.global_position) + racing_line.global_position
         var projected := global_basis.x.dot(target_point - global_position)
-        h_offset = minf(projected / 2.0, 2.5)
+        h_offset = projected / 2.0 # minf(projected / 2.0, 2.5)
 
     bot_speed_ratio = randf_range(0.7, 1.0)
     ticks = randi_range(120, 300)
@@ -254,7 +254,6 @@ func _bot_navigation(delta: float) -> void:
     # Hack to go faster before the jump
     if target_offset > 1200 and target_offset < 1500:
         target_speed = 45.0
-        print("offset %f - speed %f - target_speed %f" % [target_offset, speed, target_speed])
 
     if speed < target_speed:
         engine_force = acceleration

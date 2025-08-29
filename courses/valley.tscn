@@ -122,29 +122,28 @@ theme = ExtResource("6_vkdnm")
 text = "Lap: 1"
 
 [node name="SpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -146.94, 60.1804, -112.123)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -146.94, 59.1804, -112.123)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="SpawnMarker2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -143.061, 58.974, -112.123)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -143.061, 57.974, -112.123)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="SpawnMarker3" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -137.66, 57.2796, -112.123)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -137.66, 56.2796, -112.123)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="SpawnMarker4" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -133.92, 56.0775, -112.123)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -133.92, 55.0775, -112.123)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 
 [node name="Checkpoint1" type="Area3D" parent="."]
 transform = Transform3D(0.960318, 0.278907, 0, -0.278907, 0.960318, 0, 0, 0, 1, -142.214, 56.7373, -109.128)
 collision_mask = 3
-metadata/top_speed = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint1"]
 transform = Transform3D(1, 5.96046e-08, 0, -5.96046e-08, 1, 0, 0, 0, 1, 1.89703, 3.99999, 0)
@@ -153,7 +152,6 @@ shape = SubResource("BoxShape3D_1skup")
 [node name="Checkpoint2" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.777, 53.5519, -3.9927)
 collision_mask = 3
-metadata/top_speed = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoint2"]
 transform = Transform3D(1, 5.96046e-08, 0, -5.96046e-08, 1, 0, 0, 0, 1, 1.89703, 3.99999, 0)

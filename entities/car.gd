@@ -55,7 +55,10 @@ const CAMERA_SHAKE_MIN := 0.0
 const CAMERA_SHAKE_MAX := 0.08
 const CAMERA_SHAKE_SCALE := 0.06 / 30
 const CAMERA_SHAKE_OFFSET := 0.005
+
 const BOT_DRIVER_SPEED := 8.0
+const BOT_DRIVER_MIN_SPEED := 3.0
+const V_OFFSET := 10.0
 
 const MORTAR_VELOCITY := 15.0
 const ROCKET_VELOCITY := 30.0
@@ -69,11 +72,15 @@ var lap: int = 1
 var equipped: int = WEAPON.NONE
 var checkpoint: int = 0: set = _set_checkpoint
 var ammunition: int = 0
-var bot_speed: float = BOT_DRIVER_SPEED
-var target_orientation: Vector3 = Vector3.ZERO
 var invulnerable: bool = false
 var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
+
+var bot_speed: float = BOT_DRIVER_SPEED
+var bot_speed_ratio: float = 1.0
+var target_orientation: Vector3 = Vector3.ZERO
+var h_offset := 0.0
+var ticks := 300
 
 var _mortar_shell := preload("res://entities/weapons/mortar_shell.tscn")
 var _rocket := preload("res://entities/weapons/rocket.tscn")
@@ -191,6 +198,20 @@ func _spawn_car() -> void:
     angular_velocity = Vector3.ZERO
     reset_physics_interpolation()
 
+    if bot:
+        _set_bot_line()
+
+func _set_bot_line(randomize_offset: bool = false) -> void:
+    if randomize_offset:
+        h_offset = randf_range(-2.5, 2.5)
+    else:
+        var target_point := racing_line.curve.get_closest_point(global_position - racing_line.global_position) + racing_line.global_position
+        var projected := global_basis.x.dot(target_point - global_position)
+        h_offset = minf(projected / 2.0, 2.5)
+
+    bot_speed_ratio = randf_range(0.7, 1.0)
+    ticks = randi_range(120, 300)
+
 func _set_checkpoint(set_checkpoint: int) -> void:
     checkpoint = set_checkpoint
     if _nav_checkpoint != set_checkpoint:
@@ -219,24 +240,30 @@ func _camera_speed_effects() -> void:
 
 func _bot_navigation(delta: float) -> void:
     var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
-    var target_point := racing_line.curve.sample_baked(target_offset + 10.0)
+    var target_transform := racing_line.curve.sample_baked_with_rotation(target_offset + V_OFFSET)
+    var target_point := target_transform.origin + target_transform.basis.x * h_offset
     debug_arrow.look_at(target_point, global_basis.y, true)
 
     var steering_target := global_basis.z.signed_angle_to(target_point - global_position, global_basis.y)
     steering = move_toward(steering, clampf(steering_target, -QUARTER_PI, QUARTER_PI), delta * steering_speed)
 
-    var speed_ratio := 1.0 - absf(steering_target / HALF_PI)
+    var turn_speed_ratio := 1.0 - absf(steering_target / HALF_PI)
     var speed := linear_velocity.length()
-    var target_speed := maxf(bot_speed * speed_ratio, 3.0)
+    var target_speed := maxf(bot_speed * turn_speed_ratio * bot_speed_ratio, BOT_DRIVER_MIN_SPEED)
 
     # Hack to go faster before the jump
-    if target_offset > 1300 and target_offset < 1600:
+    if target_offset > 1200 and target_offset < 1500:
         target_speed = 45.0
+        print("offset %f - speed %f - target_speed %f" % [target_offset, speed, target_speed])
 
     if speed < target_speed:
         engine_force = acceleration
     else:
         engine_force = 0
+
+    ticks -= 1
+    if ticks <= 0 and target_speed < 45.0:
+        _set_bot_line(true)
 
 func _navigate_to_checkpoint() -> void:
     var checkpoints := get_parent().checkpoints as Array[Area3D]

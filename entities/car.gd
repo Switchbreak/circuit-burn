@@ -11,6 +11,27 @@ enum WEAPON {
     KICK
 }
 
+const FOV_FACTOR := 5.0
+const MIN_FOV := 75.0
+const MAX_FOV := 90.0
+const FOV_LERP_SPEED := 0.2
+const CAMERA_SHAKE_MIN := 0.0
+const CAMERA_SHAKE_MAX := 0.08
+const CAMERA_SHAKE_SCALE := 0.06 / 30
+const CAMERA_SHAKE_OFFSET := 0.005
+
+const BOT_DRIVER_SPEED := 30.0
+const BOT_DRIVER_MIN_SPEED := 3.0
+const V_OFFSET := 10.0
+
+const MORTAR_VELOCITY := 15.0
+const ROCKET_VELOCITY := 30.0
+const ROCKET_RECOIL := 2000.0
+const PUNCH_VELOCITY := 10000.0
+const KICK_VELOCITY := 30000.0
+const PUNCH_FOV := 120.0
+const PUNCH_DURATION := 0.5
+
 const HALF_PI := PI / 2.0
 const QUARTER_PI := PI / 4.0
 
@@ -42,43 +63,22 @@ const QUARTER_PI := PI / 4.0
 
 @export_range(0.0, 5000.0) var acceleration := 10000.0
 @export_range(0.0, 5.0) var braking_factor := 2.0
-@export_range(0.0, HALF_PI, 0.01) var steering_amount := 0.4
+@export_range(0.0, HALF_PI, 0.01) var steering_amount := QUARTER_PI
 @export_range(1.0, 5.0) var steering_speed := 3.0
 @export_range(0.0, 1.0) var rear_friction := 0.7
 @export_range(0.0, 1.0) var rear_friction_handbrake := 0.2
-
-const FOV_FACTOR := 5.0
-const MIN_FOV := 75.0
-const MAX_FOV := 90.0
-const FOV_LERP_SPEED := 0.2
-const CAMERA_SHAKE_MIN := 0.0
-const CAMERA_SHAKE_MAX := 0.08
-const CAMERA_SHAKE_SCALE := 0.06 / 30
-const CAMERA_SHAKE_OFFSET := 0.005
-
-const BOT_DRIVER_SPEED := 8.0
-const BOT_DRIVER_MIN_SPEED := 3.0
-const V_OFFSET := 10.0
-
-const MORTAR_VELOCITY := 15.0
-const ROCKET_VELOCITY := 30.0
-const ROCKET_RECOIL := 2000.0
-const PUNCH_VELOCITY := 10000.0
-const KICK_VELOCITY := 30000.0
-const PUNCH_FOV := 120.0
-const PUNCH_DURATION := 0.5
 
 var lap: int = 1
 var equipped: int = WEAPON.NONE
 var checkpoint: int = 0: set = _set_checkpoint
 var ammunition: int = 0
 var invulnerable: bool = false
-var _nav_checkpoint: int = -1
 var _safe_velocity: Vector3 = Vector3.ZERO
+
+var speed := 0.0
 
 var bot_speed: float = BOT_DRIVER_SPEED
 var bot_speed_ratio: float = 1.0
-var target_orientation: Vector3 = Vector3.ZERO
 var h_offset := 0.0
 var ticks := 300
 
@@ -94,6 +94,8 @@ func _ready() -> void:
         debug_arrow.visible = false
 
 func _physics_process(delta: float) -> void:
+    speed = linear_velocity.length()
+
     if bot:
         _bot_navigation(delta)
     else:
@@ -122,7 +124,7 @@ func _vehicle_body_input(delta: float) -> void:
     brakelight_l.modulate = Color(1.0, 1.0, 1.0)
     brakelight_r.modulate = Color(1.0, 1.0, 1.0)
 
-    if Input.is_action_pressed(input_prefix + "_drive_accelerate"):
+    if Input.is_action_pressed(input_prefix + "_drive_accelerate") and speed <= 40.0:
         engine_force = acceleration
     elif Input.is_action_pressed(input_prefix + "_drive_brake"):
         brakelight_l.modulate = Color(1.0, 0.0, 0.0)
@@ -133,10 +135,11 @@ func _vehicle_body_input(delta: float) -> void:
             brake = 50.0
 
     var steering_target := 0.0
+    var adjusted_steering := maxf(steering_amount * (1.0 - (minf(speed, 30.0) / 30.0)), 0.15)
     if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
-        steering_target = steering_amount
+        steering_target = adjusted_steering
     elif Input.is_action_pressed(input_prefix + "_drive_steer_right"):
-        steering_target = -steering_amount
+        steering_target = -adjusted_steering
     steering = move_toward(steering, steering_target, delta * steering_speed)
 
     #if Input.is_action_pressed(input_prefix + "_fire"):
@@ -207,16 +210,13 @@ func _set_bot_line(randomize_offset: bool = false) -> void:
     else:
         var target_point := racing_line.curve.get_closest_point(global_position - racing_line.global_position) + racing_line.global_position
         var projected := global_basis.x.dot(target_point - global_position)
-        h_offset = projected / 2.0 # minf(projected / 2.0, 2.5)
+        h_offset = projected / 2.0
 
     bot_speed_ratio = randf_range(0.7, 1.0)
     ticks = randi_range(120, 300)
 
 func _set_checkpoint(set_checkpoint: int) -> void:
     checkpoint = set_checkpoint
-    if _nav_checkpoint != set_checkpoint:
-        _nav_checkpoint = set_checkpoint
-        _navigate_to_checkpoint()
 
 func _camera_speed_effects() -> void:
     var camera := get_viewport().get_camera_3d()
@@ -229,7 +229,6 @@ func _camera_speed_effects() -> void:
         camera.follow_distance = 1.0
         motion_blur.set_shader_parameter("intensity", 1.0)
     else:
-        var speed := linear_velocity.length()
         target_fov = clampf(speed * FOV_FACTOR, MIN_FOV, MAX_FOV)
         target_shake_amount = clampf(CAMERA_SHAKE_SCALE * speed + CAMERA_SHAKE_OFFSET, CAMERA_SHAKE_MIN, CAMERA_SHAKE_MAX)
         camera.follow_distance = 10.0
@@ -248,7 +247,6 @@ func _bot_navigation(delta: float) -> void:
     steering = move_toward(steering, clampf(steering_target, -QUARTER_PI, QUARTER_PI), delta * steering_speed)
 
     var turn_speed_ratio := 1.0 - absf(steering_target / HALF_PI)
-    var speed := linear_velocity.length()
     var target_speed := maxf(bot_speed * turn_speed_ratio * bot_speed_ratio, BOT_DRIVER_MIN_SPEED)
 
     # Hack to go faster before the jump
@@ -263,15 +261,6 @@ func _bot_navigation(delta: float) -> void:
     ticks -= 1
     if ticks <= 0 and target_speed < 45.0:
         _set_bot_line(true)
-
-func _navigate_to_checkpoint() -> void:
-    var checkpoints := get_parent().checkpoints as Array[Area3D]
-
-    _nav_checkpoint = _nav_checkpoint % checkpoints.size()
-    var checkpoint_area := checkpoints[_nav_checkpoint]
-
-    bot_speed = checkpoint_area.get_meta("top_speed", BOT_DRIVER_SPEED)
-    target_orientation = checkpoint_area.global_basis.z
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
     _safe_velocity = safe_velocity

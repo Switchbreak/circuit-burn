@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://c1akhddwqv7d5"]
+
+[ext_resource type="PackedScene" uid="uid://ks2m4hilkm8w" path="res://entities/car.tscn" id="1_y236e"]
+[ext_resource type="Material" uid="uid://cy2kfg0vcxg2p" path="res://materials/Concrete.001.tres" id="2_ec0oy"]
+[ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="2_pnkkv"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="3_gp4po"]
+[ext_resource type="Script" uid="uid://bhtxquvvtcs6e" path="res://script/spawn_marker.gd" id="4_gp4po"]
+[ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://script/racing_line.gd" id="5_asjdk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5onp"]
+size = Vector3(500, 0.1, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y236e"]
+albedo_color = Color(0.111197, 0.111197, 0.111197, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4nt20"]
+material = SubResource("StandardMaterial3D_y236e")
+size = Vector3(500, 0.1, 500)
+
+[sub_resource type="Curve3D" id="Curve3D_ec0oy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_asjdk"]
+
+[sub_resource type="Sky" id="Sky_ec0oy"]
+sky_material = SubResource("ProceduralSkyMaterial_asjdk")
+
+[sub_resource type="Environment" id="Environment_lwhqd"]
+background_mode = 2
+sky = SubResource("Sky_ec0oy")
+
+[node name="DownforceTest" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_t5onp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_4nt20")
+
+[node name="Car" parent="." node_paths=PackedStringArray("spawn_location") instance=ExtResource("1_y236e")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 164.441, 1, 9)
+spawn_location = NodePath("../SpawnMarker")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -6, 20, 0)
+use_collision = true
+radius = 20.0
+height = 200.0
+sides = 32
+material = ExtResource("2_ec0oy")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 95.3492, -4.70638, 0)
+size = Vector3(10, 10, 10)
+material = ExtResource("2_ec0oy")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -4, 20, 0)
+operation = 2
+use_collision = true
+radius = 19.0
+height = 210.0
+sides = 32
+material = ExtResource("2_ec0oy")
+
+[node name="FollowCamera" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+transform = Transform3D(9.27259e-08, -0.707107, 0.707107, 9.27259e-08, 0.707107, 0.707107, -1, 0, 1.31134e-07, 171.197, 7.18925, 7.68854)
+doppler_tracking = 2
+script = ExtResource("2_pnkkv")
+follow_target = NodePath("../Car")
+
+[node name="MotionBlur" parent="FollowCamera" instance=ExtResource("3_gp4po")]
+
+[node name="SpawnMarker" type="Marker3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 154, 0.0499997, 0)
+script = ExtResource("4_gp4po")
+metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.691576, 0.722304, 0, -0.722304, -0.691576, 0, 30.0754, 0)
+
+[node name="RacingLine" type="Path3D" parent="."]
+unique_name_in_owner = true
+curve = SubResource("Curve3D_ec0oy")
+script = ExtResource("5_asjdk")
+metadata/_custom_type_script = "uid://rvhmehslgobs"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lwhqd")

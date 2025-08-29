@@ -104,7 +104,6 @@ mass = 1500.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.5, 0)
 script = ExtResource("1_td361")
-steering_speed = 2.0
 
 [node name="FrontAxle" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
@@ -171,6 +170,7 @@ wheel_roll_influence = 1.0
 wheel_radius = 0.31
 suspension_travel = 0.1
 suspension_stiffness = 160.0
+suspension_max_force = 10000.0
 damping_compression = 3.0
 damping_relaxation = 4.0
 
@@ -181,6 +181,7 @@ wheel_roll_influence = 1.0
 wheel_radius = 0.31
 suspension_travel = 0.1
 suspension_stiffness = 160.0
+suspension_max_force = 10000.0
 damping_compression = 3.0
 damping_relaxation = 4.0
 
@@ -191,6 +192,7 @@ wheel_roll_influence = 1.0
 wheel_radius = 0.31
 suspension_travel = 0.1
 suspension_stiffness = 160.0
+suspension_max_force = 10000.0
 damping_compression = 3.0
 damping_relaxation = 4.0
 
@@ -201,6 +203,7 @@ wheel_roll_influence = 1.0
 wheel_radius = 0.31
 suspension_travel = 0.1
 suspension_stiffness = 160.0
+suspension_max_force = 10000.0
 damping_compression = 3.0
 damping_relaxation = 4.0
 

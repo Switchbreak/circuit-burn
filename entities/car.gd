@@ -11,6 +11,9 @@ enum WEAPON {
     KICK
 }
 
+const HALF_PI := PI / 2.0
+const QUARTER_PI := PI / 4.0
+
 const FOV_FACTOR := 5.0
 const MIN_FOV := 75.0
 const MAX_FOV := 90.0
@@ -32,13 +35,15 @@ const KICK_VELOCITY := 30000.0
 const PUNCH_FOV := 120.0
 const PUNCH_DURATION := 0.5
 
-const HALF_PI := PI / 2.0
-const QUARTER_PI := PI / 4.0
+const DOWNFORCE_AMOUNT := 10000.0
+const TOP_SPEED := 40.0
+const PROPORTIONAL_TOP_SPEED := 30.0
+const MIN_STEERING := 0.15
 
-@onready var wheel_fl := $"WheelFL"
-@onready var wheel_fr := $"WheelFR"
-@onready var wheel_rl := $"WheelRL"
-@onready var wheel_rr := $"WheelRR"
+@onready var wheel_fl := $WheelFL as VehicleWheel3D
+@onready var wheel_fr := $WheelFR as VehicleWheel3D
+@onready var wheel_rl := $WheelRL as VehicleWheel3D
+@onready var wheel_rr := $WheelRR as VehicleWheel3D
 @onready var front_axle := $FrontAxle as Marker3D
 @onready var mortar := $Mortar
 @onready var rocket_equip := $Rocket
@@ -107,6 +112,7 @@ func _physics_process(delta: float) -> void:
         _camera_speed_effects()
 
     resting_friction_workaround(delta)
+    apply_downforce()
 
 func is_stopped_or_reversing() -> bool:
     return linear_velocity.dot(basis.z) <= 5.0
@@ -124,7 +130,7 @@ func _vehicle_body_input(delta: float) -> void:
     brakelight_l.modulate = Color(1.0, 1.0, 1.0)
     brakelight_r.modulate = Color(1.0, 1.0, 1.0)
 
-    if Input.is_action_pressed(input_prefix + "_drive_accelerate") and speed <= 40.0:
+    if Input.is_action_pressed(input_prefix + "_drive_accelerate") and speed <= TOP_SPEED:
         engine_force = acceleration
     elif Input.is_action_pressed(input_prefix + "_drive_brake"):
         brakelight_l.modulate = Color(1.0, 0.0, 0.0)
@@ -135,7 +141,7 @@ func _vehicle_body_input(delta: float) -> void:
             brake = 50.0
 
     var steering_target := 0.0
-    var adjusted_steering := maxf(steering_amount * (1.0 - (minf(speed, 30.0) / 30.0)), 0.15)
+    var adjusted_steering := maxf(steering_amount * (1.0 - (minf(speed, PROPORTIONAL_TOP_SPEED) / PROPORTIONAL_TOP_SPEED)), MIN_STEERING)
     if Input.is_action_pressed(input_prefix + "_drive_steer_left"):
         steering_target = adjusted_steering
     elif Input.is_action_pressed(input_prefix + "_drive_steer_right"):
@@ -183,6 +189,11 @@ func resting_friction_workaround(delta: float) -> void:
         linear_damp = move_toward(linear_damp, 25.0, delta * 10.0)
     else:
         linear_damp = 0.0
+
+func apply_downforce() -> void:
+    if wheel_fl.is_in_contact() || wheel_fr.is_in_contact() || wheel_rl.is_in_contact() || wheel_rr.is_in_contact():
+        var force_amount := DOWNFORCE_AMOUNT * (minf(speed, PROPORTIONAL_TOP_SPEED) / PROPORTIONAL_TOP_SPEED)
+        apply_central_force(-global_basis.y * force_amount)
 
 func set_color(new_color: Color) -> void:
     var cab := $CheckerCab/Car as MeshInstance3D

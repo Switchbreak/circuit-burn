@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="circuit-burn"
-run/main_scene="uid://ds6ycuat4hvvl"
+run/main_scene="uid://dt5oojsvwk8fo"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://cekpot6486w26"
 

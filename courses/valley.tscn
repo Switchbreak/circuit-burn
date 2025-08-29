@@ -21,6 +21,8 @@ background_mode = 2
 sky = SubResource("Sky_q087w")
 sky_rotation = Vector3(0, 0.397935, 0)
 ambient_light_sky_contribution = 0.1
+tonemap_mode = 2
+tonemap_exposure = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1skup"]
 size = Vector3(15, 9, 1)
@@ -94,8 +96,10 @@ environment = SubResource("Environment_rd6ip")
 transform = Transform3D(0.419184, 0.453952, -0.786266, -1.06591e-08, 0.866025, 0.5, 0.907901, -0.209591, 0.363023, -1, 107, 0)
 shadow_enabled = true
 directional_shadow_mode = 0
+directional_shadow_max_distance = 300.0
 
 [node name="FollowCamera" type="Camera3D" parent="."]
+doppler_tracking = 2
 script = ExtResource("4_1skup")
 
 [node name="MotionBlur" parent="FollowCamera" instance=ExtResource("5_1skup")]
@@ -116,7 +120,7 @@ theme = ExtResource("6_vkdnm")
 text = "Lap: 1"
 
 [node name="SpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 93.6687, 54.0866, 121.691)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -142.265, 58.6525, -112.123)
 script = ExtResource("5_xq3l6")
 metadata/_custom_type_script = "uid://bhtxquvvtcs6e"
 

@@ -61,5 +61,5 @@ surface_material_override/0 = ExtResource("3_uutgq")
 [node name="Pool_Waterfall" parent="." index="10"]
 surface_material_override/0 = SubResource("ShaderMaterial_x7t2j")
 
-[node name="StaticBody3D" parent="Road" index="1"]
+[node name="StaticBody3D" parent="Road" index="2"]
 physics_material_override = SubResource("PhysicsMaterial_3vw01")

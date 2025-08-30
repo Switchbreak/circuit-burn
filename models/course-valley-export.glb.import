@@ -46,6 +46,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "uid://cy2kfg0vcxg2p"
 },
+"Concrete.010": {
+"use_external/enabled": true,
+"use_external/path": "uid://cy2kfg0vcxg2p"
+},
 "Water": {
 "use_external/enabled": true,
 "use_external/path": "uid://vakl5tcot04v"
@@ -68,7 +72,7 @@ _subresources={
 },
 "aCG_Rock045_4K_PNG.001": {
 "use_external/enabled": true,
-"use_external/path": "res://materials/aCG_Rock045_4K_PNG.001.tres"
+"use_external/path": "uid://lhnwdia0lqfw"
 },
 "metal_plate": {
 "use_external/enabled": true,
@@ -91,6 +95,9 @@ _subresources={
 "PATH:Road": {
 "generate/physics": true
 },
+"PATH:Road/Pillar_003": {
+"generate/physics": true
+},
 "PATH:RoadSegment_001": {
 "generate/physics": true,
 "physics/shape_type": 1
@@ -100,6 +107,13 @@ _subresources={
 "physics/shape_type": 1
 },
 "PATH:Road_001": {
+"generate/physics": true
+},
+"PATH:Road_001/Destroyed_Pillar": {
+"generate/physics": true,
+"physics/shape_type": 1
+},
+"PATH:Road_001/Pillar_004": {
 "generate/physics": true
 },
 "PATH:Rock": {

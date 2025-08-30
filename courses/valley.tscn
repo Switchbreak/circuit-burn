@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://dt5oojsvwk8fo"]
+[gd_scene load_steps=25 format=3 uid="uid://dt5oojsvwk8fo"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_3by73"]
 [ext_resource type="PackedScene" uid="uid://dum3rxwpu54xs" path="res://entities/models/course_valley_export.tscn" id="2_1skup"]
 [ext_resource type="Texture2D" uid="uid://bulnnjn5pudue" path="res://textures/lakeside_4k.hdr" id="2_4826u"]
+[ext_resource type="PackedScene" uid="uid://byoql1ct12mws" path="res://entities/models/streetlamp_single.tscn" id="3_e0yci"]
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="4_1skup"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="5_1skup"]
 [ext_resource type="Script" uid="uid://bhtxquvvtcs6e" path="res://script/spawn_marker.gd" id="5_xq3l6"]
@@ -88,6 +89,39 @@ spawn_markers = [NodePath("SpawnMarker"), NodePath("SpawnMarker2"), NodePath("Sp
 checkpoints = [NodePath("Checkpoint2"), NodePath("Checkpoint1")]
 
 [node name="Valley" parent="." instance=ExtResource("2_1skup")]
+
+[node name="streetlamp-single" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-1.31134e-07, 0, -3, 0, 3, 0, 3, 0, -1.31134e-07, -82.4709, 63.5726, -155.262)
+
+[node name="streetlamp-single2" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(3.93402e-07, 0, 3, 0, 3, 0, -3, 0, 3.93402e-07, -86.4709, 63.5726, -180.262)
+
+[node name="streetlamp-single3" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-1.02606, 0, 2.81908, 0, 3, 0, -2.81908, 0, -1.02606, -127.779, 61.8528, -170.41)
+
+[node name="streetlamp-single4" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-2.98858, 0, 0.261468, 0, 3, 0, -0.261468, 0, -2.98858, -150.421, 60.5726, -136.754)
+
+[node name="streetlamp-single5" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-2.29813, 0, -1.92836, 0, 3, 0, 1.92836, 0, -2.29813, -140.562, 61.3469, -67.0108)
+
+[node name="streetlamp-single6" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(2.98858, 0, -0.261468, 0, 3, 0, 0.261468, 0, 2.98858, -101.801, 57.1355, -14.2122)
+
+[node name="streetlamp-single7" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(2.29813, 0, 1.92836, 0, 3, 0, -1.92836, 0, 2.29813, -69.2504, 63.9488, 18.2168)
+
+[node name="streetlamp-single8" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(2.81908, 0, -1.02606, 0, 3, 0, 1.02606, 0, 2.81908, -55.2992, 59.2276, 88.9247)
+
+[node name="streetlamp-single9" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(0.520944, 0, -2.95442, 0, 3, 0, 2.95442, 0, 0.520944, -108.636, 57.2265, 135.766)
+
+[node name="streetlamp-single10" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-2.81908, 0, 1.02606, 0, 3, 0, -1.02606, 0, -2.81908, -164.897, 55.2172, 164.178)
+
+[node name="streetlamp-single11" parent="Valley" instance=ExtResource("3_e0yci")]
+transform = Transform3D(-2.81908, 0, 1.02606, 0, 3, 0, -1.02606, 0, -2.81908, -186.877, 57.4026, 224.87)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rd6ip")

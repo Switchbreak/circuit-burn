@@ -182,7 +182,7 @@ func _weapon_input() -> void:
 
 func _special_input() -> void:
     if Input.is_action_just_released(input_prefix + "_reset_car"):
-        _spawn_car()
+        _respawn_car()
 
 func resting_friction_workaround(delta: float) -> void:
     if engine_force == 0.0 and is_at_rest():
@@ -207,6 +207,20 @@ func _spawn_car() -> void:
 
     position = spawn_location.position
     rotation = spawn_location.rotation
+
+    linear_velocity = Vector3.ZERO
+    angular_velocity = Vector3.ZERO
+    reset_physics_interpolation()
+
+    if bot:
+        _set_bot_line()
+
+func _respawn_car() -> void:
+    var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
+    var target_transform := racing_line.curve.sample_baked_with_rotation(target_offset - V_OFFSET)
+
+    position = target_transform.origin
+    quaternion = target_transform.basis.rotated(target_transform.basis.y, PI).get_rotation_quaternion()
 
     linear_velocity = Vector3.ZERO
     angular_velocity = Vector3.ZERO

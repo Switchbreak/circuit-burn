@@ -47,7 +47,7 @@ func collect(car: Car) -> void:
     respawn_timer()
 
 func respawn_timer() -> void:
-    await get_tree().create_timer(5.0).timeout
+    await get_tree().create_timer(respawn_time).timeout
 
     mesh.visible = true
     icon.visible = true

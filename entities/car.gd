@@ -157,7 +157,7 @@ func _vehicle_body_input(delta: float) -> void:
 
 func _weapon_input() -> void:
     if Input.is_key_pressed(KEY_E):
-        equipped = WEAPON.PUNCH
+        equip_weapon(WEAPON.ROCKET)
         ammunition = 100
     elif Input.is_key_pressed(KEY_Q):
         equipped = WEAPON.KICK
@@ -304,6 +304,10 @@ func equip_weapon(weapon_type: WEAPON) -> void:
             ammunition = 4
         Car.WEAPON.MINE:
             ammunition = 2
+        Car.WEAPON.PUNCH:
+            ammunition = 1
+        Car.WEAPON.KICK:
+            ammunition = 1
 
 func fire_mortar() -> void:
     var mortar_shell: RigidBody3D = _mortar_shell.instantiate()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dt5oojsvwk8fo"]
+[gd_scene load_steps=26 format=3 uid="uid://dt5oojsvwk8fo"]
 
 [ext_resource type="Script" uid="uid://dmk8pxg8yoswl" path="res://script/course.gd" id="1_3by73"]
 [ext_resource type="PackedScene" uid="uid://dum3rxwpu54xs" path="res://entities/models/course_valley_export.tscn" id="2_1skup"]
@@ -10,6 +10,7 @@
 [ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://materials/base_theme.tres" id="6_vkdnm"]
 [ext_resource type="Material" uid="uid://c5fuhhvnxo8u3" path="res://materials/smoke.tres" id="8_xq3l6"]
 [ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://script/racing_line.gd" id="9_vkdnm"]
+[ext_resource type="PackedScene" uid="uid://ds4mpl16w3748" path="res://entities/power_up.tscn" id="11_k06q1"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5m7i4"]
 panorama = ExtResource("2_4826u")
@@ -715,3 +716,27 @@ checkpoints = Array[Dictionary]([{
 "top_speed": 20.0,
 "width": 24.0
 }])
+
+[node name="PowerUp" parent="." instance=ExtResource("11_k06q1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -182.298, 57.4102, 253.073)
+respawn_time = 1.0
+
+[node name="PowerUp2" parent="." instance=ExtResource("11_k06q1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.3472, 57.2902, 61.6533)
+type = 1
+respawn_time = 1.0
+
+[node name="PowerUp3" parent="." instance=ExtResource("11_k06q1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -140.136, 56.4185, 71.5398)
+type = 4
+respawn_time = 1.0
+
+[node name="PowerUp4" parent="." instance=ExtResource("11_k06q1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.5503, 63.2826, 215.118)
+type = 4
+respawn_time = 1.0
+
+[node name="PowerUp5" parent="." instance=ExtResource("11_k06q1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.0714, 83.5861, -174.276)
+type = 3
+respawn_time = 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ks2m4hilkm8w"]
+[gd_scene load_steps=30 format=3 uid="uid://ks2m4hilkm8w"]
 
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://entities/car.gd" id="1_td361"]
 [ext_resource type="Material" uid="uid://c5fuhhvnxo8u3" path="res://materials/smoke.tres" id="2_6pmtn"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://6adsd742jkcj" path="res://models/ww2-mortar.glb" id="6_72krn"]
 [ext_resource type="PackedScene" uid="uid://mnb11kii153s" path="res://models/rocket_launcher.glb" id="7_c4j5x"]
 [ext_resource type="Texture2D" uid="uid://3w51s3y1rp76" path="res://textures/Flare00.PNG" id="8_6pmtn"]
+[ext_resource type="AudioStream" uid="uid://c3t3sv4d75alw" path="res://audio/engine-hum.ogg" id="9_xctgt"]
 
 [sub_resource type="Curve" id="Curve_a5owf"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -266,5 +267,10 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.1)
 shape = SubResource("BoxShape3D_c4j5x")
 debug_color = Color(0, 0.6, 0.7, 0.42)
+
+[node name="EngineSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_xctgt")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
 
 [connection signal="body_entered" from="MeleeCollider" to="." method="_on_melee_collider_body_entered"]

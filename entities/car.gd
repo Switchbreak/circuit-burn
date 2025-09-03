@@ -58,6 +58,8 @@ const MIN_STEERING := 0.15
 @onready var motion_blur := ($"../%FollowCamera/MotionBlur" as MeshInstance3D).get_surface_override_material(0) as ShaderMaterial
 @onready var melee_collider := $MeleeCollider
 @onready var racing_line := $"../%RacingLine" as RacingLine
+@onready var engine_sound := $EngineSound
+@onready var audio_listener := $AudioListener3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
 
@@ -95,11 +97,16 @@ func _ready() -> void:
     set_color(color)
     _spawn_car()
 
+    engine_sound.play()
+
     if not bot:
         debug_arrow.visible = false
+        audio_listener.make_current()
 
 func _physics_process(delta: float) -> void:
     speed = linear_velocity.length()
+
+    engine_noise(delta)
 
     if bot:
         _bot_navigation(delta)
@@ -113,6 +120,10 @@ func _physics_process(delta: float) -> void:
 
     resting_friction_workaround(delta)
     apply_downforce()
+
+func engine_noise(delta: float) -> void:
+    var pitch_scale = 0.5 + speed / TOP_SPEED
+    engine_sound.pitch_scale = move_toward(engine_sound.pitch_scale, pitch_scale, delta * 0.2)
 
 func is_stopped_or_reversing() -> bool:
     return linear_velocity.dot(basis.z) <= 5.0

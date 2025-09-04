@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ks2m4hilkm8w"]
+[gd_scene load_steps=31 format=3 uid="uid://ks2m4hilkm8w"]
 
 [ext_resource type="Script" uid="uid://danrptq1lgqre" path="res://entities/car.gd" id="1_td361"]
 [ext_resource type="Material" uid="uid://c5fuhhvnxo8u3" path="res://materials/smoke.tres" id="2_6pmtn"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://mnb11kii153s" path="res://models/rocket_launcher.glb" id="7_c4j5x"]
 [ext_resource type="Texture2D" uid="uid://3w51s3y1rp76" path="res://textures/Flare00.PNG" id="8_6pmtn"]
 [ext_resource type="AudioStream" uid="uid://c3t3sv4d75alw" path="res://audio/engine-hum.ogg" id="9_xctgt"]
+[ext_resource type="AudioStream" uid="uid://b5dcb4lo3ig7y" path="res://audio/807437__logicogonist__car-crash-long-1.wav" id="10_n0xv7"]
 
 [sub_resource type="Curve" id="Curve_a5owf"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -270,6 +271,11 @@ debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="EngineSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_xctgt")
+doppler_tracking = 2
+
+[node name="ImpactSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_n0xv7")
+max_db = -10.0
 
 [node name="AudioListener3D" type="AudioListener3D" parent="."]
 

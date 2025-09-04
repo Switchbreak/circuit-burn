@@ -60,6 +60,7 @@ const MIN_STEERING := 0.15
 @onready var melee_collider := $MeleeCollider
 @onready var racing_line := $"../%RacingLine" as RacingLine
 @onready var engine_sound := $EngineSound
+@onready var impact_sound := $ImpactSound
 @onready var audio_listener := $AudioListener3D
 
 @export_enum("p1", "p2") var input_prefix := "p1"
@@ -84,6 +85,7 @@ var invulnerable: bool = false
 var _safe_velocity: Vector3 = Vector3.ZERO
 
 var speed := 0.0
+var previous_speed := 0.0
 var rpm := 0.4
 var gear := 0
 
@@ -107,6 +109,7 @@ func _ready() -> void:
         audio_listener.make_current()
 
 func _physics_process(delta: float) -> void:
+    previous_speed = speed
     speed = linear_velocity.length()
 
     if bot:
@@ -136,6 +139,10 @@ func engine_noise(delta: float) -> void:
 
     var pitch_scale = rpm
     engine_sound.pitch_scale = pitch_scale
+
+    if absf(speed - previous_speed) > 5.0:
+        impact_sound.volume_db = -40
+        impact_sound.play()
 
 func is_stopped_or_reversing() -> bool:
     return linear_velocity.dot(basis.z) <= 5.0

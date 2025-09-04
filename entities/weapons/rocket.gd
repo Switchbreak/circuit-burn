@@ -10,7 +10,8 @@ var _is_ready := false
 
 func _physics_process(_delta: float) -> void:
     _is_ready = true
-    global_basis.z = linear_velocity.normalized()
+    if linear_velocity.length_squared() > 0.0:
+        look_at(global_position - linear_velocity)
 
 func detonate(_body: Node) -> void:
     if _is_ready:

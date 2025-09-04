@@ -37,6 +37,7 @@ const PUNCH_DURATION := 0.5
 
 const DOWNFORCE_AMOUNT := 10000.0
 const TOP_SPEED := 40.0
+const GEAR_COUNT := 4
 const PROPORTIONAL_TOP_SPEED := 30.0
 const MIN_STEERING := 0.15
 
@@ -83,6 +84,8 @@ var invulnerable: bool = false
 var _safe_velocity: Vector3 = Vector3.ZERO
 
 var speed := 0.0
+var rpm := 0.4
+var gear := 0
 
 var bot_speed: float = BOT_DRIVER_SPEED
 var bot_speed_ratio: float = 1.0
@@ -106,8 +109,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
     speed = linear_velocity.length()
 
-    engine_noise(delta)
-
     if bot:
         _bot_navigation(delta)
     else:
@@ -115,6 +116,7 @@ func _physics_process(delta: float) -> void:
         _weapon_input()
         _special_input()
 
+    engine_noise(delta)
     if camera_following:
         _camera_speed_effects()
 
@@ -122,8 +124,18 @@ func _physics_process(delta: float) -> void:
     apply_downforce()
 
 func engine_noise(delta: float) -> void:
-    var pitch_scale = 0.5 + speed / TOP_SPEED
-    engine_sound.pitch_scale = move_toward(engine_sound.pitch_scale, pitch_scale, delta * 0.2)
+    if absf(engine_force) > 0.0 or speed >= TOP_SPEED - 10.0:
+        rpm = minf(1.0, rpm + delta * 0.1)
+    else:
+        rpm = move_toward(rpm, 0.4, delta * 0.5)
+
+    var new_gear := mini(ceili(speed / (TOP_SPEED / GEAR_COUNT + 5)), GEAR_COUNT)
+    if new_gear > gear:
+        rpm = 0.7
+    gear = new_gear
+
+    var pitch_scale = rpm
+    engine_sound.pitch_scale = pitch_scale
 
 func is_stopped_or_reversing() -> bool:
     return linear_velocity.dot(basis.z) <= 5.0
@@ -171,7 +183,7 @@ func _weapon_input() -> void:
         equip_weapon(WEAPON.ROCKET)
         ammunition = 100
     elif Input.is_key_pressed(KEY_Q):
-        equipped = WEAPON.KICK
+        equip_weapon(WEAPON.MORTAR)
         ammunition = 100
 
     if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:

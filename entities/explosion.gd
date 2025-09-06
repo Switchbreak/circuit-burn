@@ -5,6 +5,7 @@ extends Node3D
 @onready var fire = $Fire
 @onready var smoke = $Smoke
 @onready var light = $OmniLight3D
+@onready var blast = $Blast
 
 func explode() -> void:
     process_mode = Node.PROCESS_MODE_ALWAYS
@@ -15,6 +16,7 @@ func explode() -> void:
     sparks.restart()
     fire.restart()
     smoke.restart()
+    blast.play()
 
 func _on_finished() -> void:
     queue_free()

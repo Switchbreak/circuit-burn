@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://75hn8yh1ou50"]
+[gd_scene load_steps=7 format=3 uid="uid://75hn8yh1ou50"]
 
 [ext_resource type="Script" uid="uid://d2pbamt8vbuc4" path="res://entities/weapons/mortar_shell.gd" id="1_gp4d7"]
 [ext_resource type="PackedScene" uid="uid://bs6oor54h51h4" path="res://entities/explosion.tscn" id="2_hnhdx"]
 [ext_resource type="PackedScene" uid="uid://dcfiobx5eyghp" path="res://models/mortar_rounds.glb" id="3_xbfsv"]
+[ext_resource type="AudioStream" uid="uid://cudgds0513mkg" path="res://audio/launch2.ogg" id="4_hnhdx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e6fbw"]
 radius = 0.25
@@ -36,5 +37,10 @@ shape = SubResource("SphereShape3D_e6fbw")
 
 [node name="Mesh" parent="." instance=ExtResource("3_xbfsv")]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0.57678)
+
+[node name="MortarSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_hnhdx")
+max_db = -5.0
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="detonate"]

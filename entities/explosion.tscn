@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://bs6oor54h51h4"]
+[gd_scene load_steps=26 format=3 uid="uid://bs6oor54h51h4"]
 
 [ext_resource type="Script" uid="uid://b3a2xbqvr46eo" path="res://entities/explosion.gd" id="1_j4sxf"]
 [ext_resource type="Texture2D" uid="uid://3w51s3y1rp76" path="res://textures/Flare00.PNG" id="2_m5xho"]
 [ext_resource type="Material" uid="uid://wcvs3u1bbwd2" path="res://materials/mat_flare00.tres" id="3_kmxf7"]
+[ext_resource type="AudioStream" uid="uid://c5kstkl6q3yub" path="res://audio/blast.ogg" id="4_tb6py"]
 
 [sub_resource type="Curve" id="Curve_l04k4"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -160,5 +161,8 @@ draw_pass_1 = SubResource("QuadMesh_0bpt1")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 visible = false
 light_color = Color(0.88, 0.498667, 0, 1)
+
+[node name="Blast" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_tb6py")
 
 [connection signal="finished" from="Smoke" to="." method="_on_finished"]

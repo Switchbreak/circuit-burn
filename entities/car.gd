@@ -346,7 +346,7 @@ func _avoid_other_cars() -> void:
     if min_h < max_h and (h_offset < min_h or h_offset > max_h):
         h_offset = randf_range(min_h, max_h)
 
-func _check_for_stuck(delta: float) -> void:
+func _check_for_stuck(_delta: float) -> void:
     if is_stopped_or_reversing():
         stuck_ticks += 1
         if stuck_ticks > 120:

@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://ds4mpl16w3748"]
 
 [ext_resource type="Script" uid="uid://dh3r8h165nsfl" path="res://entities/power_up.gd" id="1_bk1wf"]
-[ext_resource type="Texture2D" uid="uid://c0mfgp3d5ipr4" path="res://rocket.svg" id="2_bk1wf"]
+[ext_resource type="Texture2D" uid="uid://c0mfgp3d5ipr4" path="res://icons/rocket.svg" id="2_bk1wf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bk1wf"]
 transparency = 1

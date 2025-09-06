@@ -84,7 +84,6 @@ var checkpoint: int = 0: set = _set_checkpoint
 var placement: int = 1
 var ammunition: int = 0
 var invulnerable: bool = false
-var _safe_velocity: Vector3 = Vector3.ZERO
 
 var offset := 0.0
 var speed := 0.0
@@ -96,6 +95,7 @@ var bot_speed: float = BOT_DRIVER_SPEED
 var bot_speed_ratio: float = 1.0
 var h_offset := 0.0
 var ticks := 300
+var stuck_ticks := 0
 
 var _mortar_shell := preload("res://entities/weapons/mortar_shell.tscn")
 var _rocket := preload("res://entities/weapons/rocket.tscn")
@@ -264,13 +264,21 @@ func _respawn_car() -> void:
 
 func _set_bot_line(randomize_offset: bool = false) -> void:
     if randomize_offset:
-        h_offset = randf_range(-2.5, 2.5)
+        h_offset = randf_range(-3.5, 3.5)
     else:
         var target_point := racing_line.curve.get_closest_point(global_position - racing_line.global_position) + racing_line.global_position
         var projected := global_basis.x.dot(target_point - global_position)
         h_offset = projected / 2.0
 
-    bot_speed_ratio = randf_range(0.7, 1.0)
+    match placement:
+        1:
+            bot_speed_ratio = randf_range(0.6, 0.8)
+        2:
+            bot_speed_ratio = randf_range(0.8, 1.0)
+        3:
+            bot_speed_ratio = randf_range(1.0, 1.2)
+        4:
+            bot_speed_ratio = randf_range(1.2, 1.4)
     ticks = randi_range(120, 300)
 
 func _set_checkpoint(set_checkpoint: int) -> void:
@@ -296,6 +304,9 @@ func _camera_speed_effects() -> void:
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
 
 func _bot_navigation(delta: float) -> void:
+    _avoid_other_cars()
+    _check_for_stuck(delta)
+
     var target_transform := racing_line.curve.sample_baked_with_rotation(offset + V_OFFSET)
     var target_point := target_transform.origin + target_transform.basis.x * h_offset
     debug_arrow.look_at(target_point, global_basis.y, true)
@@ -319,8 +330,30 @@ func _bot_navigation(delta: float) -> void:
     if ticks <= 0 and target_speed < 45.0:
         _set_bot_line(true)
 
-func _on_velocity_computed(safe_velocity: Vector3) -> void:
-    _safe_velocity = safe_velocity
+func _avoid_other_cars() -> void:
+    var course := get_parent()
+
+    var min_h := -3.5
+    var max_h := 3.5
+
+    for other_car: Car in course.cars:
+        if other_car != self and other_car.offset > offset - 1.0 and other_car.offset < offset + 5.0:
+            if other_car.h_offset < h_offset:
+                min_h = max(min_h, other_car.h_offset + 0.5)
+            else:
+                max_h = min(max_h, other_car.h_offset - 0.5)
+
+    if min_h < max_h and (h_offset < min_h or h_offset > max_h):
+        h_offset = randf_range(min_h, max_h)
+
+func _check_for_stuck(delta: float) -> void:
+    if is_stopped_or_reversing():
+        stuck_ticks += 1
+        if stuck_ticks > 120:
+            _respawn_car()
+            stuck_ticks = 0
+    else:
+        stuck_ticks = 0
 
 func equip_weapon(weapon_type: WEAPON) -> void:
     equipped = weapon_type

@@ -57,6 +57,7 @@ const MIN_STEERING := 0.15
 @onready var trail_l := $TrailL
 @onready var trail_r := $TrailR
 @onready var motion_blur := ($"../%FollowCamera/MotionBlur" as MeshInstance3D).get_surface_override_material(0) as ShaderMaterial
+@onready var equipped_hud := ($"../%HUD/Equipped") as Label
 @onready var melee_collider := $MeleeCollider
 @onready var racing_line := $"../%RacingLine" as RacingLine
 @onready var engine_sound := $EngineSound
@@ -80,10 +81,12 @@ const MIN_STEERING := 0.15
 var lap: int = 1
 var equipped: int = WEAPON.NONE
 var checkpoint: int = 0: set = _set_checkpoint
+var placement: int = 1
 var ammunition: int = 0
 var invulnerable: bool = false
 var _safe_velocity: Vector3 = Vector3.ZERO
 
+var offset := 0.0
 var speed := 0.0
 var previous_speed := 0.0
 var rpm := 0.4
@@ -111,6 +114,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
     previous_speed = speed
     speed = linear_velocity.length()
+    offset = racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
 
     if bot:
         _bot_navigation(delta)
@@ -186,12 +190,12 @@ func _vehicle_body_input(delta: float) -> void:
         #wheel_rr.wheel_friction_slip = rear_friction
 
 func _weapon_input() -> void:
-    if Input.is_key_pressed(KEY_E):
-        equip_weapon(WEAPON.ROCKET)
-        ammunition = 100
-    elif Input.is_key_pressed(KEY_Q):
-        equip_weapon(WEAPON.MORTAR)
-        ammunition = 100
+    #if Input.is_key_pressed(KEY_E):
+        #equip_weapon(WEAPON.ROCKET)
+        #ammunition = 100
+    #elif Input.is_key_pressed(KEY_Q):
+        #equip_weapon(WEAPON.MORTAR)
+        #ammunition = 100
 
     if Input.is_action_just_pressed(input_prefix + "_fire") and ammunition > 0:
         match equipped:
@@ -246,8 +250,7 @@ func _spawn_car() -> void:
         _set_bot_line()
 
 func _respawn_car() -> void:
-    var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
-    var target_transform := racing_line.curve.sample_baked_with_rotation(target_offset - V_OFFSET)
+    var target_transform := racing_line.curve.sample_baked_with_rotation(offset - V_OFFSET)
 
     position = target_transform.origin
     quaternion = target_transform.basis.rotated(target_transform.basis.y, PI).get_rotation_quaternion()
@@ -293,8 +296,7 @@ func _camera_speed_effects() -> void:
     camera.shake_amount = lerpf(camera.shake_amount, target_shake_amount, FOV_LERP_SPEED)
 
 func _bot_navigation(delta: float) -> void:
-    var target_offset := racing_line.curve.get_closest_offset(global_position - racing_line.global_position)
-    var target_transform := racing_line.curve.sample_baked_with_rotation(target_offset + V_OFFSET)
+    var target_transform := racing_line.curve.sample_baked_with_rotation(offset + V_OFFSET)
     var target_point := target_transform.origin + target_transform.basis.x * h_offset
     debug_arrow.look_at(target_point, global_basis.y, true)
 
@@ -305,7 +307,7 @@ func _bot_navigation(delta: float) -> void:
     var target_speed := maxf(bot_speed * turn_speed_ratio * bot_speed_ratio, BOT_DRIVER_MIN_SPEED)
 
     # Hack to go faster before the jump
-    if target_offset > 1200 and target_offset < 1500:
+    if offset > 1200 and offset < 1500:
         target_speed = 45.0
 
     if speed < target_speed:
@@ -325,19 +327,30 @@ func equip_weapon(weapon_type: WEAPON) -> void:
 
     mortar.visible = false
     rocket_equip.visible = false
+    var weapon_label := ""
+
     match equipped:
-        Car.WEAPON.MORTAR:
+        WEAPON.MORTAR:
+            weapon_label = "Mortar"
             mortar.visible = true
             ammunition = 3
-        Car.WEAPON.ROCKET:
+        WEAPON.ROCKET:
+            weapon_label = "Rocket"
             rocket_equip.visible = true
             ammunition = 4
-        Car.WEAPON.MINE:
+        WEAPON.MINE:
+            weapon_label = "Mines"
             ammunition = 2
-        Car.WEAPON.PUNCH:
+        WEAPON.PUNCH:
+            weapon_label = "Punch"
             ammunition = 1
-        Car.WEAPON.KICK:
+        WEAPON.KICK:
+            weapon_label = "Kick"
             ammunition = 1
+
+    if camera_following:
+        equipped_hud.text = weapon_label
+        equipped_hud.visible = !weapon_label.is_empty()
 
 func fire_mortar() -> void:
     var mortar_shell: RigidBody3D = _mortar_shell.instantiate()

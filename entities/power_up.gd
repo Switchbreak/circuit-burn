@@ -18,11 +18,11 @@ var bob_direction := 1.0
 func _ready() -> void:
     match type:
         Car.WEAPON.MORTAR:
-            icon.texture = load("res://mortar.svg")
+            icon.texture = load("res://icons/mortar.svg")
         Car.WEAPON.ROCKET:
-            icon.texture = load("res://rocket.svg")
+            icon.texture = load("res://icons/rocket.svg")
         Car.WEAPON.MINE:
-            icon.texture = load("res://landmine.svg")
+            icon.texture = load("res://icons/landmine.svg")
 
 func _process(delta: float) -> void:
     phase = fmod(phase + delta * bob_speed, 2 * PI)

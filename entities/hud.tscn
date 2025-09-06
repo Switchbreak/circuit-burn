@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv3hbqydabb8c"]
+
+[ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://materials/base_theme.tres" id="1_nhrkl"]
+
+[node name="HUD" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_nhrkl")
+
+[node name="LapCounter" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("1_nhrkl")
+text = "Lap: 1"
+
+[node name="Placement" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("1_nhrkl")
+text = "1st"
+
+[node name="Equipped" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme = ExtResource("1_nhrkl")
+text = "Rocket"

@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://m51sq402l1st" path="res://script/follow_camera.gd" id="4_1skup"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="5_1skup"]
 [ext_resource type="Script" uid="uid://bhtxquvvtcs6e" path="res://script/spawn_marker.gd" id="5_xq3l6"]
-[ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://materials/base_theme.tres" id="6_vkdnm"]
+[ext_resource type="PackedScene" uid="uid://cv3hbqydabb8c" path="res://entities/hud.tscn" id="7_k06q1"]
 [ext_resource type="Material" uid="uid://c5fuhhvnxo8u3" path="res://materials/smoke.tres" id="8_xq3l6"]
 [ext_resource type="Script" uid="uid://rvhmehslgobs" path="res://script/racing_line.gd" id="9_vkdnm"]
 [ext_resource type="PackedScene" uid="uid://ds4mpl16w3748" path="res://entities/power_up.tscn" id="11_k06q1"]
@@ -141,20 +141,8 @@ script = ExtResource("4_1skup")
 
 [node name="MotionBlur" parent="FollowCamera" instance=ExtResource("5_1skup")]
 
-[node name="HUD" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("6_vkdnm")
-
-[node name="LapCounter" type="Label" parent="HUD"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme = ExtResource("6_vkdnm")
-text = "Lap: 1"
+[node name="HUD" parent="." instance=ExtResource("7_k06q1")]
+unique_name_in_owner = true
 
 [node name="SpawnMarker" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -146.94, 59.1804, -112.123)

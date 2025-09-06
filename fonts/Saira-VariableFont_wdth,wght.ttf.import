@@ -1,0 +1,42 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://cyh4m6glk4gbf"
+path="res://.godot/imported/Saira-VariableFont_wdth,wght.ttf-69a9d82fc65bea5892d50e9abf42e014.fontdata"
+
+[deps]
+
+source_file="res://fonts/Saira-VariableFont_wdth,wght.ttf"
+dest_files=["res://.godot/imported/Saira-VariableFont_wdth,wght.ttf-69a9d82fc65bea5892d50e9abf42e014.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=4
+keep_rounding_remainders=true
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={
+1869767790: 1
+}

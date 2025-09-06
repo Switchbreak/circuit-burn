@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cv3hbqydabb8c"]
+[gd_scene load_steps=5 format=3 uid="uid://cv3hbqydabb8c"]
 
 [ext_resource type="Theme" uid="uid://6xy385trwem2" path="res://materials/base_theme.tres" id="1_nhrkl"]
+[ext_resource type="FontFile" uid="uid://dykl3t7dbk4yj" path="res://fonts/BlackOpsOne-Regular.ttf" id="2_cdv6k"]
+
+[sub_resource type="Gradient" id="Gradient_cdv6k"]
+offsets = PackedFloat32Array(0.180085, 0.574153)
+colors = PackedColorArray(0.76, 0.734667, 0, 1, 0.99, 0, 0.3465, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mcea6"]
+gradient = SubResource("Gradient_cdv6k")
+fill_to = Vector2(0, 1)
 
 [node name="HUD" type="MarginContainer"]
 anchors_preset = 15
@@ -17,12 +26,42 @@ size_flags_vertical = 0
 theme = ExtResource("1_nhrkl")
 text = "Lap: 1"
 
-[node name="Placement" type="Label" parent="."]
+[node name="PlacementOutline" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 20
+theme_override_fonts/font = ExtResource("2_cdv6k")
+theme_override_font_sizes/font_size = 96
+text = "4th"
+
+[node name="Placement" type="Label" parent="."]
+clip_children = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 theme = ExtResource("1_nhrkl")
-text = "1st"
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 0
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("2_cdv6k")
+theme_override_font_sizes/font_size = 96
+text = "4th"
+
+[node name="TextureRect" type="TextureRect" parent="Placement"]
+show_behind_parent = true
+layout_mode = 0
+offset_left = -10.0
+offset_right = 32.0
+offset_bottom = 40.0
+scale = Vector2(4.53679, 2.88)
+texture = SubResource("GradientTexture2D_mcea6")
 
 [node name="Equipped" type="Label" parent="."]
 visible = false

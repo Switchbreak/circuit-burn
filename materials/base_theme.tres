@@ -1,8 +1,16 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://6xy385trwem2"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://6xy385trwem2"]
 
-[sub_resource type="SystemFont" id="SystemFont_auftj"]
-font_names = PackedStringArray("Arial")
-font_italic = true
+[ext_resource type="FontFile" uid="uid://dns4te7hxhxqa" path="res://fonts/Saira-Italic-VariableFont_wdth,wght.ttf" id="1_h0smf"]
+
+[sub_resource type="FontVariation" id="FontVariation_h0smf"]
+base_font = ExtResource("1_h0smf")
+variation_opentype = {
+2003072104: 100,
+2003265652: 700
+}
+opentype_features = {
+1869767790: 0
+}
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_auftj"]
 
@@ -16,9 +24,9 @@ Label/constants/shadow_offset_x = 2
 Label/constants/shadow_offset_y = 2
 Label/constants/shadow_outline_size = 1
 Label/font_sizes/font_size = 36
-Label/fonts/font = SubResource("SystemFont_auftj")
+Label/fonts/font = SubResource("FontVariation_h0smf")
 Label/styles/normal = SubResource("StyleBoxEmpty_auftj")
 MarginContainer/constants/margin_bottom = 20
-MarginContainer/constants/margin_left = 20
-MarginContainer/constants/margin_right = 20
+MarginContainer/constants/margin_left = 30
+MarginContainer/constants/margin_right = 30
 MarginContainer/constants/margin_top = 20

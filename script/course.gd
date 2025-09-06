@@ -4,12 +4,12 @@ var car_scene := preload("res://entities/car.tscn")
 
 @onready var lap_counter := $HUD/LapCounter
 @onready var placement := $HUD/Placement
-@onready var equipped := $HUD/Equipped
+@onready var placement_outline := $HUD/PlacementOutline
 
 @export var spawn_markers: Array[SpawnMarker]
 @export var checkpoints: Array[Area3D]
 
-var _cars: Array[Car]
+var cars: Array[Car]
 
 func _ready() -> void:
     for index in spawn_markers.size():
@@ -30,19 +30,21 @@ func _spawn_car(spawn_marker: SpawnMarker, input_prefix: String, player_car: boo
     if player_car:
         $FollowCamera.follow_target = car
 
-    _cars.append(car)
+    cars.append(car)
     add_child(car)
 
 func _physics_process(_delta: float) -> void:
     _set_placements()
 
 func _set_placements() -> void:
-    _cars.sort_custom(func(a: Car, b: Car): return a.offset > b.offset)
+    cars.sort_custom(func(a: Car, b: Car): return a.offset > b.offset)
 
-    for index in _cars.size():
-        _cars[index].placement = index + 1
-        if _cars[index].camera_following:
-            placement.text = _numeric_to_ordinal(index + 1)
+    for index in cars.size():
+        cars[index].placement = index + 1
+        if cars[index].camera_following:
+            var place := _numeric_to_ordinal(index + 1)
+            placement.text = place
+            placement_outline.text = place
 
 func _numeric_to_ordinal(num: int) -> String:
     var ones := num % 10
